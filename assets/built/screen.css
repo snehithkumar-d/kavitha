@@ -201,9 +201,13 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 0 var(--s-4);
     color: var(--ink);
 }
+.post-body h1 { font-size: var(--fs-3xl); margin-top: var(--s-8); margin-bottom: var(--s-4); }
 .post-body h2 { font-size: var(--fs-2xl); margin-top: var(--s-8); margin-bottom: var(--s-4); }
 .post-body h3 { font-size: var(--fs-xl); margin-top: var(--s-7); margin-bottom: var(--s-3); }
 .post-body h4 { font-size: var(--fs-l); margin-top: var(--s-6); margin-bottom: var(--s-3); }
+.post-body h5 { font-size: var(--fs-m); margin-top: var(--s-5); margin-bottom: var(--s-2); text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.post-body h6 { font-size: var(--fs-s); margin-top: var(--s-5); margin-bottom: var(--s-2); text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.post-body > :first-child { margin-top: 0; }
 
 p { margin: 0 0 var(--s-5); }
 ul, ol { margin: 0 0 var(--s-5); padding-left: var(--s-6); }
@@ -239,6 +243,11 @@ pre {
     margin: var(--s-6) 0;
     border: 1px solid var(--line);
 }
+[data-theme="dark"] pre,
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) pre { border-color: color-mix(in oklab, var(--ink) 18%, var(--surface)); }
+}
+[data-theme="dark"] pre { border-color: color-mix(in oklab, var(--ink) 18%, var(--surface)); }
 pre code { background: transparent; padding: 0; font-size: inherit; border-radius: 0; }
 
 table {
@@ -370,8 +379,39 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     margin-bottom: var(--s-8);
 }
 
+/* Empty state — zero posts */
+.home-empty {
+    padding: var(--s-9) 0;
+    text-align: center;
+    border-top: 2px solid var(--line-bold);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: var(--s-8);
+}
+.home-empty-title {
+    font-family: var(--font-serif);
+    font-variation-settings: 'opsz' 144, 'SOFT' 60, 'wght' 600;
+    font-size: var(--fs-4xl);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 var(--s-4);
+}
+.home-empty-deck {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xl);
+    color: var(--muted);
+    margin: 0 0 var(--s-6);
+    line-height: 1.4;
+}
+.home-empty-cta {
+    font-family: var(--font-mono);
+    font-size: var(--fs-s);
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
 .featured-post {
-    background: linear-gradient(135deg, color-mix(in oklab, var(--ink) 80%, var(--accent)) 0%, var(--accent) 100%);
+    background: linear-gradient(135deg, color-mix(in oklab, #0a0b0d 80%, var(--accent)) 0%, var(--accent) 100%);
     color: var(--accent-text);
     padding: var(--s-7) var(--s-6);
     border-radius: var(--radius-m);
@@ -413,9 +453,9 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     font-family: var(--font-sans);
     font-size: var(--fs-l);
     line-height: 1.4;
-    opacity: 0.92;
     margin: 0;
     max-width: 520px;
+    /* No opacity reduction — full --accent-text contrast for WCAG AA. */
 }
 .featured-post-cta {
     font-family: var(--font-mono);
@@ -435,7 +475,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     border-bottom: 1px solid var(--line);
 }
 .sidebar-block:last-child { border-bottom: none; }
-.sidebar-block h4 {
+.sidebar-block-heading {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     letter-spacing: 0.08em;
@@ -444,9 +484,16 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     margin: 0 0 var(--s-3);
     font-weight: 500;
 }
+.sidebar-block-sub {
+    font-family: var(--font-sans);
+    font-size: var(--fs-s);
+    color: var(--muted);
+    margin: 0 0 var(--s-3);
+    line-height: 1.4;
+}
 .sidebar-list { list-style: none; padding: 0; margin: 0; }
 .sidebar-list li { padding: var(--s-2) 0; margin-bottom: 0; }
-.sidebar-list h5 {
+.sidebar-list-title {
     font-family: var(--font-serif);
     font-variation-settings: 'opsz' 60;
     font-weight: 500;
@@ -454,8 +501,8 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     line-height: 1.25;
     margin: 0 0 var(--s-1);
 }
-.sidebar-list h5 a { text-decoration: none; }
-.sidebar-list h5 a:hover { text-decoration: underline; }
+.sidebar-list-title a { text-decoration: none; }
+.sidebar-list-title a:hover { text-decoration: underline; }
 .sidebar-list .meta {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
@@ -1173,14 +1220,50 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .kg-header-card-title { font-family: var(--font-serif); font-size: var(--fs-3xl); margin: 0 0 var(--s-3); }
 .kg-header-card-subtitle { font-family: var(--font-sans); font-size: var(--fs-l); opacity: 0.85; }
 
-/* Product card */
+/* Product card — image, title, rating, description, button */
 .kg-product-card {
     border: 1px solid var(--line);
     border-radius: var(--radius-m);
     padding: var(--s-5);
     background: var(--surface);
+    display: grid;
+    gap: var(--s-3);
 }
-.kg-product-card-title { font-family: var(--font-serif); font-weight: 600; }
+.kg-product-card-image img { border-radius: var(--radius-s); width: 100%; }
+.kg-product-card-title { font-family: var(--font-serif); font-weight: 600; font-size: var(--fs-xl); margin: 0; }
+.kg-product-card-rating { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--accent); letter-spacing: 0.04em; }
+.kg-product-card-description { font-family: var(--font-sans); font-size: var(--fs-m); color: var(--ink); margin: 0; line-height: 1.5; }
+.kg-product-card-button {
+    display: inline-block;
+    align-self: start;
+    padding: var(--s-3) var(--s-5);
+    background: var(--accent);
+    color: var(--accent-text);
+    border-radius: var(--radius-s);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* NFT card — image + collection name + chain badge + price */
+.kg-nft-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    background: var(--surface);
+    text-decoration: none;
+    color: var(--ink);
+    display: block;
+    transition: border-color var(--transition-fast);
+}
+.kg-nft-card:hover { border-color: var(--accent); }
+.kg-nft-image img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+.kg-nft-metadata { padding: var(--s-4) var(--s-5); }
+.kg-nft-title { font-family: var(--font-serif); font-weight: 600; font-size: var(--fs-l); margin: 0 0 var(--s-2); }
+.kg-nft-creator,
+.kg-nft-collection-name { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); letter-spacing: 0.04em; }
 
 /* File card */
 .kg-file-card {
@@ -1219,6 +1302,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
    20. RESPONSIVE
    ----------------------------------------------------------------------- */
 
+/* Tablet landscape — 900px+ uses full magazine layout, 768-900 needs 2-up project grid */
 @media (max-width: 900px) {
     .home-hero { grid-template-columns: 1fr; }
     .featured-post { min-height: 280px; padding: var(--s-6) var(--s-5); }
@@ -1227,6 +1311,16 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     .project-post-header-grid { grid-template-columns: 1fr; gap: var(--s-5); }
     .post-card.has-image { grid-template-columns: 1fr; }
     .post-card.has-image .post-card-image { order: -1; }
+    .post-card.has-image .post-card-image img { aspect-ratio: 21 / 9; }
+}
+
+/* Tablet portrait / small landscape — 2-up project grid stays comfortable, post-card image shrinks */
+@media (max-width: 768px) {
+    .featured-post-title { font-size: var(--fs-2xl); }
+    .post-title, .project-post-title { font-size: var(--fs-3xl); }
+    .post-body { font-size: var(--fs-m); }
+    .members-cta { padding: var(--s-5); }
+    .members-cta-title { font-size: var(--fs-l); }
 }
 
 @media (max-width: 640px) {

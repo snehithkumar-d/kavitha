@@ -14,6 +14,10 @@
 #   with hash) is hidden from public taxonomy so visitors never see a "project" tag.
 
 routes:
+  # Map root URL to home.hbs. Without this, / returns 404 because the
+  # default collection lives at /blog/ — Ghost has no handler for /.
+  /: home
+
   # No /about/ remap needed — Ghost auto-resolves page-about.hbs by slug.
 
 collections:

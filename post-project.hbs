@@ -60,13 +60,16 @@
     {{> "members-cta"}}
 
     <nav class="post-prev-next" aria-label="Adjacent projects">
-        {{#prev_post in="primary_tag"}}
+        {{!-- prev_post / next_post navigate within the post's PRIMARY collection,
+             which routes.yaml puts as /projects/ first for #project-tagged posts.
+             So this naturally walks project → project. (See loophole #22 in PLAN.) --}}
+        {{#prev_post}}
             <a class="post-prev" href="{{url}}">
                 <span class="label">← Previous project</span>
                 <span class="title">{{title}}</span>
             </a>
         {{/prev_post}}
-        {{#next_post in="primary_tag"}}
+        {{#next_post}}
             <a class="post-next" href="{{url}}">
                 <span class="label">Next project →</span>
                 <span class="title">{{title}}</span>

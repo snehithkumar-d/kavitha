@@ -48,30 +48,31 @@ Projects and blog posts are both Ghost posts but live in separate collections. W
 
 ## Custom theme settings (admin → Design → Customize)
 
+19 settings, all optional with sensible defaults. Ghost caps custom settings at 20 — we use 19 to leave headroom.
+
 | Setting | Type | Default | What it does |
 |---|---|---|---|
 | Color scheme default | select | Auto | Auto follows OS; Light/Dark forces. Manual toggle in nav still wins. |
 | Accent text color | select | Auto | Force readable text on top of accent backgrounds (Auto computes from luminance). |
 | Body font | select | Serif | Fraunces (Serif) / Geist (Sans-serif) / Geist Mono. |
-| Heading font | select | Match body | Override headings independently. |
-| Nav layout | select | Logo left | Left / Center / Stacked. |
-| Show publication cover | boolean | false | Display Ghost's publication cover in header. |
 | Show author byline | boolean | true | Author chip on post detail. |
 | Show reading time | boolean | true | "5 min read" on byline + cards. |
-| Show post excerpt on index | boolean | true | Excerpts in post lists. |
 | Show feature image on post | boolean | true | Hero image on post detail. |
 | Post image style | select | Wide | Full-width / Wide / Inline. |
-| Show terminal motifs | boolean | true | Subtle prompt-style markers (`~/blog`, `> latest`). |
 | Home intro text | text | "Personal site — code, writing, and projects." | Sidebar "Now" block on home page. |
-| Blog section title / subtitle | text | "Recent writing" / ... | Customize collection header. |
-| Projects section title / subtitle | text | "Selected projects" / ... | Same for projects. |
-| Show recent posts in footer | boolean | true | Footer shows latest 3 posts. |
-| Show comments | boolean | true | Native Ghost comments under posts. |
-| Show members CTA on post | boolean | true | Subscribe block after each post. |
-| Members CTA title / body | text | "Subscribe for new posts" / ... | Customize the CTA copy. |
+| Blog section title | text | "Recent writing" | Sidebar / blog index header. |
+| Blog section subtitle | text | "All writing, in reverse-chronological order." | Subhead under the section title. |
+| Projects section title | text | "Selected projects" | Section band on home + projects index header. |
+| Projects section subtitle | text | "Things I've built and shipped." | Subhead on projects index. |
+| Members CTA title | text | "Subscribe for new posts" | Heading inside the subscribe block. |
+| Members CTA body | text | "Get new writing in your inbox. No spam, unsubscribe anytime." | Body copy inside the subscribe block. |
 | Footer signature | text | "" | Optional line in footer (e.g. "Made in San Francisco"). |
 | Show theme credit | boolean | true | "built with kavitha" link in footer (disable to remove attribution). |
-| GitHub / Twitter / LinkedIn / Mastodon URLs | text | "" | Social links in footer. |
+| GitHub URL | text | "" | Footer social link. |
+| Twitter / X URL | text | "" | Footer social link. |
+| LinkedIn URL | text | "" | Footer social link. |
+
+Heading-font choice, nav layout, dark/light comments toggle, and other v0.x ideas were trimmed to stay under Ghost's 20-setting limit. They'll come back in v0.2 if the limit is raised, or via Ghost's Custom Fonts feature (`--gh-font-heading` / `--gh-font-body`).
 
 ---
 
