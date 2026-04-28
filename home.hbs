@@ -8,7 +8,7 @@
             {{!-- LEFT: hero (plain terminal text OR teal accent card, per @custom.show_hero_card) --}}
             <div class="site-hero-main">
                 <div class="site-hero-prompt">~ /home/{{#if @custom.terminal_handle}}{{@custom.terminal_handle}}{{else}}{{@site.title}}{{/if}}</div>
-                <h1 class="site-hero-title">{{@site.title}}</h1>
+                <h1 class="site-hero-title">{{#if @custom.hero_title}}{{@custom.hero_title}}{{else}}{{@site.title}}{{/if}}</h1>
                 {{#if @site.description}}
                     <p class="site-hero-bio">{{@site.description}}</p>
                 {{/if}}

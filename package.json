@@ -90,6 +90,11 @@
         "default": false,
         "description": "Wrap the homepage hero (name + bio) in a teal accent card. Off = plain terminal text."
       },
+      "hero_title": {
+        "type": "text",
+        "default": "",
+        "description": "Override the hero title on the home page (instead of site title). Empty falls back to site title."
+      },
       "now_text": {
         "type": "text",
         "default": "",
