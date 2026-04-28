@@ -11,11 +11,14 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    {{!-- Critical font preloads — eliminate FOUT on first paint. Skipped if the
-         user hasn't run `npm run fonts` yet (browser will 404 + fall back gracefully). --}}
-    <link rel="preload" href="{{asset "fonts/Fraunces-Variable.woff2"}}" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="{{asset "fonts/Geist-Variable.woff2"}}" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="{{asset "fonts/GeistMono-Variable.woff2"}}" as="font" type="font/woff2" crossorigin />
+    {{!-- Fonts — Google Fonts CSS API.
+         Self-hosted woff2 was attempted in v0.1.x but fetch-fonts.sh produced
+         tiny static subsets (~22KB) instead of true variable fonts, so
+         font-variation-settings did nothing. v0.2 plan: ship proper TTF→woff2
+         converted variable fonts. For now, Google Fonts gets us the right look. --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
 
     {{!-- Styles --}}
     <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />

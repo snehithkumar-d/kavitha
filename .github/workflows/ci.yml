@@ -17,10 +17,7 @@ jobs:
 
       # v0.1.0 ships assets/built/ checked in. Skip build step until v0.2+.
 
-      # Verify the font-fetch script works on every PR — same step the
-      # deploy workflow runs. Catches upstream URL breakage early.
-      - name: Fetch fonts
-        run: bash scripts/fetch-fonts.sh
+      # Fonts via Google Fonts CSS — no local fetch step.
 
       - name: Validate theme with gscan
         run: npx gscan@latest .

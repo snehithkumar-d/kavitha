@@ -24,11 +24,9 @@ jobs:
       # v0.1.0 ships assets/built/ checked in — no source-to-built compile step.
       # v0.2+ will populate src/ and add `npm ci && npm run build` here.
 
-      # Fetch self-hosted woff2 fonts at deploy time. Files are gitignored
-      # (kept out of repo to stay small) so CI grabs them fresh on each run
-      # and they end up in the zip uploaded to Ghost.
-      - name: Fetch fonts
-        run: bash scripts/fetch-fonts.sh
+      # Fonts loaded via Google Fonts CSS in default.hbs (v0.1.x) — no
+      # local woff2 fetch needed. v0.2 plan: ship proper variable woff2
+      # via a TTF→woff2 conversion pipeline.
 
       - name: Validate theme with gscan
         run: npx gscan@latest .

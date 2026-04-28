@@ -13,43 +13,11 @@
 
 /* -------------------------------------------------------------------------
    1. FONTS
-   Self-hosted woff2 (privacy-friendly; no Google Fonts CDN — see loophole #13).
-   Run `npm run fonts` to fetch the actual woff2 files into assets/fonts/.
-   Until you do, the browser falls back to the system stack defined below.
+   Loaded via Google Fonts CSS in default.hbs <head>. The @font-face
+   declarations are managed there. Self-hosting is on the v0.2 backlog
+   pending a proper TTF→woff2 conversion pipeline (the shipped fetch
+   script grabbed sliced static subsets that broke variable axes).
    ----------------------------------------------------------------------- */
-
-@font-face {
-    font-family: 'Fraunces';
-    src: url('../fonts/Fraunces-Variable.woff2') format('woff2-variations'),
-         url('../fonts/Fraunces-Variable.woff2') format('woff2');
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Fraunces';
-    src: url('../fonts/Fraunces-Italic-Variable.woff2') format('woff2-variations'),
-         url('../fonts/Fraunces-Italic-Variable.woff2') format('woff2');
-    font-weight: 100 900;
-    font-style: italic;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Geist';
-    src: url('../fonts/Geist-Variable.woff2') format('woff2-variations'),
-         url('../fonts/Geist-Variable.woff2') format('woff2');
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Geist Mono';
-    src: url('../fonts/GeistMono-Variable.woff2') format('woff2-variations'),
-         url('../fonts/GeistMono-Variable.woff2') format('woff2');
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-}
 
 
 /* -------------------------------------------------------------------------
