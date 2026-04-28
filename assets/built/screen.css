@@ -1704,6 +1704,9 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     .site-header, .site-footer, .post-prev-next, .members-cta, .post-comments,
     .pagination, .theme-toggle, .site-search, .site-members-link,
     .scroll-progress, .skip-link, .share-buttons, .code-copy { display: none !important; }
+    .post-body pre[data-lang]::before { display: none; }
+    .post-body pre { background: #f4f4f4; color: #111; border: 1px solid #ddd; }
+    .mermaid-diagram { border-color: #ddd; page-break-inside: avoid; }
     body { background: var(--bg); color: var(--ink); }
     .post-body { font-size: 11pt; line-height: 1.5; }
     a { color: var(--ink); text-decoration: underline; }
@@ -1872,25 +1875,161 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     border: 0;
 }
 
-/* Code copy button — auto-injected by source.js into .post-body pre */
-.post-body pre { position: relative; }
+/* -------------------------------------------------------------------------
+   20. CODE BLOCKS — dark surface, Prism tokens, copy button, lang label.
+   Code stays dark in both light + dark mode (matches Ghost docs and most
+   technical-writing sites; trades minor theme-symmetry for stronger code
+   legibility).
+   ----------------------------------------------------------------------- */
+
+.post-body pre {
+    position: relative;
+    margin: var(--s-7) 0;
+    padding: var(--s-6) var(--s-5) var(--s-5);
+    background: #0d1014;
+    color: #e6e6e6;
+    border-radius: var(--radius-m);
+    font-family: var(--font-mono);
+    font-size: var(--fs-s);
+    line-height: 1.55;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.post-body pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    border: 0;
+}
+/* Inline code keeps the prose-friendly chip look */
+.post-body :not(pre) > code {
+    background: var(--surface);
+    color: var(--ink);
+    padding: 1px 6px;
+    border-radius: var(--radius-s);
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    border: 1px solid var(--line);
+}
+
+/* Language label — top-left chip pulled from data-lang attribute set by source.js */
+.post-body pre[data-lang]::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: var(--s-3);
+    left: var(--s-4);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6c7480;
+    pointer-events: none;
+}
+
+/* Copy button — always visible on the dark surface (no hover-only) */
 .code-copy {
     position: absolute;
     top: var(--s-3);
     right: var(--s-3);
-    padding: var(--s-1) var(--s-3);
-    background: var(--bg);
-    color: var(--muted);
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #c9d1d9;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-s);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+.code-copy:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+.code-copy:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Prism token palette — tuned for #0d1014 surface, accessible contrast */
+.post-body .token.comment,
+.post-body .token.prolog,
+.post-body .token.doctype,
+.post-body .token.cdata { color: #6c7480; font-style: italic; }
+.post-body .token.punctuation { color: #c9d1d9; }
+.post-body .token.property,
+.post-body .token.tag,
+.post-body .token.boolean,
+.post-body .token.number,
+.post-body .token.constant,
+.post-body .token.symbol,
+.post-body .token.deleted { color: #ff7b72; }
+.post-body .token.selector,
+.post-body .token.attr-name,
+.post-body .token.string,
+.post-body .token.char,
+.post-body .token.builtin,
+.post-body .token.inserted { color: #7ee787; }
+.post-body .token.operator,
+.post-body .token.entity,
+.post-body .token.url,
+.post-body .language-css .token.string,
+.post-body .style .token.string { color: #d2a8ff; }
+.post-body .token.atrule,
+.post-body .token.attr-value,
+.post-body .token.keyword { color: #ff7b72; }
+.post-body .token.function,
+.post-body .token.class-name { color: #d2a8ff; }
+.post-body .token.regex,
+.post-body .token.important,
+.post-body .token.variable { color: #ffa657; }
+.post-body .token.important,
+.post-body .token.bold { font-weight: bold; }
+.post-body .token.italic { font-style: italic; }
+
+
+/* -------------------------------------------------------------------------
+   21. MERMAID DIAGRAMS — lazy-rendered SVGs (see source.js).
+   Diagram bg matches the prose surface, not the code block, so it reads as
+   a figure rather than another code chunk.
+   ----------------------------------------------------------------------- */
+
+.mermaid-diagram {
+    margin: var(--s-7) 0;
+    padding: var(--s-5);
+    background: var(--surface);
     border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    text-align: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.mermaid-diagram svg {
+    max-width: 100%;
+    height: auto;
+}
+.mermaid-error {
+    display: block;
+    margin: var(--s-3) 0 0;
+    padding: var(--s-3);
+    background: #0d1014;
+    color: #e6e6e6;
     border-radius: var(--radius-s);
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+    text-align: left;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
-.post-body pre:hover .code-copy,
-.code-copy:focus-visible { opacity: 1; }
-.code-copy:hover { color: var(--accent); border-color: var(--accent); }
+.mermaid-error-caption {
+    display: block;
+    margin-bottom: var(--s-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: #d97706;
+    text-align: left;
+}

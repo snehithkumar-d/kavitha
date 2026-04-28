@@ -28,6 +28,7 @@
         if (next !== 'light' && next !== 'dark') return;
         doc.setAttribute('data-theme', next);
         try { localStorage.setItem(STORAGE_KEY, next); } catch (e) { /* private mode */ }
+        document.dispatchEvent(new CustomEvent('kavitha:theme-changed', { detail: { theme: next } }));
     }
 
     function toggleTheme() {
@@ -169,10 +170,36 @@
 
 
     /* ---------------------------------------------------------------------
-       Copy-to-clipboard on code blocks (.post-body pre)
+       Code blocks — language label, copy button, mermaid diagrams.
+
+       Pre/code rendering pipeline:
+         1. Tag each .post-body pre with the resolved language (from the
+            <code class="language-foo">). Used by CSS for the corner label.
+         2. Inject the copy button (always visible on the dark code surface,
+            unlike the prose-image hover behaviour).
+         3. If any code blocks declare language-mermaid, lazy-import Mermaid
+            from a CDN and replace those blocks with rendered SVG. Failure
+            leaves the original <pre> in place with a small caption.
        --------------------------------------------------------------------- */
 
-    document.querySelectorAll('.post-body pre').forEach(function (pre) {
+    var codeBlocks = Array.from(document.querySelectorAll('.post-body pre'));
+    var mermaidBlocks = [];
+
+    codeBlocks.forEach(function (pre) {
+        var code = pre.querySelector('code');
+        var lang = '';
+        if (code) {
+            var match = (code.className || '').match(/language-([\w-]+)/);
+            if (match) lang = match[1].toLowerCase();
+        }
+
+        if (lang === 'mermaid') {
+            mermaidBlocks.push({ pre: pre, source: (code || pre).textContent });
+            return;
+        }
+
+        if (lang) pre.setAttribute('data-lang', lang);
+
         if (pre.querySelector('.code-copy')) return;
         var btn = document.createElement('button');
         btn.type = 'button';
@@ -181,8 +208,8 @@
         btn.textContent = 'Copy';
         pre.appendChild(btn);
         btn.addEventListener('click', function () {
-            var code = pre.querySelector('code') || pre;
-            var text = code.innerText;
+            var src = pre.querySelector('code') || pre;
+            var text = src.innerText;
             var done = function (ok) {
                 btn.textContent = ok ? 'Copied' : 'Failed';
                 setTimeout(function () { btn.textContent = 'Copy'; }, 1800);
@@ -194,6 +221,62 @@
             }
         });
     });
+
+
+    /* ---------------------------------------------------------------------
+       Mermaid diagrams — lazy import only when at least one block exists.
+       Theme-aware: re-renders when the user toggles dark/light.
+       --------------------------------------------------------------------- */
+
+    function currentMermaidTheme() {
+        return doc.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+    }
+
+    var mermaidLib = null;
+    var mermaidNodes = [];
+
+    function renderMermaid(lib, theme) {
+        lib.initialize({ startOnLoad: false, theme: theme, securityLevel: 'strict', fontFamily: 'inherit' });
+        mermaidNodes.forEach(function (entry, idx) {
+            var id = 'kavitha-mermaid-' + idx + '-' + Date.now();
+            lib.render(id, entry.source).then(function (result) {
+                entry.host.innerHTML = result.svg;
+            }).catch(function (err) {
+                entry.host.innerHTML = '';
+                var fallback = document.createElement('pre');
+                fallback.className = 'mermaid-error';
+                fallback.textContent = entry.source;
+                var caption = document.createElement('span');
+                caption.className = 'mermaid-error-caption';
+                caption.textContent = 'Diagram failed to parse: ' + (err && err.message ? err.message : 'unknown error');
+                entry.host.appendChild(caption);
+                entry.host.appendChild(fallback);
+            });
+        });
+    }
+
+    if (mermaidBlocks.length) {
+        mermaidBlocks.forEach(function (block) {
+            var host = document.createElement('div');
+            host.className = 'mermaid-diagram';
+            block.pre.replaceWith(host);
+            mermaidNodes.push({ host: host, source: block.source });
+        });
+
+        import('https://cdn.jsdelivr.net/npm/mermaid@10.9.1/+esm').then(function (mod) {
+            mermaidLib = mod.default;
+            renderMermaid(mermaidLib, currentMermaidTheme());
+        }).catch(function () {
+            mermaidNodes.forEach(function (entry) {
+                entry.host.textContent = entry.source;
+                entry.host.classList.add('mermaid-error');
+            });
+        });
+
+        document.addEventListener('kavitha:theme-changed', function () {
+            if (mermaidLib) renderMermaid(mermaidLib, currentMermaidTheme());
+        });
+    }
 
 
     /* ---------------------------------------------------------------------
