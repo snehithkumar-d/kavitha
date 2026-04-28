@@ -27,7 +27,38 @@ A native Ghost theme designed for personal sites that want both a blog and a pro
 1. Fork this repo.
 2. In Ghost admin: **Settings → Integrations → Add custom integration → "GitHub Actions"** → copy the Admin API URL and Admin API Key.
 3. In GitHub: **Settings → Secrets and variables → Actions** → add `GHOST_ADMIN_API_URL` and `GHOST_ADMIN_API_KEY`.
-4. Tag a release (`git tag v1.0.0 && git push --tags`) — the deploy workflow will validate with gscan, build, zip, and upload via the Ghost Admin API.
+4. Push to `main` — the deploy workflow auto-fires (gscan → fetch fonts → upload via Ghost Admin API). Tag pushes also fire.
+
+---
+
+## First-run admin setup (do these once after install)
+
+The theme renders correctly out of the box, but a few admin-side decisions unlock its intended look. Do these in **Ghost admin** after activating:
+
+1. **Settings → Design → Brand → Accent color** — pick any hex. The bootstrap script computes readable foreground; admin can also override via the *Accent text color* theme setting.
+
+2. **Settings → Design → Customize → Theme settings** — at minimum set:
+   - **Terminal handle** — appears as `~ /home/{handle}` above the homepage hero. Any short identifier (e.g. `snehith`). Leave empty to fall back to your site title.
+   - **GitHub / Twitter / LinkedIn URLs** — surface in the footer.
+
+3. **Settings → Navigation** — populate the primary nav. Recommended entries (these match the routes shipped in `routes.yaml.example`):
+   | Label | URL |
+   |---|---|
+   | `Home` | `/` |
+   | `Writing` | `/blog/` |
+   | `Projects` | `/projects/` |
+   | `About` | `/about/` |
+
+   The active item shows a `>` accent prefix automatically. If no nav link matches the current URL, the first nav link gets the marker as a fallback so the prompt is always visible.
+
+4. **Settings → Labs → Routes → Upload routes.yaml** — upload [`routes.yaml.example`](./routes.yaml.example) (rename to `routes.yaml` first). Without this:
+   - `/` returns 404 (default collection lives at `/blog/`)
+   - `/projects/` returns 404
+   - `/about/` works (Pages auto-resolve), but the nav link breaks if it points there
+
+5. **Pages → New page** — create an "About" page (slug: `about`). The theme renders it via `page-about.hbs`.
+
+6. **(Optional) Settings → Membership → toggle on Members** — unlocks Subscribe CTAs and Portal modal. The members CTA partial gracefully hides when members are disabled.
 
 ---
 

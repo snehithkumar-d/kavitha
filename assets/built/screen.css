@@ -690,52 +690,53 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .project-card {
     background: var(--accent);
     color: var(--accent-text);
-    padding: var(--s-6) var(--s-6) var(--s-5);
+    padding: var(--s-5) var(--s-5);
     border-radius: var(--radius-s);
     text-decoration: none;
-    min-height: 240px;
+    min-height: 180px;
     display: flex;
     flex-direction: column;
-    gap: var(--s-3);
+    gap: var(--s-2);
     transition: transform var(--transition-fast);
 }
 .project-card:hover { transform: translateY(-2px); }
 .project-card-meta {
     font-family: var(--font-mono);
-    font-size: var(--fs-s);
-    opacity: 0.85;
+    font-size: var(--fs-xs);
+    opacity: 0.8;
     letter-spacing: 0;
     text-transform: lowercase;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin: 0 0 var(--s-2);
+    margin: 0;
 }
 .project-card-kind::before { content: ''; }
 .project-card-title {
     font-family: var(--font-serif);
     font-style: italic;
-    font-variation-settings: 'opsz' 144, 'wght' 600, 'SOFT' 80;
-    font-weight: 600;
-    font-size: var(--fs-2xl);
-    margin: 0;
-    line-height: 1.1;
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 80;
+    font-weight: 500;
+    font-size: var(--fs-xl);
+    margin: var(--s-1) 0 0;
+    line-height: 1.15;
     color: var(--accent-text);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
 }
 .project-card-excerpt {
     font-family: var(--font-sans);
-    font-size: var(--fs-m);
+    font-size: var(--fs-s);
     margin: 0;
-    opacity: 0.92;
-    line-height: 1.5;
-    flex: 1;
+    opacity: 0.88;
+    line-height: 1.45;
 }
 .project-card-cta {
     font-family: var(--font-mono);
-    font-size: var(--fs-s);
+    font-size: var(--fs-xs);
     letter-spacing: 0;
     text-transform: lowercase;
+    margin-top: auto;
+    padding-top: var(--s-3);
     margin-top: var(--s-4);
     opacity: 0.9;
 }

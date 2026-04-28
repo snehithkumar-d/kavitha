@@ -3,9 +3,7 @@
 <div class="container">
 
     <header class="site-hero">
-        {{#if @custom.terminal_handle}}
-            <div class="site-hero-prompt">~ /home/{{@custom.terminal_handle}}</div>
-        {{/if}}
+        <div class="site-hero-prompt">~ /home/{{#if @custom.terminal_handle}}{{@custom.terminal_handle}}{{else}}{{@site.title}}{{/if}}</div>
         <h1 class="site-hero-title">{{@site.title}}</h1>
         {{#if @site.description}}
             <p class="site-hero-bio">{{@site.description}}</p>

@@ -45,17 +45,25 @@
        and ink-color via [aria-current="page"].
        --------------------------------------------------------------------- */
 
-    document.querySelectorAll('.site-nav-list a').forEach(function (a) {
+    var navLinks = Array.from(document.querySelectorAll('.site-nav-list a'));
+    var marked = false;
+    navLinks.forEach(function (a) {
         var href = a.getAttribute('href');
         if (!href) return;
         var path = location.pathname;
-        // Normalize trailing slash for comparison
         var normPath = path.replace(/\/$/, '') || '/';
         var normHref = href.replace(/\/$/, '') || '/';
         var matches = normHref === normPath
             || (normHref !== '/' && normPath.indexOf(normHref + '/') === 0);
-        if (matches) a.setAttribute('aria-current', 'page');
+        if (matches) {
+            a.setAttribute('aria-current', 'page');
+            marked = true;
+        }
     });
+    // Fallback: if no link matched (e.g. user is on /blog/ but their admin nav
+    // doesn't include a /blog/ entry), mark the first link so the > prompt
+    // still appears somewhere instead of leaving the nav looking "dead".
+    if (!marked && navLinks.length) navLinks[0].setAttribute('aria-current', 'page');
 
     /* React to OS-level theme changes when the user hasn't explicitly chosen.
        (When localStorage has a value, that wins.) */
