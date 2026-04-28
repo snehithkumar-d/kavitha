@@ -300,7 +300,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     margin: 0 auto;
     padding: var(--s-5) var(--gutter);
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: var(--s-5);
 }
@@ -322,6 +322,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .site-nav-list {
     list-style: none; padding: 0; margin: 0;
     display: flex;
+    align-items: center;
     gap: var(--s-5);
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
@@ -329,7 +330,11 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     letter-spacing: 0.04em;
     color: var(--muted);
 }
+.site-nav-list li { margin: 0; }
 .site-nav-list a {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
     text-decoration: none;
     transition: color var(--transition-fast);
 }
@@ -350,6 +355,10 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 }
 .site-search:hover, .theme-toggle:hover { color: var(--ink); background: var(--surface); }
 .site-members-link {
+    display: inline-flex;
+    align-items: center;
+    height: var(--touch-target);
+    padding: 0 var(--s-2);
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     text-transform: uppercase;
