@@ -62,6 +62,7 @@
         doc.style.setProperty('--accent-text', lum > 0.55 ? '#0a0b0d' : '#ffffff');
         try { localStorage.setItem(ACCENT_KEY, name); } catch (e) { /* private mode */ }
         markActiveAccentSwatch(name);
+        document.dispatchEvent(new CustomEvent('kavitha:accent-changed', { detail: { accent: name } }));
     }
 
     function markActiveAccentSwatch(name) {
@@ -236,8 +237,63 @@
          lib. Each diagram tracks its own scale + translate locally.
        --------------------------------------------------------------------- */
 
-    function currentMermaidTheme() {
-        return doc.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+    /* Mermaid theme — derive every variable from the live CSS custom props on
+       :root so diagrams match the kavitha palette (mono font, ink + muted +
+       accent only, no neon defaults) and auto-flip with light/dark. */
+    function cssVar(name, fallback) {
+        var v = getComputedStyle(doc).getPropertyValue(name).trim();
+        return v || fallback;
+    }
+
+    function currentMermaidThemeVars() {
+        var bg       = cssVar('--bg',        '#fbf9f4');
+        var surface  = cssVar('--surface',   '#f4f1ea');
+        var ink      = cssVar('--ink',       '#0a0b0d');
+        var muted    = cssVar('--muted',     '#4a5562');
+        var line     = cssVar('--line',      '#dcdacc');
+        var lineBold = cssVar('--line-bold', '#2a2f37');
+        var accent   = cssVar('--accent',    '#1e6b6b');
+        return {
+            background:           'transparent',
+            primaryColor:         surface,
+            primaryTextColor:     ink,
+            primaryBorderColor:   lineBold,
+            secondaryColor:       bg,
+            secondaryTextColor:   ink,
+            secondaryBorderColor: line,
+            tertiaryColor:        bg,
+            tertiaryTextColor:    ink,
+            tertiaryBorderColor:  line,
+            lineColor:            muted,
+            textColor:            ink,
+            mainBkg:              surface,
+            nodeBorder:           lineBold,
+            clusterBkg:           'transparent',
+            clusterBorder:        line,
+            defaultLinkColor:     muted,
+            titleColor:           ink,
+            edgeLabelBackground:  bg,
+            nodeTextColor:        ink,
+            fontFamily:           '"Geist Mono", ui-monospace, monospace',
+            fontSize:             '13px',
+            arrowheadColor:       muted,
+            actorBorder:          lineBold,
+            actorBkg:             surface,
+            actorTextColor:       ink,
+            actorLineColor:       muted,
+            signalColor:          muted,
+            signalTextColor:      ink,
+            labelBoxBkgColor:     bg,
+            labelBoxBorderColor:  line,
+            labelTextColor:       ink,
+            loopTextColor:        ink,
+            noteBkgColor:         surface,
+            noteTextColor:        ink,
+            noteBorderColor:      line,
+            activationBkgColor:   surface,
+            activationBorderColor: line,
+            sequenceNumberColor:  bg
+        };
     }
 
     var mermaidLib = null;
@@ -307,9 +363,20 @@
         }
     }
 
-    function renderMermaid(lib, theme) {
+    function renderMermaid(lib) {
         var gen = ++mermaidRenderGen;
-        lib.initialize({ startOnLoad: false, theme: theme, securityLevel: 'strict', fontFamily: 'inherit' });
+        lib.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            themeVariables: currentMermaidThemeVars(),
+            securityLevel: 'strict',
+            fontFamily: '"Geist Mono", ui-monospace, monospace',
+            flowchart: { curve: 'basis', padding: 16, nodeSpacing: 40, rankSpacing: 50, useMaxWidth: true },
+            sequence: { useMaxWidth: true, mirrorActors: false, messageFontFamily: '"Geist Mono", ui-monospace, monospace' },
+            gantt:    { useMaxWidth: true },
+            er:       { useMaxWidth: true },
+            journey:  { useMaxWidth: true }
+        });
         mermaidNodes.forEach(function (entry, idx) {
             var id = 'kavitha-mermaid-' + idx + '-' + gen;
             lib.render(id, entry.source).then(function (result) {
@@ -352,7 +419,7 @@
 
         import('https://cdn.jsdelivr.net/npm/mermaid@10.9.1/+esm').then(function (mod) {
             mermaidLib = mod.default;
-            renderMermaid(mermaidLib, currentMermaidTheme());
+            renderMermaid(mermaidLib);
         }).catch(function () {
             mermaidNodes.forEach(function (entry) {
                 entry.host.textContent = entry.source;
@@ -360,8 +427,14 @@
             });
         });
 
+        // Theme toggle (dark/light) re-renders. Accent toggle does too —
+        // colors are derived from --accent / --ink / --line / etc., so any
+        // change to those should flow through.
         document.addEventListener('kavitha:theme-changed', function () {
-            if (mermaidLib) renderMermaid(mermaidLib, currentMermaidTheme());
+            if (mermaidLib) renderMermaid(mermaidLib);
+        });
+        document.addEventListener('kavitha:accent-changed', function () {
+            if (mermaidLib) renderMermaid(mermaidLib);
         });
     }
 

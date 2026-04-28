@@ -2058,12 +2058,50 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .mermaid-diagram {
     position: relative;
     margin: var(--s-7) 0;
-    padding: var(--s-5);
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-m);
+    padding: var(--s-6) var(--s-5) var(--s-5);
+    background: transparent;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
     overflow: hidden;
     min-height: 200px;
+}
+.mermaid-diagram::before {
+    content: 'diagram';
+    position: absolute;
+    top: var(--s-3);
+    left: var(--s-4);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    pointer-events: none;
+}
+.mermaid-stage svg .edgeLabel,
+.mermaid-stage svg .edgeLabel rect,
+.mermaid-stage svg .edgeLabel foreignObject div {
+    background: transparent !important;
+    color: var(--muted) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+}
+.mermaid-stage svg .nodeLabel,
+.mermaid-stage svg .nodeLabel p {
+    font-family: var(--font-mono) !important;
+}
+.mermaid-stage svg .node rect,
+.mermaid-stage svg .node polygon,
+.mermaid-stage svg .node circle,
+.mermaid-stage svg .node ellipse,
+.mermaid-stage svg .node path {
+    stroke-width: 1.2px !important;
+}
+.mermaid-stage svg .flowchart-link {
+    stroke-width: 1.2px !important;
+}
+.mermaid-stage svg .marker {
+    fill: var(--muted) !important;
+    stroke: var(--muted) !important;
 }
 .mermaid-stage {
     cursor: grab;
