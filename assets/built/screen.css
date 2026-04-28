@@ -421,17 +421,23 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     padding-top: var(--s-2);
     font-family: var(--font-mono);
 }
+/* Match the section-band-label font (mono, --fs-s, --ink, lowercase) so
+   "$ status" in the sidebar reads at the same weight/size as "$ selected
+   projects" / "$ recent writing" elsewhere on the page. */
 .status-heading {
-    font-size: var(--fs-xs);
-    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: var(--fs-s);
+    color: var(--ink);
+    line-height: 1.3;
     letter-spacing: 0;
     text-transform: lowercase;
-    margin: 0 0 var(--s-4);
     font-weight: 500;
+    margin: 0 0 var(--s-4);
 }
 .status-heading::before {
     content: '$ ';
     color: var(--accent);
+    margin-right: 4px;
 }
 .status-list {
     margin: 0;
