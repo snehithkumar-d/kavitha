@@ -1373,14 +1373,15 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 }
 .site-footer-secondary-list a:hover { color: var(--accent); }
 
-/* Accent color toggle (two preset swatches in the header) */
+/* Accent color toggle (two preset swatches — lives in the footer row) */
 .accent-toggle {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 0 var(--s-2) 0 0;
-    margin-right: var(--s-1);
-    border-right: 1px solid var(--line);
+}
+.site-footer-divider {
+    color: var(--muted);
+    opacity: 0.5;
 }
 .accent-swatch {
     appearance: none;

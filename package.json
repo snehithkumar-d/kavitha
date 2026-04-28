@@ -55,9 +55,10 @@
         "type": "boolean",
         "default": true
       },
-      "show_feature_image_on_post": {
+      "show_rss_link": {
         "type": "boolean",
-        "default": true
+        "default": true,
+        "description": "Show the rss link in the footer. Off hides the link; the /rss/ feed URL still works for feed readers."
       },
       "accent_preset": {
         "type": "select",

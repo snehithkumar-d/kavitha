@@ -20,7 +20,14 @@
             {{#if @custom.github_url}}<a href="{{@custom.github_url}}" rel="me noopener" target="_blank">github</a>{{/if}}
             {{#if @custom.twitter_url}}<a href="{{@custom.twitter_url}}" rel="me noopener" target="_blank">x / twitter</a>{{/if}}
             {{#if @custom.linkedin_url}}<a href="{{@custom.linkedin_url}}" rel="me noopener" target="_blank">linkedin</a>{{/if}}
-            <a href="{{@site.url}}/rss/">rss</a>
+            {{#if @custom.show_rss_link}}<a href="{{@site.url}}/rss/">rss</a>{{/if}}
+
+            <span class="site-footer-divider" aria-hidden="true">·</span>
+            <div class="accent-toggle" role="group" aria-label="Accent color">
+                <button type="button" class="accent-swatch accent-teal" data-accent="teal" aria-label="Teal accent"></button>
+                <button type="button" class="accent-swatch accent-terracotta" data-accent="terracotta" aria-label="Terracotta accent"></button>
+            </div>
+
             {{#if @custom.show_theme_credit}}<span class="site-footer-tag">built with <a href="https://github.com/snehithkumar-d/kavitha" rel="noopener" target="_blank">kavitha</a></span>{{/if}}
         </nav>
 

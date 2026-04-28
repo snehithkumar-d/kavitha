@@ -19,23 +19,21 @@
     </header>
 
     {{#if feature_image}}
-        {{#if @custom.show_feature_image_on_post}}
-            <figure class="post-feature-image">
-                <img src="{{img_url feature_image size="l"}}"
-                     srcset="{{img_url feature_image size="m"}} 720w,
-                             {{img_url feature_image size="l"}} 960w,
-                             {{img_url feature_image size="xl"}} 1200w,
-                             {{img_url feature_image size="xxl"}} 2000w"
-                     sizes="(min-width: 1100px) 1100px, 100vw"
-                     alt="{{feature_image_alt}}"
-                     loading="eager"
-                     decoding="async"
-                     itemprop="image" />
-                {{#if feature_image_caption}}
-                    <figcaption>{{{feature_image_caption}}}</figcaption>
-                {{/if}}
-            </figure>
-        {{/if}}
+        <figure class="post-feature-image">
+            <img src="{{img_url feature_image size="l"}}"
+                 srcset="{{img_url feature_image size="m"}} 720w,
+                         {{img_url feature_image size="l"}} 960w,
+                         {{img_url feature_image size="xl"}} 1200w,
+                         {{img_url feature_image size="xxl"}} 2000w"
+                 sizes="(min-width: 1100px) 1100px, 100vw"
+                 alt="{{feature_image_alt}}"
+                 loading="eager"
+                 decoding="async"
+                 itemprop="image" />
+            {{#if feature_image_caption}}
+                <figcaption>{{{feature_image_caption}}}</figcaption>
+            {{/if}}
+        </figure>
     {{/if}}
 
     <div class="container container-narrow">
