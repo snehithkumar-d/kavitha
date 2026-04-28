@@ -74,10 +74,6 @@
         "options": ["Full-width", "Wide", "Inline"],
         "default": "Wide"
       },
-      "home_intro_text": {
-        "type": "text",
-        "default": "Personal site — code, writing, and projects."
-      },
       "blog_section_title": {
         "type": "text",
         "default": "Recent writing"
@@ -105,6 +101,11 @@
       "footer_signature": {
         "type": "text",
         "default": ""
+      },
+      "terminal_handle": {
+        "type": "text",
+        "default": "",
+        "description": "Terminal breadcrumb on home (e.g. 'snehith' → ~ /home/snehith). Empty to hide."
       },
       "show_theme_credit": {
         "type": "boolean",

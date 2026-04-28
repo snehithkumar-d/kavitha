@@ -38,6 +38,25 @@
         btn.addEventListener('click', toggleTheme);
     });
 
+
+    /* ---------------------------------------------------------------------
+       Active nav marker — sets aria-current="page" on the nav link whose
+       href matches the current URL path. CSS adds the `>` prompt prefix
+       and ink-color via [aria-current="page"].
+       --------------------------------------------------------------------- */
+
+    document.querySelectorAll('.site-nav-list a').forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (!href) return;
+        var path = location.pathname;
+        // Normalize trailing slash for comparison
+        var normPath = path.replace(/\/$/, '') || '/';
+        var normHref = href.replace(/\/$/, '') || '/';
+        var matches = normHref === normPath
+            || (normHref !== '/' && normPath.indexOf(normHref + '/') === 0);
+        if (matches) a.setAttribute('aria-current', 'page');
+    });
+
     /* React to OS-level theme changes when the user hasn't explicitly chosen.
        (When localStorage has a value, that wins.) */
     if (window.matchMedia) {

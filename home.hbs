@@ -2,74 +2,50 @@
 
 <div class="container">
 
-    {{#get "posts" limit="4" filter="tag:-hash-project" order="published_at desc" as |home_posts|}}
+    <header class="site-hero">
+        {{#if @custom.terminal_handle}}
+            <div class="site-hero-prompt">~ /home/{{@custom.terminal_handle}}</div>
+        {{/if}}
+        <h1 class="site-hero-title">{{@site.title}}</h1>
+        {{#if @site.description}}
+            <p class="site-hero-bio">{{@site.description}}</p>
+        {{/if}}
+    </header>
 
+    {{#get "posts" limit="5" filter="tag:-hash-project" order="published_at desc" as |home_posts|}}
         {{#if home_posts}}
-            <section class="home-hero" aria-labelledby="featured-heading">
+            <div class="section-band">
+                <h2 class="section-band-label"><span class="band-prompt">$</span> {{@custom.blog_section_title}}</h2>
+                <a class="section-band-more" href="/blog/">All writing →</a>
+            </div>
 
+            <ul class="terminal-list">
                 {{#foreach home_posts}}
-                    {{#if @first}}
-                        <a class="featured-post" href="{{url}}">
-                            <div class="featured-post-meta">
-                                <span class="tag">Featured · {{date format="YYYY-MM-DD"}}{{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}} · {{primary_tag.name}}{{/unless}}{{/if}}</span>
-                            </div>
-                            <h1 id="featured-heading" class="featured-post-title">{{title}}</h1>
-                            <p class="featured-post-excerpt">{{excerpt words="35"}}</p>
-                            <span class="featured-post-cta">Read post →</span>
-                        </a>
-                    {{/if}}
+                    <li class="terminal-list-row">
+                        <time class="terminal-list-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>
+                        <div class="terminal-list-body">
+                            <h3 class="terminal-list-title"><a href="{{url}}">{{title}}</a></h3>
+                            <p class="terminal-list-excerpt">{{excerpt words="22"}}</p>
+                        </div>
+                    </li>
                 {{/foreach}}
-
-                <aside class="home-sidebar">
-                    {{!-- Only render the recent-writing block if there's at least one
-                         non-featured post (i.e. site has 2+ posts). With exactly 1 post,
-                         the featured slot consumes it; the sidebar list would be empty. --}}
-                    {{#if home_posts.[1]}}
-                        <section class="sidebar-block">
-                            <h2 class="sidebar-block-heading">{{@custom.blog_section_title}}</h2>
-                            {{#if @custom.blog_section_subtitle}}<p class="sidebar-block-sub">{{@custom.blog_section_subtitle}}</p>{{/if}}
-                            <ul class="sidebar-list">
-                                {{#foreach home_posts}}
-                                    {{#unless @first}}
-                                        <li>
-                                            <h3 class="sidebar-list-title"><a href="{{url}}">{{title}}</a></h3>
-                                            <div class="meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>{{#if @custom.show_reading_time}} · {{reading_time}}{{/if}}</div>
-                                        </li>
-                                    {{/unless}}
-                                {{/foreach}}
-                            </ul>
-                            <a class="sidebar-more" href="/blog/">All writing →</a>
-                        </section>
-                    {{/if}}
-
-                    {{#if @custom.home_intro_text}}
-                        <section class="sidebar-block">
-                            <h2 class="sidebar-block-heading">Now</h2>
-                            <p class="sidebar-now">{{@custom.home_intro_text}}</p>
-                        </section>
-                    {{/if}}
-                </aside>
-
-            </section>
+            </ul>
         {{else}}
-            {{!-- Empty state: zero posts --}}
             <section class="home-empty">
-                <h1 class="home-empty-title">{{@site.title}}</h1>
                 {{#if @site.description}}<p class="home-empty-deck">{{@site.description}}</p>{{/if}}
                 <p class="home-empty-cta">No posts yet. Sign in to your Ghost admin and publish your first one.</p>
             </section>
         {{/if}}
-
     {{/get}}
 
-    {{#get "posts" limit="3" filter="tag:hash-project" order="published_at desc" as |projects|}}
+    {{#get "posts" limit="2" filter="tag:hash-project" order="published_at desc" as |projects|}}
         {{#if projects}}
             <div class="section-band">
-                <h2 class="section-band-label">{{@custom.projects_section_title}}</h2>
+                <h2 class="section-band-label"><span class="band-prompt">$</span> {{@custom.projects_section_title}}</h2>
                 <a class="section-band-more" href="/projects/">All work →</a>
             </div>
 
-            <div class="project-grid">
+            <div class="project-grid project-grid-home">
                 {{#foreach projects}}
                     {{> "project-card"}}
                 {{/foreach}}

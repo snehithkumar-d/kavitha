@@ -1,9 +1,15 @@
 <a class="project-card" href="{{url}}">
     <div class="project-card-meta">
         <span class="project-card-year">{{date format="YYYY"}}</span>
-        {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}}<span class="project-card-kind">{{primary_tag.name}}</span>{{/unless}}{{/if}}
+        {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}}
+            <span class="project-card-kind">{{primary_tag.name}}</span>
+        {{/unless}}{{/if}}
     </div>
     <h3 class="project-card-title">{{title}}</h3>
-    {{#if custom_excerpt}}<p class="project-card-excerpt">{{custom_excerpt}}</p>{{/if}}
-    <span class="project-card-cta">View →</span>
+    {{#if custom_excerpt}}
+        <p class="project-card-excerpt">{{custom_excerpt}}</p>
+    {{else}}
+        <p class="project-card-excerpt">{{excerpt words="20"}}</p>
+    {{/if}}
+    <span class="project-card-cta">cd projects/{{slug}} →</span>
 </a>
