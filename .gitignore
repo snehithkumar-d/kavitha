@@ -15,6 +15,10 @@ CLAUDE.md
 # Edit routes.yaml.example, copy it to routes.yaml when uploading to Ghost.
 routes.yaml
 
+# Local design exploration mockups (4 variations explored during design pass).
+# Render via .claude/launch.json → kavitha-mockups config. Not part of theme.
+_design-references/
+
 # v0.1.0 only: assets/built/ is checked in to skip CI build complexity.
 # Move this comment + uncomment the next line at v0.2.0 when CI builds the bundle.
 # assets/built/
