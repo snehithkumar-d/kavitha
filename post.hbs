@@ -47,11 +47,13 @@
             {{content}}
         </div>
 
-        {{#if tags}}
+        {{#if tags.[1]}}
             <div class="post-tags">
                 {{#foreach tags}}
                     {{#unless visibility}}{{else match visibility "public"}}
-                        <a class="post-tag-chip" href="{{url}}">{{name}}</a>
+                        {{#unless @first}}
+                            <a class="post-tag-chip" href="{{url}}">{{name}}</a>
+                        {{/unless}}
                     {{/unless}}
                 {{/foreach}}
             </div>

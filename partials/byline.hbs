@@ -13,8 +13,4 @@
     <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMM D, YYYY"}}</time>
     <span class="dot">·</span>
     <span>{{reading_time}}</span>
-    {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}}
-        <span class="dot">·</span>
-        <a class="post-byline-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>
-    {{/unless}}{{/if}}
 </div>
