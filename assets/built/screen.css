@@ -745,23 +745,23 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--s-5);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-3);
     margin-top: var(--s-2);
 }
 .project-grid-home {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 }
 .project-grid-collection {
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 .project-card {
     background: var(--accent);
     color: var(--accent-text);
-    padding: var(--s-5) var(--s-5);
+    padding: var(--s-4) var(--s-4);
     border-radius: var(--radius-s);
     text-decoration: none;
-    min-height: 180px;
+    min-height: 140px;
     display: flex;
     flex-direction: column;
     gap: var(--s-2);
@@ -785,7 +785,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     font-style: italic;
     font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 80;
     font-weight: 500;
-    font-size: var(--fs-xl);
+    font-size: var(--fs-l);
     margin: var(--s-1) 0 0;
     line-height: 1.15;
     color: var(--accent-text);
@@ -793,10 +793,14 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 }
 .project-card-excerpt {
     font-family: var(--font-sans);
-    font-size: var(--fs-s);
+    font-size: var(--fs-xs);
     margin: 0;
     opacity: 0.88;
     line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 .project-card-cta {
     font-family: var(--font-mono);
@@ -805,7 +809,6 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     text-transform: lowercase;
     margin-top: auto;
     padding-top: var(--s-3);
-    margin-top: var(--s-4);
     opacity: 0.9;
 }
 
