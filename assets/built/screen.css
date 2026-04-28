@@ -313,11 +313,14 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .site-brand {
     text-decoration: none;
     font-family: var(--font-serif);
-    font-weight: 600;
+    font-weight: 500;
     font-style: italic;
-    font-size: var(--fs-2xl);
-    letter-spacing: -0.025em;
-    font-variation-settings: 'opsz' 144, 'SOFT' 80, 'wght' 600;
+    /* 24px hardcoded to match the Direction B preview spec exactly;
+       --fs-xl (21px) was too small, --fs-2xl (28px) too chunky for the
+       longer "Snehith Kumar" wordmark. */
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 144, 'SOFT' 80, 'wght' 500;
     line-height: 1;
     color: var(--ink);
     flex-shrink: 0;
