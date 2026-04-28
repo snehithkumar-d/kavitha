@@ -1373,6 +1373,33 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 }
 .site-footer-secondary-list a:hover { color: var(--accent); }
 
+/* Accent color toggle (two preset swatches in the header) */
+.accent-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 var(--s-2) 0 0;
+    margin-right: var(--s-1);
+    border-right: 1px solid var(--line);
+}
+.accent-swatch {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    padding: 0;
+    cursor: pointer;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.accent-swatch:hover { transform: scale(1.15); }
+.accent-swatch.accent-teal { background: #1e6b6b; }
+.accent-swatch.accent-terracotta { background: #c15f3c; }
+.accent-swatch[aria-pressed="true"] {
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--ink);
+    border-color: transparent;
+}
+
 
 /* -------------------------------------------------------------------------
    18. ERROR PAGE

@@ -40,6 +40,54 @@
 
 
     /* ---------------------------------------------------------------------
+       Accent color toggle — two named presets (teal, terracotta).
+       Persisted in localStorage; bootstrap script in default.hbs hydrates
+       it before first paint to prevent FOUC. This script wires the click
+       handlers and updates the active-swatch indicator.
+       --------------------------------------------------------------------- */
+
+    var ACCENT_KEY = 'kavitha-accent';
+    var ACCENT_PRESETS = { teal: '#1e6b6b', terracotta: '#c15f3c' };
+
+    function applyAccent(name) {
+        var hex = ACCENT_PRESETS[name];
+        if (!hex) return;
+        doc.style.setProperty('--ghost-accent-color', hex);
+        doc.style.setProperty('--accent', hex);
+        var r = parseInt(hex.substr(1, 2), 16);
+        var g = parseInt(hex.substr(3, 2), 16);
+        var b = parseInt(hex.substr(5, 2), 16);
+        var lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+        doc.style.setProperty('--accent-text', lum > 0.55 ? '#0a0b0d' : '#ffffff');
+        try { localStorage.setItem(ACCENT_KEY, name); } catch (e) { /* private mode */ }
+        markActiveAccentSwatch(name);
+    }
+
+    function markActiveAccentSwatch(name) {
+        document.querySelectorAll('.accent-swatch[data-accent]').forEach(function (b) {
+            b.setAttribute('aria-pressed', b.getAttribute('data-accent') === name ? 'true' : 'false');
+        });
+    }
+
+    document.querySelectorAll('.accent-swatch[data-accent]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            applyAccent(btn.getAttribute('data-accent'));
+        });
+    });
+
+    /* Initial swatch state — match whichever accent the bootstrap settled on. */
+    try {
+        var storedAccent = localStorage.getItem(ACCENT_KEY);
+        if (storedAccent && ACCENT_PRESETS[storedAccent]) {
+            markActiveAccentSwatch(storedAccent);
+        } else {
+            var current = getComputedStyle(doc).getPropertyValue('--accent').trim().toLowerCase();
+            markActiveAccentSwatch(current === '#c15f3c' ? 'terracotta' : 'teal');
+        }
+    } catch (e) { /* fall through */ }
+
+
+    /* ---------------------------------------------------------------------
        Active nav marker — sets aria-current="page" on the nav link whose
        href matches the current URL path. CSS adds the `>` prompt prefix
        and ink-color via [aria-current="page"].

@@ -46,8 +46,19 @@
                     doc.setAttribute('data-theme', resolved);
                 }
 
+                {{!-- Accent preset: user-side override (persisted in localStorage). Two named options. --}}
+                var accentMap = { teal: '#1e6b6b', terracotta: '#c15f3c' };
+                var storedAccent = localStorage.getItem('kavitha-accent');
+                var accent;
+                if (storedAccent && accentMap[storedAccent]) {
+                    accent = accentMap[storedAccent];
+                    doc.style.setProperty('--ghost-accent-color', accent);
+                    doc.style.setProperty('--accent', accent);
+                } else {
+                    accent = getComputedStyle(doc).getPropertyValue('--ghost-accent-color').trim() || '{{@site.accent_color}}';
+                }
+
                 {{!-- Accent text color: derive from accent luminance (auto-only) --}}
-                var accent = getComputedStyle(doc).getPropertyValue('--ghost-accent-color').trim() || '{{@site.accent_color}}';
                 if (accent && accent.charAt(0) === '#') {
                     var hex = accent.length === 4
                         ? '#' + accent[1] + accent[1] + accent[2] + accent[2] + accent[3] + accent[3]
