@@ -11,8 +11,8 @@
 
         <nav class="site-nav" aria-label="Primary">
             <ul class="site-nav-list">
-                {{#foreach @site.navigation}}
-                    <li><a href="{{url}}">{{label}}</a></li>
+                {{#foreach navigation}}
+                    <li><a href="{{url}}"{{#if current}} aria-current="page"{{/if}}>{{label}}</a></li>
                 {{/foreach}}
             </ul>
 
