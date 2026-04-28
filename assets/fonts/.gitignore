@@ -1,0 +1,5 @@
+# Self-hosted fonts are fetched via `npm run fonts` (scripts/fetch-fonts.sh).
+# Forkers run that once after `npm install`. Files are not committed because
+# they're large binaries with their own upstream licenses.
+*.woff2
+!.gitignore

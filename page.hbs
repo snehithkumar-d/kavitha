@@ -1,0 +1,40 @@
+{{!< default}}
+
+{{#post}}
+
+<article class="page {{post_class}}" itemscope itemtype="http://schema.org/WebPage">
+
+    {{#if @page.show_title_and_feature_image}}
+        <header class="page-header">
+            <div class="container container-narrow">
+                <h1 class="page-title" itemprop="name">{{title}}</h1>
+                {{#if custom_excerpt}}
+                    <p class="page-deck">{{custom_excerpt}}</p>
+                {{/if}}
+            </div>
+        </header>
+
+        {{#if feature_image}}
+            <figure class="page-feature">
+                <img src="{{img_url feature_image size="xl"}}"
+                     srcset="{{img_url feature_image size="m"}} 720w,
+                             {{img_url feature_image size="l"}} 960w,
+                             {{img_url feature_image size="xl"}} 1200w"
+                     sizes="(min-width: 1200px) 1180px, 100vw"
+                     alt="{{feature_image_alt}}"
+                     loading="eager"
+                     decoding="async" />
+                {{#if feature_image_caption}}<figcaption>{{{feature_image_caption}}}</figcaption>{{/if}}
+            </figure>
+        {{/if}}
+    {{/if}}
+
+    <div class="container container-narrow">
+        <div class="post-body page-body" itemprop="text">
+            {{content}}
+        </div>
+    </div>
+
+</article>
+
+{{/post}}

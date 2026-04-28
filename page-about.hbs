@@ -1,0 +1,41 @@
+{{!< default}}
+
+{{#post}}
+
+<article class="page page-about {{post_class}}" itemscope itemtype="http://schema.org/AboutPage">
+
+    {{#if @page.show_title_and_feature_image}}
+        <header class="page-about-header">
+            <div class="container">
+                <span class="page-about-eyebrow">About</span>
+                <h1 class="page-about-title" itemprop="name">{{title}}</h1>
+                {{#if custom_excerpt}}
+                    <p class="page-about-deck">{{custom_excerpt}}</p>
+                {{/if}}
+            </div>
+        </header>
+    {{/if}}
+
+    <div class="container container-narrow">
+        {{#if @page.show_title_and_feature_image}}
+            {{#if feature_image}}
+                <figure class="page-about-portrait">
+                    <img src="{{img_url feature_image size="m"}}"
+                         srcset="{{img_url feature_image size="s"}} 480w,
+                                 {{img_url feature_image size="m"}} 720w"
+                         sizes="(min-width: 720px) 280px, 60vw"
+                         alt="{{feature_image_alt}}"
+                         loading="eager"
+                         decoding="async" />
+                </figure>
+            {{/if}}
+        {{/if}}
+
+        <div class="post-body page-body" itemprop="text">
+            {{content}}
+        </div>
+    </div>
+
+</article>
+
+{{/post}}

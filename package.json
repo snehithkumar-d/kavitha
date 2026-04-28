@@ -1,0 +1,147 @@
+{
+  "name": "kavitha",
+  "description": "A publishing theme for writers and builders.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Snehith Kumar D",
+    "email": "kdhammoju@gmail.com",
+    "url": "https://github.com/snehithkumar-d"
+  },
+  "homepage": "https://github.com/snehithkumar-d/kavitha",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snehithkumar-d/kavitha.git"
+  },
+  "bugs": {
+    "url": "https://github.com/snehithkumar-d/kavitha/issues"
+  },
+  "engines": {
+    "ghost": ">=5.0.0"
+  },
+  "keywords": [
+    "ghost",
+    "theme",
+    "ghost-theme",
+    "blog",
+    "portfolio",
+    "developer",
+    "minimal",
+    "publishing"
+  ],
+  "config": {
+    "posts_per_page": 12,
+    "card_assets": true,
+    "image_sizes": {
+      "xs":  { "width":  160 },
+      "s":   { "width":  480 },
+      "m":   { "width":  720 },
+      "l":   { "width":  960 },
+      "xl":  { "width": 1200 },
+      "xxl": { "width": 2000 }
+    },
+    "custom": {
+      "color_scheme_default": {
+        "type": "select",
+        "options": ["Auto", "Light", "Dark"],
+        "default": "Auto"
+      },
+      "accent_text_color": {
+        "type": "select",
+        "options": ["Auto", "Light", "Dark"],
+        "default": "Auto",
+        "description": "Force the readable text color used on top of accent backgrounds."
+      },
+      "body_font": {
+        "type": "select",
+        "options": ["Serif", "Sans-serif", "Mono"],
+        "default": "Serif"
+      },
+      "show_author_byline": {
+        "type": "boolean",
+        "default": true
+      },
+      "show_reading_time": {
+        "type": "boolean",
+        "default": true
+      },
+      "show_feature_image_on_post": {
+        "type": "boolean",
+        "default": true
+      },
+      "post_image_style": {
+        "type": "select",
+        "options": ["Full-width", "Wide", "Inline"],
+        "default": "Wide"
+      },
+      "home_intro_text": {
+        "type": "text",
+        "default": "Personal site — code, writing, and projects."
+      },
+      "blog_section_title": {
+        "type": "text",
+        "default": "Recent writing"
+      },
+      "blog_section_subtitle": {
+        "type": "text",
+        "default": "All writing, in reverse-chronological order."
+      },
+      "projects_section_title": {
+        "type": "text",
+        "default": "Selected projects"
+      },
+      "projects_section_subtitle": {
+        "type": "text",
+        "default": "Things I've built and shipped."
+      },
+      "members_cta_title": {
+        "type": "text",
+        "default": "Subscribe for new posts"
+      },
+      "members_cta_body": {
+        "type": "text",
+        "default": "Get new writing in your inbox. No spam, unsubscribe anytime."
+      },
+      "footer_signature": {
+        "type": "text",
+        "default": ""
+      },
+      "show_theme_credit": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show the 'built with kavitha' credit link in the footer. Disable to remove attribution."
+      },
+      "github_url": {
+        "type": "text",
+        "default": ""
+      },
+      "twitter_url": {
+        "type": "text",
+        "default": ""
+      },
+      "linkedin_url": {
+        "type": "text",
+        "default": ""
+      }
+    }
+  },
+  "scripts": {
+    "dev":       "node build.mjs --watch",
+    "build":     "node build.mjs",
+    "build:css": "postcss src/css/screen.css -o assets/built/screen.css",
+    "build:js":  "esbuild src/js/source.js --bundle --minify --target=es2020 --outfile=assets/built/source.js",
+    "fonts":     "bash scripts/fetch-fonts.sh",
+    "gscan":     "gscan .",
+    "zip":       "npm run build && rm -f dist/kavitha.zip && mkdir -p dist && zip -r dist/kavitha.zip . -x 'node_modules/*' 'src/*' '.git/*' 'screenshots/*' '.github/*' 'dist/*' '*.md' 'package-lock.json' 'build.mjs' 'scripts/*'"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "cssnano": "^7.0.6",
+    "esbuild": "^0.25.0",
+    "gscan": "^4.42.0",
+    "postcss": "^8.5.0",
+    "postcss-cli": "^11.0.0",
+    "postcss-import": "^16.1.0",
+    "postcss-preset-env": "^10.1.0"
+  }
+}

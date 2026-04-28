@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}" data-color-scheme-default="{{#match @custom.color_scheme_default "Light"}}light{{else match @custom.color_scheme_default "Dark"}}dark{{else}}auto{{/match}}">
+<head>
+
+    {{!-- Document Settings --}}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    {{!-- Page Meta --}}
+    <title>{{meta_title}}</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {{!-- Styles --}}
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+
+    {{!-- Custom-setting-driven CSS variables.
+         color values from config.custom can't go in inline style="" (sanitized in some contexts) so we inject a <style> block instead. See loophole #17.
+         Ghost admin → Design → Customize → Fonts always wins via --gh-font-body / --gh-font-heading set in screen.css. --}}
+    <style>
+        :root {
+            --kavitha-body-font: {{#match @custom.body_font "Sans-serif"}}var(--gh-font-body, var(--font-sans)){{else match @custom.body_font "Mono"}}var(--gh-font-body, var(--font-mono)){{else}}var(--gh-font-body, var(--font-serif)){{/match}};
+            --kavitha-heading-font: var(--gh-font-heading, var(--kavitha-body-font));
+        }
+    </style>
+
+    {{!-- Theme bootstrap: hydrate user's theme + accent-contrast preference BEFORE first paint to prevent FOUC.
+         This is the ONE inline script we ship; all other JS is bundled in source.js per loophole #11. --}}
+    <script>
+        (function () {
+            var doc = document.documentElement;
+            try {
+                var defaultPref = doc.getAttribute('data-color-scheme-default') || 'auto';
+                var stored = localStorage.getItem('kavitha-theme');
+                var resolved = stored || (defaultPref === 'auto' ? '' : defaultPref);
+                if (resolved === 'light' || resolved === 'dark') {
+                    doc.setAttribute('data-theme', resolved);
+                }
+
+                {{!-- Accent text color clamp: read user override OR derive from accent luminance --}}
+                var accentTextOverride = {{#match @custom.accent_text_color "Light"}}'light'{{else match @custom.accent_text_color "Dark"}}'dark'{{else}}null{{/match}};
+                var accent = getComputedStyle(doc).getPropertyValue('--ghost-accent-color').trim() || '{{@site.accent_color}}';
+                if (accent && accent.charAt(0) === '#') {
+                    var hex = accent.length === 4
+                        ? '#' + accent[1] + accent[1] + accent[2] + accent[2] + accent[3] + accent[3]
+                        : accent;
+                    var r = parseInt(hex.substr(1, 2), 16);
+                    var g = parseInt(hex.substr(3, 2), 16);
+                    var b = parseInt(hex.substr(5, 2), 16);
+                    var lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+                    var derived = lum > 0.55 ? 'dark' : 'light';
+                    var picked = accentTextOverride || derived;
+                    doc.style.setProperty('--accent-text', picked === 'light' ? '#ffffff' : '#0a0b0d');
+                }
+            } catch (e) { /* localStorage may be unavailable; fall through to defaults */ }
+        })();
+    </script>
+
+    {{ghost_head}}
+
+</head>
+<body class="{{body_class}}">
+
+    <div class="site-wrap">
+
+        {{> "site-header"}}
+
+        <main id="site-main" class="site-main">
+            {{{body}}}
+        </main>
+
+        {{> "site-footer"}}
+
+    </div>
+
+    {{!-- External JS bundle (theme toggle, mobile nav, etc.) --}}
+    <script src="{{asset "built/source.js"}}"></script>
+
+    {{ghost_foot}}
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+{{!< default}}
+
+{{#post}}
+
+<article class="post project-post {{post_class}}" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <header class="project-post-header">
+        <div class="container">
+            <a class="project-post-back" href="/projects/">← All projects</a>
+
+            <div class="project-post-header-grid">
+                <div class="project-post-headline">
+                    <span class="project-post-eyebrow">Project · {{date format="YYYY"}}</span>
+                    <h1 class="project-post-title" itemprop="name">{{title}}</h1>
+                    {{#if custom_excerpt}}
+                        <p class="project-post-deck">{{custom_excerpt}}</p>
+                    {{/if}}
+                </div>
+
+                <aside class="project-post-meta">
+                    <dl>
+                        <dt>Year</dt><dd>{{date format="YYYY"}}</dd>
+                        {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}}
+                            <dt>Kind</dt><dd>{{primary_tag.name}}</dd>
+                        {{/unless}}{{/if}}
+                        {{#if reading_time}}
+                            <dt>Read</dt><dd>{{reading_time}}</dd>
+                        {{/if}}
+                    </dl>
+                </aside>
+            </div>
+        </div>
+    </header>
+
+    {{#if feature_image}}
+        <figure class="project-post-feature">
+            <img src="{{img_url feature_image size="xl"}}"
+                 srcset="{{img_url feature_image size="m"}} 720w,
+                         {{img_url feature_image size="l"}} 960w,
+                         {{img_url feature_image size="xl"}} 1200w,
+                         {{img_url feature_image size="xxl"}} 2000w"
+                 sizes="(min-width: 1200px) 1180px, 100vw"
+                 alt="{{feature_image_alt}}"
+                 loading="eager"
+                 decoding="async"
+                 itemprop="image" />
+            {{#if feature_image_caption}}<figcaption>{{{feature_image_caption}}}</figcaption>{{/if}}
+        </figure>
+    {{/if}}
+
+    <div class="container container-narrow">
+        <div class="post-body" itemprop="text">
+            {{content}}
+        </div>
+    </div>
+
+</article>
+
+<div class="container container-narrow">
+    {{> "members-cta"}}
+
+    <nav class="post-prev-next" aria-label="Adjacent projects">
+        {{#prev_post in="primary_tag"}}
+            <a class="post-prev" href="{{url}}">
+                <span class="label">← Previous project</span>
+                <span class="title">{{title}}</span>
+            </a>
+        {{/prev_post}}
+        {{#next_post in="primary_tag"}}
+            <a class="post-next" href="{{url}}">
+                <span class="label">Next project →</span>
+                <span class="title">{{title}}</span>
+            </a>
+        {{/next_post}}
+    </nav>
+</div>
+
+{{/post}}

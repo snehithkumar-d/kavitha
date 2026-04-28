@@ -1,0 +1,18 @@
+<footer class="site-footer">
+    <div class="site-footer-inner">
+
+        <div class="site-footer-left">
+            <span>© {{date format="YYYY"}} {{@site.title}}</span>
+            {{#if @custom.footer_signature}}<span class="site-footer-sig">· {{@custom.footer_signature}}</span>{{/if}}
+        </div>
+
+        <nav class="site-footer-links" aria-label="Footer">
+            {{#if @custom.github_url}}<a href="{{@custom.github_url}}" rel="me noopener" target="_blank">github</a>{{/if}}
+            {{#if @custom.twitter_url}}<a href="{{@custom.twitter_url}}" rel="me noopener" target="_blank">x / twitter</a>{{/if}}
+            {{#if @custom.linkedin_url}}<a href="{{@custom.linkedin_url}}" rel="me noopener" target="_blank">linkedin</a>{{/if}}
+            <a href="{{@site.url}}/rss/">rss</a>
+            {{#if @custom.show_theme_credit}}<span class="site-footer-tag">built with <a href="https://github.com/snehithkumar-d/kavitha" rel="noopener" target="_blank">kavitha</a></span>{{/if}}
+        </nav>
+
+    </div>
+</footer>

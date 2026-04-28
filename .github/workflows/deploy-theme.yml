@@ -1,0 +1,33 @@
+name: Deploy theme
+
+# Manual trigger + tag push only. NOT every commit to main — that's how
+# you publish broken themes by accident. (See loophole #25 in PLAN.)
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Validate theme with gscan
+        run: npx gscan@latest .
+
+      - name: Deploy to Ghost
+        uses: TryGhost/action-deploy-theme@v1
+        with:
+          api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
+          api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
+          theme-name: kavitha

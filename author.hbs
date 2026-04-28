@@ -1,0 +1,32 @@
+{{!< default}}
+
+<div class="container container-narrow">
+
+    {{#author}}
+        <header class="collection-header author-header">
+            {{#if profile_image}}
+                <img class="author-avatar" src="{{img_url profile_image size="s"}}" alt="{{name}}" loading="lazy" decoding="async" />
+            {{/if}}
+            <div class="author-meta">
+                <span class="collection-eyebrow">Author</span>
+                <h1 class="collection-title">{{name}}</h1>
+                {{#if bio}}<p class="collection-subtitle">{{bio}}</p>{{/if}}
+
+                <ul class="author-links">
+                    {{#if location}}<li>{{location}}</li>{{/if}}
+                    {{#if website}}<li><a href="{{website}}" rel="me noopener" target="_blank">website</a></li>{{/if}}
+                    {{#if twitter}}<li><a href="https://x.com/{{twitter}}" rel="me noopener" target="_blank">x / twitter</a></li>{{/if}}
+                </ul>
+            </div>
+        </header>
+    {{/author}}
+
+    <div class="post-feed">
+        {{#foreach posts}}
+            {{> "post-card"}}
+        {{/foreach}}
+    </div>
+
+    {{> "pagination"}}
+
+</div>

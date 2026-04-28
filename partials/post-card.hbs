@@ -1,0 +1,28 @@
+<article class="post-card{{#if feature_image}} has-image{{/if}}">
+    {{#if feature_image}}
+        <a class="post-card-image" href="{{url}}" aria-hidden="true" tabindex="-1">
+            <img src="{{img_url feature_image size="m"}}"
+                 srcset="{{img_url feature_image size="s"}} 480w,
+                         {{img_url feature_image size="m"}} 720w,
+                         {{img_url feature_image size="l"}} 960w"
+                 sizes="(min-width: 720px) 380px, 100vw"
+                 alt="{{feature_image_alt}}"
+                 loading="lazy"
+                 decoding="async" />
+        </a>
+    {{/if}}
+
+    <div class="post-card-body">
+        <div class="post-card-meta">
+            <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>
+            {{#if @custom.show_reading_time}}<span class="dot">·</span><span>{{reading_time}}</span>{{/if}}
+            {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}}<span class="dot">·</span><a class="post-card-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>{{/unless}}{{/if}}
+        </div>
+
+        <h3 class="post-card-title">
+            <a href="{{url}}">{{title}}</a>
+        </h3>
+
+        <p class="post-card-excerpt">{{excerpt words="28"}}</p>
+    </div>
+</article>

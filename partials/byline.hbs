@@ -1,0 +1,22 @@
+<div class="post-byline">
+    {{#if @custom.show_author_byline}}
+        {{#foreach authors}}
+            <a class="post-byline-author" href="{{url}}">
+                {{#if profile_image}}
+                    <img class="post-byline-avatar" src="{{img_url profile_image size="xs"}}" alt="{{name}}" loading="lazy" decoding="async" />
+                {{/if}}
+                <span>{{name}}</span>
+            </a>
+        {{/foreach}}
+        <span class="dot">·</span>
+    {{/if}}
+    <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMM D, YYYY"}}</time>
+    {{#if @custom.show_reading_time}}
+        <span class="dot">·</span>
+        <span>{{reading_time}}</span>
+    {{/if}}
+    {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}}
+        <span class="dot">·</span>
+        <a class="post-byline-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>
+    {{/unless}}{{/if}}
+</div>

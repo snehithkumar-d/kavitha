@@ -1,0 +1,44 @@
+<header class="site-header">
+    <div class="site-header-inner">
+
+        <a class="site-brand" href="{{@site.url}}">
+            {{#if @site.logo}}
+                <img class="site-brand-logo" src="{{img_url @site.logo size="m"}}" alt="{{@site.title}}" />
+            {{else}}
+                <span class="site-brand-text">{{@site.title}}</span>
+            {{/if}}
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+            <ul class="site-nav-list">
+                {{#foreach @site.navigation}}
+                    <li><a href="{{url}}">{{label}}</a></li>
+                {{/foreach}}
+            </ul>
+
+            <div class="site-nav-actions">
+                <button type="button" class="site-search" data-ghost-search aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"/><line x1="16" y1="16" x2="21" y2="21" stroke-linecap="round"/>
+                    </svg>
+                </button>
+
+                {{#unless @member}}
+                    <a class="site-members-link" href="#/portal/signin">Sign in</a>
+                {{else}}
+                    <a class="site-members-link" href="#/portal/account">Account</a>
+                {{/unless}}
+
+                <button type="button" class="theme-toggle" aria-label="Toggle theme" data-theme-toggle>
+                    <svg class="theme-toggle-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.5" y1="4.5" x2="6.5" y2="6.5"/><line x1="17.5" y1="17.5" x2="19.5" y2="19.5"/><line x1="4.5" y1="19.5" x2="6.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="19.5" y2="4.5"/>
+                    </svg>
+                    <svg class="theme-toggle-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <path d="M21 13.5A9 9 0 1 1 10.5 3a7 7 0 0 0 10.5 10.5z"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+    </div>
+</header>

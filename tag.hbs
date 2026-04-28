@@ -1,0 +1,24 @@
+{{!< default}}
+
+<div class="container container-narrow">
+
+    {{#tag}}
+        <header class="collection-header">
+            <span class="collection-eyebrow">Tag</span>
+            <h1 class="collection-title">#{{name}}</h1>
+            {{#if description}}
+                <p class="collection-subtitle">{{description}}</p>
+            {{/if}}
+            <p class="collection-count">{{plural ../pagination.total empty='No posts' singular='1 post' plural='% posts'}}</p>
+        </header>
+    {{/tag}}
+
+    <div class="post-feed">
+        {{#foreach posts}}
+            {{> "post-card"}}
+        {{/foreach}}
+    </div>
+
+    {{> "pagination"}}
+
+</div>

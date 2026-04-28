@@ -1,0 +1,32 @@
+# kavitha — example routes.yaml
+#
+# Upload via Ghost admin → Settings → Labs → Routes → Upload routes.yaml
+#
+# This config:
+#   - Routes /projects/ as a custom collection of posts tagged #project (internal tag)
+#   - Excludes #project posts from the default /blog/ collection (no double-canonical)
+#   - Enables RSS at /projects/rss/
+#   - Lists /projects/ FIRST so {{prev_post}}/{{next_post}} navigates project→project
+#
+# Why two collections + an internal tag instead of Ghost Pages:
+#   Posts get the full editor (Lexical cards, members visibility, feature images,
+#   dates, RSS, related-tag cross-linking). Pages do not. The internal tag (#project,
+#   with hash) is hidden from public taxonomy so visitors never see a "project" tag.
+
+routes:
+  # No /about/ remap needed — Ghost auto-resolves page-about.hbs by slug.
+
+collections:
+  /projects/:
+    permalink: /projects/{slug}/
+    template: custom-projects
+    filter: 'tag:hash-project'
+    rss: true
+  /blog/:
+    permalink: /{slug}/
+    template: index
+    filter: 'tag:-hash-project'
+
+taxonomies:
+  tag: /tag/{slug}/
+  author: /author/{slug}/

@@ -1,0 +1,68 @@
+{{!< default}}
+
+<div class="container">
+
+    <section class="home-hero" aria-labelledby="featured-heading">
+
+        {{!-- Featured: newest non-#project post.
+             Filter `tag:-hash-project` excludes internal #project tag. See loophole #16. --}}
+        {{#get "posts" limit="1" filter="tag:-hash-project" order="published_at desc" as |featured|}}
+            {{#foreach featured}}
+                <a class="featured-post" href="{{url}}">
+                    <div class="featured-post-meta">
+                        <span class="tag">Featured · {{date format="YYYY-MM-DD"}}{{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}} · {{primary_tag.name}}{{/unless}}{{/if}}</span>
+                    </div>
+                    <h1 id="featured-heading" class="featured-post-title">{{title}}</h1>
+                    <p class="featured-post-excerpt">{{excerpt words="35"}}</p>
+                    <span class="featured-post-cta">Read essay →</span>
+                </a>
+            {{/foreach}}
+        {{/get}}
+
+        <aside class="home-sidebar">
+            <section class="sidebar-block">
+                <h4>{{@custom.blog_section_title}}</h4>
+                <ul class="sidebar-list">
+                    {{!-- Fetch 4, skip the first (which is the featured) using @first inside foreach. --}}
+                    {{#get "posts" limit="4" filter="tag:-hash-project" order="published_at desc" as |sidebar_posts|}}
+                        {{#foreach sidebar_posts}}
+                            {{#unless @first}}
+                                <li>
+                                    <h5><a href="{{url}}">{{title}}</a></h5>
+                                    <div class="meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>{{#if @custom.show_reading_time}} · {{reading_time}}{{/if}}</div>
+                                </li>
+                            {{/unless}}
+                        {{/foreach}}
+                    {{/get}}
+                </ul>
+                <a class="sidebar-more" href="/blog/">All writing →</a>
+            </section>
+
+            {{#if @custom.home_intro_text}}
+                <section class="sidebar-block">
+                    <h4>Now</h4>
+                    <p class="sidebar-now">{{@custom.home_intro_text}}</p>
+                </section>
+            {{/if}}
+        </aside>
+
+    </section>
+
+    {{#get "posts" limit="3" filter="tag:hash-project" order="published_at desc" as |projects|}}
+        {{#if projects}}
+            <div class="section-band">
+                <span class="section-band-label">{{@custom.projects_section_title}}</span>
+                <a class="section-band-more" href="/projects/">All work →</a>
+            </div>
+
+            <div class="project-grid">
+                {{#foreach projects}}
+                    {{> "project-card"}}
+                {{/foreach}}
+            </div>
+        {{/if}}
+    {{/get}}
+
+    {{> "members-cta"}}
+
+</div>

@@ -1,0 +1,11 @@
+{{#if @site.members_enabled}}
+{{#unless @member}}
+<aside class="members-cta">
+    <div class="members-cta-body">
+        <h3 class="members-cta-title">{{@custom.members_cta_title}}</h3>
+        <p class="members-cta-text">{{@custom.members_cta_body}}</p>
+    </div>
+    <a class="members-cta-button" href="#/portal/signup">Subscribe →</a>
+</aside>
+{{/unless}}
+{{/if}}
