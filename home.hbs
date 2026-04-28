@@ -21,21 +21,26 @@
                 {{/foreach}}
 
                 <aside class="home-sidebar">
-                    <section class="sidebar-block">
-                        <h2 class="sidebar-block-heading">{{@custom.blog_section_title}}</h2>
-                        {{#if @custom.blog_section_subtitle}}<p class="sidebar-block-sub">{{@custom.blog_section_subtitle}}</p>{{/if}}
-                        <ul class="sidebar-list">
-                            {{#foreach home_posts}}
-                                {{#unless @first}}
-                                    <li>
-                                        <h3 class="sidebar-list-title"><a href="{{url}}">{{title}}</a></h3>
-                                        <div class="meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>{{#if @custom.show_reading_time}} · {{reading_time}}{{/if}}</div>
-                                    </li>
-                                {{/unless}}
-                            {{/foreach}}
-                        </ul>
-                        <a class="sidebar-more" href="/blog/">All writing →</a>
-                    </section>
+                    {{!-- Only render the recent-writing block if there's at least one
+                         non-featured post (i.e. site has 2+ posts). With exactly 1 post,
+                         the featured slot consumes it; the sidebar list would be empty. --}}
+                    {{#if home_posts.[1]}}
+                        <section class="sidebar-block">
+                            <h2 class="sidebar-block-heading">{{@custom.blog_section_title}}</h2>
+                            {{#if @custom.blog_section_subtitle}}<p class="sidebar-block-sub">{{@custom.blog_section_subtitle}}</p>{{/if}}
+                            <ul class="sidebar-list">
+                                {{#foreach home_posts}}
+                                    {{#unless @first}}
+                                        <li>
+                                            <h3 class="sidebar-list-title"><a href="{{url}}">{{title}}</a></h3>
+                                            <div class="meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>{{#if @custom.show_reading_time}} · {{reading_time}}{{/if}}</div>
+                                        </li>
+                                    {{/unless}}
+                                {{/foreach}}
+                            </ul>
+                            <a class="sidebar-more" href="/blog/">All writing →</a>
+                        </section>
+                    {{/if}}
 
                     {{#if @custom.home_intro_text}}
                         <section class="sidebar-block">

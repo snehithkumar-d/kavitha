@@ -1,0 +1,23 @@
+{{!-- Related posts — pulls 3 posts sharing the current post's primary tag,
+     excluding the current post itself. Renders nothing if the post has no
+     primary tag, or if no other posts share it. --}}
+
+{{#if primary_tag}}
+    {{#get "posts" filter="tags:[{{primary_tag.slug}}]+id:-{{id}}" limit="3" order="published_at desc" as |related|}}
+        {{#if related}}
+            <section class="related-posts" aria-labelledby="related-heading">
+                <h3 id="related-heading" class="related-posts-heading">More on {{primary_tag.name}}</h3>
+                <ul class="related-posts-list">
+                    {{#foreach related}}
+                        <li>
+                            <a href="{{url}}">
+                                <span class="related-posts-title">{{title}}</span>
+                                <span class="related-posts-meta"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>{{#if reading_time}} · {{reading_time}}{{/if}}</span>
+                            </a>
+                        </li>
+                    {{/foreach}}
+                </ul>
+            </section>
+        {{/if}}
+    {{/get}}
+{{/if}}

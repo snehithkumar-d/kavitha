@@ -11,6 +11,11 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    {{!-- Critical font preloads — eliminate FOUT on first paint. Skipped if the
+         user hasn't run `npm run fonts` yet (browser will 404 + fall back gracefully). --}}
+    <link rel="preload" href="{{asset "fonts/Fraunces-Variable.woff2"}}" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="{{asset "fonts/Geist-Variable.woff2"}}" as="font" type="font/woff2" crossorigin />
+
     {{!-- Styles --}}
     <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
 
@@ -60,6 +65,11 @@
 
 </head>
 <body class="{{body_class}}">
+
+    <a class="skip-link" href="#site-main">Skip to content</a>
+
+    {{!-- Reading scroll-progress bar — only animates on post templates via CSS. --}}
+    <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-bar"></div></div>
 
     <div class="site-wrap">
 

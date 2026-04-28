@@ -7,24 +7,48 @@ All notable changes to **kavitha** are documented here. Format follows [Keep a C
 ## [Unreleased]
 
 ### v0.2.0 backlog
-P2 / polish items deferred from the v0.1.x deep review:
+P2 / polish items still pending after v0.1.2:
 
 - **Build pipeline live** — populate `src/css/screen.css` and `src/js/source.js` from current `assets/built/` files, restore `npm ci && npm run build` in CI, gitignore `assets/built/`.
-- **JSON-LD partials wired** — `partials/seo/jsonld-{article,website,person}.hbs` exist but no template includes them; render in post.hbs / default.hbs heads.
 - **Syntax highlighting** — Prism CSS class hooks declared but no JS lib loaded; add Prism or Shiki + `.language-*` highlighting on code blocks.
-- **Related posts** — `partials/related-posts.hbs` planned in directory tree but never authored; add `{{#get "posts" filter="..."}}` block to post.hbs / post-project.hbs.
-- **Copy-to-clipboard** on `<pre>` code blocks (small JS, big DX win).
-- **Reading TOC** on long posts (auto-generate from h2/h3 in post body).
-- **Social share buttons** on post detail (X, LinkedIn, Mastodon, copy-link).
-- **Scroll progress indicator** on post detail (top-of-page bar that fills as you scroll).
+- **Reading TOC** on long posts (auto-generate from h2/h3 in post body) — deferred to v0.3 due to JS scope.
 - **OG image generation** — for posts without a feature image, generate a default OG card via Cloudinary template or static fallback.
-- **Hardcoded routes parameterized** — `/blog/`, `/projects/` literals in home.hbs/error.hbs/post-project.hbs should become a custom setting or routes-aware helper for forks that customize collection paths.
-- **Magic numbers → tokens** — `min-height: 380px` (featured), `rgba(255,255,255,0.18)` (gradient overlay), `aspect-ratio: 16/10` (post-card image), luminance threshold `0.55` (bootstrap).
-- **`<link rel="preload">`** for the two critical-path woff2 files in default.hbs head, for faster first paint.
-- **Print styles use tokens** instead of raw `#fff` / `#000`.
-- **44px touch targets** on `.site-search` and `.theme-toggle` (currently 32px; below WCAG AAA recommendation).
+- **Hardcoded routes parameterized** — `/blog/`, `/projects/` literals in home.hbs/error.hbs/post-project.hbs should become a custom setting. Blocked: would push us over Ghost's 20-setting cap; needs a setting cut first.
 - **Skip-to-content link** at body start.
 - **Ghost Custom Fonts UI** — verify `--gh-font-heading` / `--gh-font-body` flow end-to-end in admin Design → Customize → Fonts.
+
+---
+
+## [0.1.2] — 2026-04-28
+
+Polish + features pass following the deep-review punch list. No breaking changes. gscan: still zero errors, zero warnings.
+
+### Added
+- **Related posts** — new `partials/related-posts.hbs` pulls 3 posts sharing the current post's `primary_tag` (excluding self) via `{{#get}}`. Included in `post.hbs` and `post-project.hbs`.
+- **Social share buttons** — new `partials/share-buttons.hbs` with X/LinkedIn share + copy-link button (wired to `data-share-copy` in `source.js`).
+- **Copy-to-clipboard on code blocks** — `source.js` auto-injects a "Copy" button into every `.post-body pre`. `navigator.clipboard` with graceful fallback.
+- **Reading scroll-progress bar** — top-of-page bar on post templates. Uses CSS `animation-timeline: scroll()` where supported; rAF JS fallback elsewhere. Marked up in `default.hbs`, only animates on `.post-template` and `.page-template-post-project` body classes.
+- **Skip-to-content link** — first body element in `default.hbs`, hidden until keyboard focus. Improves keyboard navigation.
+- **Font preloads** — `<link rel="preload" as="font">` for both Fraunces-Variable and Geist-Variable woff2 files in `default.hbs` head; eliminates FOUT on first paint when fonts are present.
+- **All 9 Lexical callout color variants** styled (grey, white, blue, green, yellow, red, pink, purple, accent). Uses `color-mix()` against `--surface` so they work in both light and dark modes.
+
+### Improved
+- **Post-card srcset hint** corrected to match actual rendered size (200px desktop / 33vw tablet / 100vw mobile, not the stale 380px hint). Added explicit `width`/`height` attrs to reduce CLS.
+- **Page-about portrait** now serves `xs`/`s` size variants for the 280px display, instead of wasting bandwidth on `m` (720w) for a 280px slot.
+- **Single-post sidebar** — when the site has exactly 1 post, the sidebar's "Recent writing" block (which would have been empty + an orphaned "All writing" CTA) is now hidden entirely. The "Now" block still renders.
+- **Touch targets** bumped from 32px to 40px (`--touch-target` token) for `.site-search` and `.theme-toggle`. Same token reused for share-button min-width.
+- **Print styles** now override design tokens at `:root` instead of leaking raw `#fff`/`#000` throughout the print block. Adds the new v0.1.2 chrome (skip-link, scroll-progress, share buttons, code-copy) to the `display: none` list.
+
+### Refactored
+- **Magic numbers → tokens** — added `--featured-min-h` (380px), `--card-image-ratio` (16/10), `--overlay-light-soft` (rgba), `--overlay-dark-soft` (rgba), `--touch-target` (40px). All literal usages migrated.
+
+### Removed
+- **Empty `partials/seo/` and `partials/icons/` directories** — they were placeholders never populated. Verified Ghost's `{{ghost_head}}` already auto-injects JSON-LD `Article`/`Person`/`Website` schemas (matching how Casper and Source themes work), so manual JSON-LD partials would duplicate.
+
+### Deferred to v0.2 / v0.3
+- **Reading TOC** on long posts — JS scope (heading walk + IntersectionObserver + responsive sidebar) too heavy for this pass.
+- **Hardcoded route parameterization** (`blog_url`, `projects_url` settings) — would push to 21 custom settings, over Ghost's 20-setting cap.
+- **Conditional search button hide** — Ghost doesn't expose a `@site.search_enabled` flag; `data-ghost-search` is harmlessly inert when search is disabled.
 
 ---
 

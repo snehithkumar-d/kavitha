@@ -20,13 +20,14 @@
         {{#if @page.show_title_and_feature_image}}
             {{#if feature_image}}
                 <figure class="page-about-portrait">
-                    <img src="{{img_url feature_image size="m"}}"
-                         srcset="{{img_url feature_image size="s"}} 480w,
-                                 {{img_url feature_image size="m"}} 720w"
+                    <img src="{{img_url feature_image size="s"}}"
+                         srcset="{{img_url feature_image size="xs"}} 160w,
+                                 {{img_url feature_image size="s"}} 480w"
                          sizes="(min-width: 720px) 280px, 60vw"
                          alt="{{feature_image_alt}}"
                          loading="eager"
-                         decoding="async" />
+                         decoding="async"
+                         width="280" height="280" />
                 </figure>
             {{/if}}
         {{/if}}

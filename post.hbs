@@ -59,9 +59,14 @@
 </article>
 
 <div class="container container-narrow">
+
+    {{> "share-buttons"}}
+
     {{#unless access}}
         {{> "members-cta"}}
     {{/unless}}
+
+    {{> "related-posts"}}
 
     {{#if comments_enabled}}
         <section class="post-comments" id="comments">

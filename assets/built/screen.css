@@ -69,6 +69,13 @@
     --kavitha-body-font: var(--gh-font-body, var(--font-serif));
     --kavitha-heading-font: var(--gh-font-heading, var(--kavitha-body-font));
 
+    /* Tunable design tokens (formerly magic numbers) */
+    --featured-min-h: 380px;
+    --card-image-ratio: 16 / 10;
+    --overlay-light-soft: rgba(255, 255, 255, 0.18);
+    --overlay-dark-soft: rgba(0, 0, 0, 0.18);
+    --touch-target: 40px;
+
     /* Widths */
     --content-w: 720px;     /* prose */
     --wide-w:    1100px;    /* indices, home, projects */
@@ -336,7 +343,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 }
 .site-search, .theme-toggle {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 32px; height: 32px;
+    width: var(--touch-target); height: var(--touch-target);
     color: var(--muted);
     border-radius: var(--radius-s);
     transition: color var(--transition-fast), background var(--transition-fast);
@@ -413,9 +420,9 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .featured-post {
     background: linear-gradient(135deg, color-mix(in oklab, #0a0b0d 80%, var(--accent)) 0%, var(--accent) 100%);
     color: var(--accent-text);
+    min-height: var(--featured-min-h);
     padding: var(--s-7) var(--s-6);
     border-radius: var(--radius-m);
-    min-height: 380px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -427,7 +434,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .featured-post:hover { transform: translateY(-2px); }
 .featured-post::before {
     content: ''; position: absolute; inset: 0;
-    background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.18), transparent 50%);
+    background: radial-gradient(circle at 80% 20%, var(--overlay-light-soft), transparent 50%);
     pointer-events: none;
 }
 .featured-post > * { position: relative; }
@@ -669,7 +676,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     align-items: start;
 }
 .post-card-image { display: block; }
-.post-card-image img { border-radius: var(--radius-s); aspect-ratio: 16 / 10; object-fit: cover; }
+.post-card-image img { border-radius: var(--radius-s); aspect-ratio: var(--card-image-ratio); object-fit: cover; }
 .post-card-meta {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
@@ -1181,8 +1188,19 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 }
 .kg-callout-emoji { font-size: var(--fs-l); line-height: 1.4; flex-shrink: 0; }
 .kg-callout-text { font-family: var(--font-sans); font-size: var(--fs-m); margin: 0; }
-.kg-callout-card-grey { background: var(--surface); border-left-color: var(--muted); }
-.kg-callout-card-blue, .kg-callout-card-green, .kg-callout-card-yellow, .kg-callout-card-red, .kg-callout-card-pink, .kg-callout-card-purple, .kg-callout-card-accent { /* keep variants minimal — accent base is the strongest */ }
+/* Callout color variants. Base background is muted-tinted with the variant
+   color; left-rail is the variant color full strength. Works in both light
+   and dark mode because we use color-mix() against --surface (which itself
+   theme-swaps). */
+.kg-callout-card-grey   { background: var(--surface); border-left-color: var(--muted); }
+.kg-callout-card-white  { background: var(--bg);     border-left-color: var(--line-bold); }
+.kg-callout-card-blue   { background: color-mix(in oklab, #3b82f6 12%, var(--surface)); border-left-color: #3b82f6; }
+.kg-callout-card-green  { background: color-mix(in oklab, #16a34a 12%, var(--surface)); border-left-color: #16a34a; }
+.kg-callout-card-yellow { background: color-mix(in oklab, #d97706 12%, var(--surface)); border-left-color: #d97706; }
+.kg-callout-card-red    { background: color-mix(in oklab, #dc2626 12%, var(--surface)); border-left-color: #dc2626; }
+.kg-callout-card-pink   { background: color-mix(in oklab, #db2777 12%, var(--surface)); border-left-color: #db2777; }
+.kg-callout-card-purple { background: color-mix(in oklab, #9333ea 12%, var(--surface)); border-left-color: #9333ea; }
+.kg-callout-card-accent { background: var(--accent-soft); border-left-color: var(--accent); }
 
 /* Toggle */
 .kg-toggle-card { border: 1px solid var(--line); border-radius: var(--radius-m); padding: var(--s-4) var(--s-5); }
@@ -1347,8 +1365,207 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
    ----------------------------------------------------------------------- */
 
 @media print {
-    .site-header, .site-footer, .post-prev-next, .members-cta, .post-comments, .pagination, .theme-toggle, .site-search, .site-members-link { display: none !important; }
-    body { background: #fff; color: #000; }
+    /* Force light tokens — print is always paper. Centralizes the override
+       instead of leaking raw #fff/#000 throughout the print block. */
+    :root {
+        --bg: #ffffff;
+        --ink: #000000;
+        --muted: #444444;
+        --line: #cccccc;
+        --line-bold: #000000;
+        --surface: #f5f5f5;
+        --accent-text: #000000;
+    }
+    .site-header, .site-footer, .post-prev-next, .members-cta, .post-comments,
+    .pagination, .theme-toggle, .site-search, .site-members-link,
+    .scroll-progress, .skip-link, .share-buttons, .code-copy { display: none !important; }
+    body { background: var(--bg); color: var(--ink); }
     .post-body { font-size: 11pt; line-height: 1.5; }
-    a { color: #000; text-decoration: underline; }
+    a { color: var(--ink); text-decoration: underline; }
 }
+
+
+/* -------------------------------------------------------------------------
+   22. SKIP LINK + SCROLL PROGRESS + COMPONENTS ADDED IN v0.1.2
+   ----------------------------------------------------------------------- */
+
+/* Skip-to-content link — visible only on keyboard focus */
+.skip-link {
+    position: absolute;
+    top: 0; left: 0;
+    transform: translateY(-110%);
+    z-index: 1000;
+    padding: var(--s-3) var(--s-5);
+    background: var(--ink);
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Scroll progress bar — only visible on post templates. CSS scroll-timeline
+   where supported; source.js JS fallback elsewhere. */
+.scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 100;
+    pointer-events: none;
+    background: transparent;
+    display: none;
+}
+.post-template .scroll-progress,
+.page-template-post-project .scroll-progress { display: block; }
+.scroll-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.05s linear;
+}
+@supports (animation-timeline: scroll()) {
+    .post-template .scroll-progress-bar,
+    .page-template-post-project .scroll-progress-bar {
+        width: 100%;
+        transform-origin: 0 50%;
+        animation: scroll-grow linear forwards;
+        animation-timeline: scroll(root);
+        transition: none;
+    }
+    @keyframes scroll-grow {
+        from { transform: scaleX(0); }
+        to   { transform: scaleX(1); }
+    }
+}
+
+/* Related posts */
+.related-posts {
+    margin: var(--s-8) 0;
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--line);
+}
+.related-posts-heading {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--s-4);
+    font-weight: 500;
+}
+.related-posts-list {
+    list-style: none; padding: 0; margin: 0;
+    display: grid;
+    gap: var(--s-3);
+}
+.related-posts-list li { margin: 0; }
+.related-posts-list a {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    padding: var(--s-3) 0;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+}
+.related-posts-list a:last-child { border-bottom: none; }
+.related-posts-title {
+    font-family: var(--font-serif);
+    font-variation-settings: 'opsz' 60, 'wght' 500;
+    font-size: var(--fs-l);
+    color: var(--ink);
+    line-height: 1.25;
+}
+.related-posts-list a:hover .related-posts-title {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+}
+.related-posts-meta {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    letter-spacing: 0.02em;
+}
+
+/* Share buttons */
+.share-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    margin: var(--s-7) 0;
+    padding: var(--s-4) 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+}
+.share-buttons-label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: var(--s-2);
+}
+.share-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-2);
+    min-width: var(--touch-target);
+    height: var(--touch-target);
+    padding: 0 var(--s-3);
+    border-radius: var(--radius-s);
+    background: var(--surface);
+    color: var(--muted);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: color var(--transition-fast), background var(--transition-fast);
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+.share-button:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+.share-button svg { flex-shrink: 0; }
+.share-button-status { font-family: var(--font-mono); font-size: var(--fs-xs); }
+.sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0, 0, 0, 0); white-space: nowrap;
+    border: 0;
+}
+
+/* Code copy button — auto-injected by source.js into .post-body pre */
+.post-body pre { position: relative; }
+.code-copy {
+    position: absolute;
+    top: var(--s-3);
+    right: var(--s-3);
+    padding: var(--s-1) var(--s-3);
+    background: var(--bg);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+.post-body pre:hover .code-copy,
+.code-copy:focus-visible { opacity: 1; }
+.code-copy:hover { color: var(--accent); border-color: var(--accent); }

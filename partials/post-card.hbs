@@ -1,14 +1,15 @@
 <article class="post-card{{#if feature_image}} has-image{{/if}}">
     {{#if feature_image}}
         <a class="post-card-image" href="{{url}}" aria-hidden="true" tabindex="-1">
-            <img src="{{img_url feature_image size="m"}}"
-                 srcset="{{img_url feature_image size="s"}} 480w,
-                         {{img_url feature_image size="m"}} 720w,
-                         {{img_url feature_image size="l"}} 960w"
-                 sizes="(min-width: 720px) 380px, 100vw"
+            <img src="{{img_url feature_image size="s"}}"
+                 srcset="{{img_url feature_image size="xs"}} 160w,
+                         {{img_url feature_image size="s"}} 480w,
+                         {{img_url feature_image size="m"}} 720w"
+                 sizes="(min-width: 901px) 200px, (min-width: 641px) 33vw, 100vw"
                  alt="{{feature_image_alt}}"
                  loading="lazy"
-                 decoding="async" />
+                 decoding="async"
+                 width="200" height="125" />
         </a>
     {{/if}}
 

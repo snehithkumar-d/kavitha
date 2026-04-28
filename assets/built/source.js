@@ -92,4 +92,83 @@
         }
     });
 
+
+    /* ---------------------------------------------------------------------
+       Copy-to-clipboard on code blocks (.post-body pre)
+       --------------------------------------------------------------------- */
+
+    document.querySelectorAll('.post-body pre').forEach(function (pre) {
+        if (pre.querySelector('.code-copy')) return;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'code-copy';
+        btn.setAttribute('aria-label', 'Copy code to clipboard');
+        btn.textContent = 'Copy';
+        pre.appendChild(btn);
+        btn.addEventListener('click', function () {
+            var code = pre.querySelector('code') || pre;
+            var text = code.innerText;
+            var done = function (ok) {
+                btn.textContent = ok ? 'Copied' : 'Failed';
+                setTimeout(function () { btn.textContent = 'Copy'; }, 1800);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+            } else {
+                done(false);
+            }
+        });
+    });
+
+
+    /* ---------------------------------------------------------------------
+       Share-link copy button (data-share-copy in partials/share-buttons.hbs)
+       --------------------------------------------------------------------- */
+
+    document.querySelectorAll('[data-share-copy]').forEach(function (btn) {
+        var status = btn.querySelector('[data-share-status]');
+        var url = btn.getAttribute('data-url') || window.location.href;
+        btn.addEventListener('click', function () {
+            var done = function (ok) {
+                if (status) status.textContent = ok ? 'Copied' : 'Failed';
+                setTimeout(function () { if (status) status.textContent = 'Copy link'; }, 1800);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
+            } else {
+                done(false);
+            }
+        });
+    });
+
+
+    /* ---------------------------------------------------------------------
+       Scroll progress bar — only animates on post templates.
+       Uses CSS scroll-timeline where supported (browsers w/ animation-timeline:
+       scroll()). Falls back to this rAF listener everywhere else.
+       --------------------------------------------------------------------- */
+
+    var bar = document.querySelector('.scroll-progress-bar');
+    var isPost = document.body.classList.contains('post-template') ||
+                 document.body.classList.contains('page-template-post-project');
+    if (bar && isPost) {
+        // Feature-detect CSS scroll-timeline. If supported, screen.css drives the
+        // animation and we skip the JS path.
+        var supportsScrollTimeline = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('animation-timeline: scroll()');
+        if (!supportsScrollTimeline) {
+            var ticking = false;
+            var update = function () {
+                var h = document.documentElement;
+                var max = h.scrollHeight - h.clientHeight;
+                var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+                bar.style.width = pct + '%';
+                ticking = false;
+            };
+            window.addEventListener('scroll', function () {
+                if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+            }, { passive: true });
+            update();
+        }
+    }
+
 })();
