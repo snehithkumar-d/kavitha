@@ -85,26 +85,35 @@ Projects and blog posts are both Ghost posts but live in separate collections. W
 | Setting | Type | Default | What it does |
 |---|---|---|---|
 | Color scheme default | select | Auto | Auto follows OS; Light/Dark forces. Manual toggle in nav still wins. |
-| Accent text color | select | Auto | Force readable text on top of accent backgrounds (Auto computes from luminance). |
 | Body font | select | Serif | Fraunces (Serif) / Geist (Sans-serif) / Geist Mono. |
 | Show author byline | boolean | true | Author chip on post detail. |
-| Show reading time | boolean | true | "5 min read" on byline + cards. |
 | Show feature image on post | boolean | true | Hero image on post detail. |
 | Post image style | select | Wide | Full-width / Wide / Inline. |
-| Home intro text | text | "Personal site — code, writing, and projects." | Sidebar "Now" block on home page. |
-| Blog section title | text | "Recent writing" | Sidebar / blog index header. |
-| Blog section subtitle | text | "All writing, in reverse-chronological order." | Subhead under the section title. |
+| Blog section title | text | "Recent writing" | Section band on home + writing index header. |
 | Projects section title | text | "Selected projects" | Section band on home + projects index header. |
-| Projects section subtitle | text | "Things I've built and shipped." | Subhead on projects index. |
 | Members CTA title | text | "Subscribe for new posts" | Heading inside the subscribe block. |
 | Members CTA body | text | "Get new writing in your inbox. No spam, unsubscribe anytime." | Body copy inside the subscribe block. |
-| Footer signature | text | "" | Optional line in footer (e.g. "Made in San Francisco"). |
-| Show theme credit | boolean | true | "built with kavitha" link in footer (disable to remove attribution). |
+| Terminal handle | text | "" | Breadcrumb on home: `~ /home/{handle}`. Empty falls back to site title. |
+| **Show hero card** | boolean | false | Wrap home hero (name + bio) in a teal accent card. Off = plain terminal text. |
+| **Now (status)** | text | "" | Status sidebar — what you're working on now. Sidebar hides if empty. |
+| **Based (status)** | text | "" | Status sidebar — where you're based. Hides row if empty. |
+| **Writing (status)** | text | "" | Status sidebar — writing cadence. Hides row if empty. |
+| **Reading (status)** | text | "" | Status sidebar — current read. Hides row if empty. |
+| Show theme credit | boolean | true | "built with kavitha" link in footer (disable to remove). |
 | GitHub URL | text | "" | Footer social link. |
 | Twitter / X URL | text | "" | Footer social link. |
 | LinkedIn URL | text | "" | Footer social link. |
 
-Heading-font choice, nav layout, dark/light comments toggle, and other v0.x ideas were trimmed to stay under Ghost's 20-setting limit. They'll come back in v0.2 if the limit is raised, or via Ghost's Custom Fonts feature (`--gh-font-heading` / `--gh-font-body`).
+Trimmed to stay under Ghost's 20-cap: `accent_text_color` (now auto-only via JS luminance), `show_reading_time` (always shown), `blog_section_subtitle` / `projects_section_subtitle` (just use the title), `footer_signature` (rare). They'll come back if Ghost raises the limit or v0.2 cuts something else.
+
+### Home layout
+
+The home page is an asymmetric 2-column grid:
+
+- **Left (1.6fr)**: Hero — `~ /home/{handle}` breadcrumb + site title (h1) + bio. Toggle **Show hero card** wraps this in a teal accent card.
+- **Right (1fr)**: Status sidebar — Now / Based / Writing / Reading rows. Each row hides when its setting is empty. The whole sidebar hides if `Now` is empty.
+
+Below the hero: terminal-style recent-writing list, then the 2-up project grid, then the members CTA.
 
 ---
 

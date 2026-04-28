@@ -16,7 +16,7 @@
     <div class="post-card-body">
         <div class="post-card-meta">
             <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>
-            {{#if @custom.show_reading_time}}<span class="dot">·</span><span>{{reading_time}}</span>{{/if}}
+            <span class="dot">·</span><span>{{reading_time}}</span>
             {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}}<span class="dot">·</span><a class="post-card-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>{{/unless}}{{/if}}
         </div>
 

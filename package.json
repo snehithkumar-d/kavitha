@@ -46,22 +46,12 @@
         "options": ["Auto", "Light", "Dark"],
         "default": "Auto"
       },
-      "accent_text_color": {
-        "type": "select",
-        "options": ["Auto", "Light", "Dark"],
-        "default": "Auto",
-        "description": "Force the readable text color used on top of accent backgrounds."
-      },
       "body_font": {
         "type": "select",
         "options": ["Serif", "Sans-serif", "Mono"],
         "default": "Serif"
       },
       "show_author_byline": {
-        "type": "boolean",
-        "default": true
-      },
-      "show_reading_time": {
         "type": "boolean",
         "default": true
       },
@@ -78,17 +68,9 @@
         "type": "text",
         "default": "Recent writing"
       },
-      "blog_section_subtitle": {
-        "type": "text",
-        "default": "All writing, in reverse-chronological order."
-      },
       "projects_section_title": {
         "type": "text",
         "default": "Selected projects"
-      },
-      "projects_section_subtitle": {
-        "type": "text",
-        "default": "Things I've built and shipped."
       },
       "members_cta_title": {
         "type": "text",
@@ -98,19 +80,40 @@
         "type": "text",
         "default": "Get new writing in your inbox. No spam, unsubscribe anytime."
       },
-      "footer_signature": {
-        "type": "text",
-        "default": ""
-      },
       "terminal_handle": {
         "type": "text",
         "default": "",
-        "description": "Terminal breadcrumb on home (e.g. 'snehith' → ~ /home/snehith). Empty to hide."
+        "description": "Terminal breadcrumb on home (e.g. 'snehith' → ~ /home/snehith). Empty falls back to site title."
+      },
+      "show_hero_card": {
+        "type": "boolean",
+        "default": false,
+        "description": "Wrap the homepage hero (name + bio) in a teal accent card. Off = plain terminal text."
+      },
+      "now_text": {
+        "type": "text",
+        "default": "",
+        "description": "Status sidebar — what you're working on now (e.g. 'Building Claveflux'). Empty to hide row."
+      },
+      "based_text": {
+        "type": "text",
+        "default": "",
+        "description": "Status sidebar — where you're based (e.g. 'Bay Area'). Empty to hide row."
+      },
+      "writing_text": {
+        "type": "text",
+        "default": "",
+        "description": "Status sidebar — writing cadence (e.g. 'Weekly-ish'). Empty to hide row."
+      },
+      "reading_text": {
+        "type": "text",
+        "default": "",
+        "description": "Status sidebar — current read (e.g. 'Annie Dillard'). Empty to hide row."
       },
       "show_theme_credit": {
         "type": "boolean",
         "default": true,
-        "description": "Show the 'built with kavitha' credit link in the footer. Disable to remove attribution."
+        "description": "Show 'built with kavitha' credit in footer."
       },
       "github_url": {
         "type": "text",

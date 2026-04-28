@@ -2,13 +2,34 @@
 
 <div class="container">
 
-    <header class="site-hero">
-        <div class="site-hero-prompt">~ /home/{{#if @custom.terminal_handle}}{{@custom.terminal_handle}}{{else}}{{@site.title}}{{/if}}</div>
-        <h1 class="site-hero-title">{{@site.title}}</h1>
-        {{#if @site.description}}
-            <p class="site-hero-bio">{{@site.description}}</p>
-        {{/if}}
-    </header>
+    <section class="site-hero" data-hero-card="{{#if @custom.show_hero_card}}true{{else}}false{{/if}}">
+        <div class="site-hero-grid">
+
+            {{!-- LEFT: hero (plain terminal text OR teal accent card, per @custom.show_hero_card) --}}
+            <div class="site-hero-main">
+                <div class="site-hero-prompt">~ /home/{{#if @custom.terminal_handle}}{{@custom.terminal_handle}}{{else}}{{@site.title}}{{/if}}</div>
+                <h1 class="site-hero-title">{{@site.title}}</h1>
+                {{#if @site.description}}
+                    <p class="site-hero-bio">{{@site.description}}</p>
+                {{/if}}
+            </div>
+
+            {{!-- RIGHT: status sidebar — admin-editable. Sidebar hides entirely
+                 if @custom.now_text is empty (Now is the "lead" indicator). --}}
+            {{#if @custom.now_text}}
+                <aside class="site-hero-status">
+                    <h2 class="status-heading">status</h2>
+                    <dl class="status-list">
+                        <div class="status-row"><dt>Now</dt><dd>{{@custom.now_text}}</dd></div>
+                        {{#if @custom.based_text}}<div class="status-row"><dt>Based</dt><dd>{{@custom.based_text}}</dd></div>{{/if}}
+                        {{#if @custom.writing_text}}<div class="status-row"><dt>Writing</dt><dd>{{@custom.writing_text}}</dd></div>{{/if}}
+                        {{#if @custom.reading_text}}<div class="status-row"><dt>Reading</dt><dd>{{@custom.reading_text}}</dd></div>{{/if}}
+                    </dl>
+                </aside>
+            {{/if}}
+
+        </div>
+    </section>
 
     {{#get "posts" limit="5" filter="tag:-hash-project" order="published_at desc" as |home_posts|}}
         {{#if home_posts}}

@@ -375,10 +375,94 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
    7. HOME (Direction B terminal hero + magazine spread elements)
    ----------------------------------------------------------------------- */
 
-/* Terminal-style hero — replaces the magazine featured-post block */
+/* Terminal-style hero — asymmetric grid: hero (1.6fr) + status sidebar (1fr).
+   Toggle data-hero-card="true" wraps the hero text in a teal accent card. */
 .site-hero {
     padding: var(--s-7) 0 var(--s-8);
+}
+.site-hero-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: var(--s-7);
+    align-items: start;
+}
+.site-hero-main {
     max-width: 760px;
+}
+
+/* Card variant — wraps hero in a teal-gradient block (Preview D style) */
+.site-hero[data-hero-card="true"] .site-hero-main {
+    max-width: none;
+    background: linear-gradient(135deg, color-mix(in oklab, #0a0b0d 80%, var(--accent)) 0%, var(--accent) 100%);
+    color: var(--accent-text);
+    padding: var(--s-7);
+    border-radius: var(--radius-m);
+    position: relative;
+    overflow: hidden;
+}
+.site-hero[data-hero-card="true"] .site-hero-main::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 80% 20%, var(--overlay-light-soft), transparent 50%);
+    pointer-events: none;
+}
+.site-hero[data-hero-card="true"] .site-hero-main > * { position: relative; }
+.site-hero[data-hero-card="true"] .site-hero-prompt {
+    color: rgba(255, 255, 255, 0.75);
+}
+.site-hero[data-hero-card="true"] .site-hero-title {
+    color: var(--accent-text);
+}
+.site-hero[data-hero-card="true"] .site-hero-bio {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+/* Status sidebar — admin-editable Now/Based/Writing/Reading rows */
+.site-hero-status {
+    padding-top: var(--s-2);
+    font-family: var(--font-mono);
+}
+.status-heading {
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    letter-spacing: 0;
+    text-transform: lowercase;
+    margin: 0 0 var(--s-4);
+    font-weight: 500;
+}
+.status-heading::before {
+    content: '$ ';
+    color: var(--accent);
+}
+.status-list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+}
+.status-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: var(--s-2);
+    font-size: var(--fs-s);
+    line-height: 1.45;
+    align-items: baseline;
+}
+.status-row dt {
+    margin: 0;
+    font-weight: 600;
+    color: var(--ink);
+}
+.status-row dd {
+    margin: 0;
+    color: var(--muted);
+    position: relative;
+}
+.status-row dd::before {
+    content: '· ';
+    color: var(--muted);
+    opacity: 0.5;
+    margin-right: 2px;
 }
 .site-hero-prompt,
 .page-breadcrumb {
@@ -1431,6 +1515,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 
 /* Tablet landscape — 900px+ uses full magazine layout, 768-900 needs 2-up project grid */
 @media (max-width: 900px) {
+    .site-hero-grid { grid-template-columns: 1fr; gap: var(--s-6); }
     .home-hero { grid-template-columns: 1fr; }
     .featured-post { min-height: 280px; padding: var(--s-6) var(--s-5); }
     .featured-post-title { font-size: var(--fs-3xl); }

@@ -46,8 +46,7 @@
                     doc.setAttribute('data-theme', resolved);
                 }
 
-                {{!-- Accent text color clamp: read user override OR derive from accent luminance --}}
-                var accentTextOverride = {{#match @custom.accent_text_color "Light"}}'light'{{else match @custom.accent_text_color "Dark"}}'dark'{{else}}null{{/match}};
+                {{!-- Accent text color: derive from accent luminance (auto-only) --}}
                 var accent = getComputedStyle(doc).getPropertyValue('--ghost-accent-color').trim() || '{{@site.accent_color}}';
                 if (accent && accent.charAt(0) === '#') {
                     var hex = accent.length === 4
@@ -57,9 +56,7 @@
                     var g = parseInt(hex.substr(3, 2), 16);
                     var b = parseInt(hex.substr(5, 2), 16);
                     var lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-                    var derived = lum > 0.55 ? 'dark' : 'light';
-                    var picked = accentTextOverride || derived;
-                    doc.style.setProperty('--accent-text', picked === 'light' ? '#ffffff' : '#0a0b0d');
+                    doc.style.setProperty('--accent-text', lum > 0.55 ? '#0a0b0d' : '#ffffff');
                 }
             } catch (e) { /* localStorage may be unavailable; fall through to defaults */ }
         })();
