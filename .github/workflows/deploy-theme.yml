@@ -1,10 +1,14 @@
 name: Deploy theme
 
-# Manual trigger + tag push only. NOT every commit to main — that's how
-# you publish broken themes by accident. (See loophole #25 in PLAN.)
+# Triggers (in order of preference):
+#   workflow_dispatch — manual button in Actions tab
+#   push to main      — auto-deploys every commit. gscan in this workflow
+#                       remains the safety floor; broken themes don't ship.
+#   push tag v*       — explicit release path (also fires release.yml zip)
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     tags: ['v*']
 
 jobs:
