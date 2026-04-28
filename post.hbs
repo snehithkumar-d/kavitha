@@ -6,6 +6,8 @@
 
     <header class="post-header">
         <div class="container container-narrow">
+            <div class="page-breadcrumb">~ /writing/{{slug}}</div>
+
             {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}}
                 <a class="post-header-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>
             {{/unless}}{{/if}}

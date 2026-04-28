@@ -409,12 +409,19 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     padding: var(--s-7) 0 var(--s-8);
     max-width: 760px;
 }
-.site-hero-prompt {
+.site-hero-prompt,
+.page-breadcrumb {
     font-family: var(--font-mono);
     font-size: var(--fs-s);
     color: var(--accent);
-    margin-bottom: var(--s-4);
+    margin: 0 0 var(--s-4);
     letter-spacing: 0;
+    line-height: 1.4;
+}
+.page-breadcrumb {
+    display: block;
+    margin-top: var(--s-4);
+    font-size: var(--fs-xs);
 }
 .site-hero-title {
     font-family: var(--font-serif);
