@@ -225,7 +225,15 @@
 
     /* ---------------------------------------------------------------------
        Mermaid diagrams — lazy import only when at least one block exists.
-       Theme-aware: re-renders when the user toggles dark/light.
+       - Theme-aware: re-renders when the user toggles dark/light.
+       - Generation guard: rapid theme toggles can fire overlapping renders;
+         each render bumps a counter so stale resolves are dropped (the
+         host's data-gen attribute is the latest committed generation).
+       - bindFunctions: invoked after innerHTML so clickable / linkable
+         diagram nodes work.
+       - Pan + zoom controls: a small toolbar overlays each rendered SVG
+         with — / + / reset / fullscreen. Pure CSS transform; no extra
+         lib. Each diagram tracks its own scale + translate locally.
        --------------------------------------------------------------------- */
 
     function currentMermaidTheme() {
@@ -234,21 +242,90 @@
 
     var mermaidLib = null;
     var mermaidNodes = [];
+    var mermaidRenderGen = 0;
+
+    function attachPanZoom(host) {
+        var stage = host.querySelector('.mermaid-stage');
+        if (!stage) return;
+        var state = { scale: 1, x: 0, y: 0 };
+        var apply = function () {
+            stage.style.transform = 'translate(' + state.x + 'px, ' + state.y + 'px) scale(' + state.scale + ')';
+        };
+        host.querySelectorAll('[data-mermaid-action]').forEach(function (b) {
+            b.addEventListener('click', function (e) {
+                e.preventDefault();
+                var action = b.getAttribute('data-mermaid-action');
+                if (action === 'in')      state.scale = Math.min(state.scale * 1.25, 6);
+                else if (action === 'out')  state.scale = Math.max(state.scale / 1.25, 0.4);
+                else if (action === 'reset') { state.scale = 1; state.x = 0; state.y = 0; }
+                else if (action === 'full') {
+                    if (!document.fullscreenElement) {
+                        if (host.requestFullscreen) host.requestFullscreen();
+                    } else if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+                apply();
+            });
+        });
+
+        // Drag to pan
+        var dragging = false, lastX = 0, lastY = 0;
+        stage.addEventListener('pointerdown', function (e) {
+            dragging = true; lastX = e.clientX; lastY = e.clientY;
+            stage.setPointerCapture(e.pointerId);
+            stage.style.cursor = 'grabbing';
+        });
+        stage.addEventListener('pointermove', function (e) {
+            if (!dragging) return;
+            state.x += e.clientX - lastX;
+            state.y += e.clientY - lastY;
+            lastX = e.clientX; lastY = e.clientY;
+            apply();
+        });
+        stage.addEventListener('pointerup', function () {
+            dragging = false; stage.style.cursor = 'grab';
+        });
+
+        // Wheel to zoom (Cmd/Ctrl + wheel only — never hijack page scroll)
+        host.addEventListener('wheel', function (e) {
+            if (!e.ctrlKey && !e.metaKey) return;
+            e.preventDefault();
+            var delta = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+            state.scale = Math.max(0.4, Math.min(6, state.scale * delta));
+            apply();
+        }, { passive: false });
+    }
 
     function renderMermaid(lib, theme) {
+        var gen = ++mermaidRenderGen;
         lib.initialize({ startOnLoad: false, theme: theme, securityLevel: 'strict', fontFamily: 'inherit' });
         mermaidNodes.forEach(function (entry, idx) {
-            var id = 'kavitha-mermaid-' + idx + '-' + Date.now();
+            var id = 'kavitha-mermaid-' + idx + '-' + gen;
             lib.render(id, entry.source).then(function (result) {
-                entry.host.innerHTML = result.svg;
+                if (gen !== mermaidRenderGen) return; // stale; a newer render is in flight
+                entry.host.innerHTML =
+                    '<div class="mermaid-toolbar" role="group" aria-label="Diagram controls">' +
+                        '<button type="button" data-mermaid-action="out" aria-label="Zoom out">−</button>' +
+                        '<button type="button" data-mermaid-action="reset" aria-label="Reset view">⟲</button>' +
+                        '<button type="button" data-mermaid-action="in" aria-label="Zoom in">+</button>' +
+                        '<button type="button" data-mermaid-action="full" aria-label="Toggle fullscreen">⛶</button>' +
+                    '</div>' +
+                    '<div class="mermaid-stage">' + result.svg + '</div>';
+                if (typeof result.bindFunctions === 'function') {
+                    var stage = entry.host.querySelector('.mermaid-stage');
+                    if (stage) result.bindFunctions(stage);
+                }
+                attachPanZoom(entry.host);
             }).catch(function (err) {
+                if (gen !== mermaidRenderGen) return;
                 entry.host.innerHTML = '';
-                var fallback = document.createElement('pre');
-                fallback.className = 'mermaid-error';
-                fallback.textContent = entry.source;
                 var caption = document.createElement('span');
                 caption.className = 'mermaid-error-caption';
                 caption.textContent = 'Diagram failed to parse: ' + (err && err.message ? err.message : 'unknown error');
+                var fallback = document.createElement('pre');
+                fallback.className = 'mermaid-error';
+                fallback.textContent = entry.source;
                 entry.host.appendChild(caption);
                 entry.host.appendChild(fallback);
             });

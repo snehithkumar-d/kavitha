@@ -1703,10 +1703,11 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     }
     .site-header, .site-footer, .post-prev-next, .members-cta, .post-comments,
     .pagination, .theme-toggle, .site-search, .site-members-link,
-    .scroll-progress, .skip-link, .share-buttons, .code-copy { display: none !important; }
+    .scroll-progress, .skip-link, .share-buttons, .code-copy, .mermaid-toolbar { display: none !important; }
     .post-body pre[data-lang]::before { display: none; }
     .post-body pre { background: #f4f4f4; color: #111; border: 1px solid #ddd; }
     .mermaid-diagram { border-color: #ddd; page-break-inside: avoid; }
+    .mermaid-stage { transform: none !important; }
     body { background: var(--bg); color: var(--ink); }
     .post-body { font-size: 11pt; line-height: 1.5; }
     a { color: var(--ink); text-decoration: underline; }
@@ -1876,18 +1877,73 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 }
 
 /* -------------------------------------------------------------------------
-   20. CODE BLOCKS — dark surface, Prism tokens, copy button, lang label.
-   Code stays dark in both light + dark mode (matches Ghost docs and most
-   technical-writing sites; trades minor theme-symmetry for stronger code
-   legibility).
+   20. CODE BLOCKS — themed surface (dark in dark-mode, light parchment in
+   light-mode), Prism tokens, copy button, lang label.
+   Surface and token palette are driven by --code-bg / --code-fg / token
+   custom props so a single rule re-skins both modes.
    ----------------------------------------------------------------------- */
+
+:root {
+    --code-bg:        #f6f4ee;
+    --code-fg:        #24292f;
+    --code-muted:     #6e7781;
+    --code-line:      rgba(0, 0, 0, 0.06);
+    --code-button-bg: rgba(0, 0, 0, 0.04);
+    --code-button-fg: #57606a;
+    --code-button-bd: rgba(0, 0, 0, 0.12);
+    --tok-comment:    #6a737d;
+    --tok-punc:       #24292f;
+    --tok-keyword:    #d73a49;
+    --tok-string:     #22863a;
+    --tok-number:     #b8860b;
+    --tok-function:   #6f42c1;
+    --tok-variable:   #e36209;
+}
+[data-theme="dark"], html:not([data-theme]) {
+    /* Dark mode (default + explicit) — keep the GitHub-dark palette */
+}
+[data-theme="dark"] {
+    --code-bg:        #0d1014;
+    --code-fg:        #e6e6e6;
+    --code-muted:     #6c7480;
+    --code-line:      rgba(255, 255, 255, 0.08);
+    --code-button-bg: rgba(255, 255, 255, 0.06);
+    --code-button-fg: #c9d1d9;
+    --code-button-bd: rgba(255, 255, 255, 0.12);
+    --tok-comment:    #6c7480;
+    --tok-punc:       #c9d1d9;
+    --tok-keyword:    #ff7b72;
+    --tok-string:     #7ee787;
+    --tok-number:     #ffa657;
+    --tok-function:   #d2a8ff;
+    --tok-variable:   #ffa657;
+}
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) {
+        --code-bg:        #0d1014;
+        --code-fg:        #e6e6e6;
+        --code-muted:     #6c7480;
+        --code-line:      rgba(255, 255, 255, 0.08);
+        --code-button-bg: rgba(255, 255, 255, 0.06);
+        --code-button-fg: #c9d1d9;
+        --code-button-bd: rgba(255, 255, 255, 0.12);
+        --tok-comment:    #6c7480;
+        --tok-punc:       #c9d1d9;
+        --tok-keyword:    #ff7b72;
+        --tok-string:     #7ee787;
+        --tok-number:     #ffa657;
+        --tok-function:   #d2a8ff;
+        --tok-variable:   #ffa657;
+    }
+}
 
 .post-body pre {
     position: relative;
     margin: var(--s-7) 0;
     padding: var(--s-6) var(--s-5) var(--s-5);
-    background: #0d1014;
-    color: #e6e6e6;
+    background: var(--code-bg);
+    color: var(--code-fg);
+    border: 1px solid var(--code-line);
     border-radius: var(--radius-m);
     font-family: var(--font-mono);
     font-size: var(--fs-s);
@@ -1924,19 +1980,19 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #6c7480;
+    color: var(--code-muted);
     pointer-events: none;
 }
 
-/* Copy button — always visible on the dark surface (no hover-only) */
+/* Copy button — always visible (theme-adaptive surface) */
 .code-copy {
     position: absolute;
     top: var(--s-3);
     right: var(--s-3);
     padding: 4px 10px;
-    background: rgba(255, 255, 255, 0.06);
-    color: #c9d1d9;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--code-button-bg);
+    color: var(--code-button-fg);
+    border: 1px solid var(--code-button-bd);
     border-radius: var(--radius-s);
     font-family: var(--font-mono);
     font-size: 11px;
@@ -1946,47 +2002,47 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 }
 .code-copy:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.3);
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: var(--accent);
 }
 .code-copy:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
 }
 
-/* Prism token palette — tuned for #0d1014 surface, accessible contrast */
+/* Prism tokens — driven by --tok-* custom props so light/dark both work */
 .post-body .token.comment,
 .post-body .token.prolog,
 .post-body .token.doctype,
-.post-body .token.cdata { color: #6c7480; font-style: italic; }
-.post-body .token.punctuation { color: #c9d1d9; }
+.post-body .token.cdata { color: var(--tok-comment); font-style: italic; }
+.post-body .token.punctuation { color: var(--tok-punc); }
 .post-body .token.property,
 .post-body .token.tag,
 .post-body .token.boolean,
 .post-body .token.number,
 .post-body .token.constant,
 .post-body .token.symbol,
-.post-body .token.deleted { color: #ff7b72; }
+.post-body .token.deleted { color: var(--tok-keyword); }
 .post-body .token.selector,
 .post-body .token.attr-name,
 .post-body .token.string,
 .post-body .token.char,
 .post-body .token.builtin,
-.post-body .token.inserted { color: #7ee787; }
+.post-body .token.inserted { color: var(--tok-string); }
 .post-body .token.operator,
 .post-body .token.entity,
 .post-body .token.url,
 .post-body .language-css .token.string,
-.post-body .style .token.string { color: #d2a8ff; }
+.post-body .style .token.string { color: var(--tok-function); }
 .post-body .token.atrule,
 .post-body .token.attr-value,
-.post-body .token.keyword { color: #ff7b72; }
+.post-body .token.keyword { color: var(--tok-keyword); }
 .post-body .token.function,
-.post-body .token.class-name { color: #d2a8ff; }
+.post-body .token.class-name { color: var(--tok-function); }
 .post-body .token.regex,
 .post-body .token.important,
-.post-body .token.variable { color: #ffa657; }
+.post-body .token.variable { color: var(--tok-variable); }
 .post-body .token.important,
 .post-body .token.bold { font-weight: bold; }
 .post-body .token.italic { font-style: italic; }
@@ -1999,18 +2055,80 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
    ----------------------------------------------------------------------- */
 
 .mermaid-diagram {
+    position: relative;
     margin: var(--s-7) 0;
     padding: var(--s-5);
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius-m);
-    text-align: center;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
+    min-height: 200px;
 }
-.mermaid-diagram svg {
+.mermaid-stage {
+    cursor: grab;
+    transform-origin: 0 0;
+    transition: none;
+    text-align: center;
+    user-select: none;
+    touch-action: none;
+}
+.mermaid-stage svg {
     max-width: 100%;
     height: auto;
+    display: inline-block;
+    pointer-events: none;
+}
+.mermaid-toolbar {
+    position: absolute;
+    top: var(--s-3);
+    right: var(--s-3);
+    display: inline-flex;
+    gap: 2px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    padding: 2px;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+.mermaid-diagram:hover .mermaid-toolbar,
+.mermaid-toolbar:focus-within { opacity: 1; }
+.mermaid-toolbar button {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1;
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-s);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+.mermaid-toolbar button:hover {
+    background: var(--surface);
+    color: var(--accent);
+}
+.mermaid-toolbar button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+.mermaid-diagram:fullscreen {
+    background: var(--bg);
+    padding: var(--s-7);
+    border-radius: 0;
+}
+.mermaid-diagram:fullscreen .mermaid-stage {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .mermaid-error {
     display: block;
