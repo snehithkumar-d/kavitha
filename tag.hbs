@@ -13,12 +13,16 @@
         </header>
     {{/tag}}
 
-    <div class="post-feed">
-        {{#foreach posts}}
-            {{> "post-card"}}
-        {{/foreach}}
-    </div>
+    {{#if posts}}
+        <div class="post-feed">
+            {{#foreach posts}}
+                {{> "post-card"}}
+            {{/foreach}}
+        </div>
 
-    {{> "pagination"}}
+        {{> "pagination"}}
+    {{else}}
+        <p class="collection-empty">No posts tagged here yet.</p>
+    {{/if}}
 
 </div>

@@ -3,8 +3,8 @@
    Vanilla JS bundle. ES2020. No dependencies.
    v0.1.0 ships this hand-written; v0.2+ builds it from src/js/*.js via esbuild.
 
-   Inline theme/accent bootstrap lives in default.hbs <head> (one inline
-   script — see loophole #11). Everything else is here.
+   Inline theme/accent bootstrap lives in default.hbs <head> (the only
+   inline script the theme ships). Everything else is here.
    ======================================================================== */
 
 (function () {
@@ -212,7 +212,7 @@
             var src = pre.querySelector('code') || pre;
             var text = src.innerText;
             var done = function (ok) {
-                btn.textContent = ok ? 'Copied' : 'Failed';
+                btn.textContent = ok ? 'Copied' : 'Try again';
                 setTimeout(function () { btn.textContent = 'Copy'; }, 1800);
             };
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -448,7 +448,7 @@
         var url = btn.getAttribute('data-url') || window.location.href;
         btn.addEventListener('click', function () {
             var done = function (ok) {
-                if (status) status.textContent = ok ? 'Copied' : 'Failed';
+                if (status) status.textContent = ok ? 'Copied' : 'Try again';
                 setTimeout(function () { if (status) status.textContent = 'Copy link'; }, 1800);
             };
             if (navigator.clipboard && navigator.clipboard.writeText) {

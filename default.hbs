@@ -23,9 +23,10 @@
     {{!-- Styles --}}
     <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
 
-    {{!-- Custom-setting-driven CSS variables.
-         color values from config.custom can't go in inline style="" (sanitized in some contexts) so we inject a <style> block instead. See loophole #17.
-         Ghost admin → Design → Customize → Fonts always wins via --gh-font-body / --gh-font-heading set in screen.css. --}}
+    {{!-- Custom-setting-driven CSS variables. Inline-style attributes are
+         sanitised in some contexts, so colour values are injected via a
+         <style> block. Ghost admin → Design → Customize → Fonts always
+         wins via --gh-font-body / --gh-font-heading set in screen.css. --}}
     <style>
         :root {
             --kavitha-body-font: {{#match @custom.body_font "Sans-serif"}}var(--gh-font-body, var(--font-sans)){{else match @custom.body_font "Mono"}}var(--gh-font-body, var(--font-mono)){{else}}var(--gh-font-body, var(--font-serif)){{/match}};
@@ -33,8 +34,10 @@
         }
     </style>
 
-    {{!-- Theme bootstrap: hydrate user's theme + accent-contrast preference BEFORE first paint to prevent FOUC.
-         This is the ONE inline script we ship; all other JS is bundled in source.js per loophole #11. --}}
+    {{!-- Theme bootstrap: hydrate the user's theme + accent preference
+         BEFORE first paint to prevent FOUC. This is the only inline
+         script the theme ships; every other behaviour lives in
+         source.js. --}}
     <script>
         (function () {
             var doc = document.documentElement;

@@ -4,13 +4,13 @@
 
     <span class="error-eyebrow">{{statusCode}}</span>
     <h1 class="error-title">
-        {{#match statusCode "404"}}Page not found.{{else}}{{message}}{{/match}}
+        {{#match statusCode "404"}}Page not found{{else}}Something went wrong{{/match}}
     </h1>
     <p class="error-body">
         {{#match statusCode "404"}}
-            That URL doesn't exist on this site. Try the homepage, the writing, or use search.
+            We couldn't find the page you were looking for. Try the search, or use the links below.
         {{else}}
-            Something went sideways. Try refreshing, or head back to the homepage.
+            Please try again in a moment, or use the links below to navigate.
         {{/match}}
     </p>
 

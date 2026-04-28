@@ -66,9 +66,9 @@
     {{> "related-posts"}}
 
     <nav class="post-prev-next" aria-label="Adjacent projects">
-        {{!-- prev_post / next_post navigate within the post's PRIMARY collection,
-             which routes.yaml puts as /projects/ first for #project-tagged posts.
-             So this naturally walks project → project. (See loophole #22 in PLAN.) --}}
+        {{!-- prev_post / next_post navigate within the post's primary collection.
+             routes.yaml lists /projects/ first for #project-tagged posts, so
+             this naturally walks project → project. --}}
         {{#prev_post}}
             <a class="post-prev" href="{{url}}">
                 <span class="label">← Previous project</span>

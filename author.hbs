@@ -21,12 +21,16 @@
         </header>
     {{/author}}
 
-    <div class="post-feed">
-        {{#foreach posts}}
-            {{> "post-card"}}
-        {{/foreach}}
-    </div>
+    {{#if posts}}
+        <div class="post-feed">
+            {{#foreach posts}}
+                {{> "post-card"}}
+            {{/foreach}}
+        </div>
 
-    {{> "pagination"}}
+        {{> "pagination"}}
+    {{else}}
+        <p class="collection-empty">No posts from this author yet.</p>
+    {{/if}}
 
 </div>

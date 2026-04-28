@@ -49,11 +49,6 @@
                     </li>
                 {{/foreach}}
             </ul>
-        {{else}}
-            <section class="home-empty">
-                {{#if @site.description}}<p class="home-empty-deck">{{@site.description}}</p>{{/if}}
-                <p class="home-empty-cta">No posts yet. Sign in to your Ghost admin and publish your first one.</p>
-            </section>
         {{/if}}
     {{/get}}
 

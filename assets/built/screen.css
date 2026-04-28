@@ -80,13 +80,14 @@
     --line-bold: #111111;
 
     /* Accent — Ghost injects --ghost-accent-color from @site.accent_color.
-       --accent-text is set by the bootstrap script in default.hbs based on luminance + admin override (loophole #9). */
+       --accent-text is set by the bootstrap script in default.hbs based on
+       relative luminance, with an optional admin override. */
     --accent: var(--ghost-accent-color, #1e6b6b);
     --accent-text: #ffffff;
     --accent-soft: color-mix(in oklab, var(--accent) 8%, var(--bg));
 
     /* Sodo Search modal vars (the search modal lives in shadow DOM —
-       loophole #23 — so this is the only way to style it). */
+       — so root custom properties are the only way to style it). */
     --sodo-search-color-accent: var(--accent);
     --sodo-search-color-bg: var(--bg);
     --sodo-search-color-text: var(--ink);
@@ -853,6 +854,16 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
+.collection-empty {
+    margin: var(--s-8) 0;
+    padding: var(--s-7) 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: var(--fs-s);
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
 
 .post-feed {
     display: grid;
@@ -1443,7 +1454,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 
 
 /* -------------------------------------------------------------------------
-   19. LEXICAL CARDS — ALL Ghost editor card variants (loophole #5)
+   19. LEXICAL CARDS — every Ghost editor card variant covered
    ----------------------------------------------------------------------- */
 
 /* Generic card width modifiers */
