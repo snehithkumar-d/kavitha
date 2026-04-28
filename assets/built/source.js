@@ -287,14 +287,24 @@
             dragging = false; stage.style.cursor = 'grab';
         });
 
-        // Wheel to zoom (Cmd/Ctrl + wheel only — never hijack page scroll)
-        host.addEventListener('wheel', function (e) {
-            if (!e.ctrlKey && !e.metaKey) return;
-            e.preventDefault();
-            var delta = e.deltaY < 0 ? 1.1 : 1 / 1.1;
-            state.scale = Math.max(0.4, Math.min(6, state.scale * delta));
-            apply();
-        }, { passive: false });
+        // Wheel to zoom (Cmd/Ctrl + wheel only — never hijack page scroll).
+        // Stash the latest state-mutator on the host and bind the wheel listener
+        // exactly once per host, so re-renders (theme toggles) don't pile up
+        // listeners. The closure captures the LATEST state via the host prop.
+        host._kavithaZoomState = state;
+        host._kavithaApply = apply;
+        if (!host._kavithaWheelBound) {
+            host._kavithaWheelBound = true;
+            host.addEventListener('wheel', function (e) {
+                if (!e.ctrlKey && !e.metaKey) return;
+                e.preventDefault();
+                var s = host._kavithaZoomState;
+                if (!s) return;
+                var delta = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+                s.scale = Math.max(0.4, Math.min(6, s.scale * delta));
+                if (host._kavithaApply) host._kavithaApply();
+            }, { passive: false });
+        }
     }
 
     function renderMermaid(lib, theme) {
