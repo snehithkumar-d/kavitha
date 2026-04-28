@@ -25,6 +25,11 @@ jobs:
 
       - name: Deploy to Ghost
         uses: TryGhost/action-deploy-theme@v1
+        env:
+          # TryGhost ships v1 on Node 20, deprecated by GitHub. Force Node 24
+          # at the runner so the action keeps working past Sep 2026 cutoff.
+          # Remove this once TryGhost publishes a v2 with native Node 24.
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
         with:
           api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
           api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
