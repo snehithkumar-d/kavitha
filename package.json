@@ -59,10 +59,11 @@
         "type": "boolean",
         "default": true
       },
-      "post_image_style": {
+      "accent_preset": {
         "type": "select",
-        "options": ["Full-width", "Wide", "Inline"],
-        "default": "Wide"
+        "options": ["Teal", "Terracotta"],
+        "default": "Teal",
+        "description": "Default accent color (Teal #1e6b6b · Terracotta #c15f3c). Visitors can override with the swatch toggle in the header; this is the default they see first."
       },
       "blog_section_title": {
         "type": "text",

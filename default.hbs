@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{@site.locale}}" data-color-scheme-default="{{#match @custom.color_scheme_default "Light"}}light{{else match @custom.color_scheme_default "Dark"}}dark{{else}}auto{{/match}}">
+<html lang="{{@site.locale}}" data-color-scheme-default="{{#match @custom.color_scheme_default "Light"}}light{{else match @custom.color_scheme_default "Dark"}}dark{{else}}auto{{/match}}" data-accent-preset="{{#match @custom.accent_preset "Terracotta"}}terracotta{{else}}teal{{/match}}">
 <head>
 
     {{!-- Document Settings --}}
@@ -46,12 +46,16 @@
                     doc.setAttribute('data-theme', resolved);
                 }
 
-                {{!-- Accent preset: user-side override (persisted in localStorage). Two named options. --}}
+                {{!-- Accent preset: localStorage (visitor) > admin theme setting > Ghost brand color. --}}
                 var accentMap = { teal: '#1e6b6b', terracotta: '#c15f3c' };
                 var storedAccent = localStorage.getItem('kavitha-accent');
+                var adminAccent = doc.getAttribute('data-accent-preset');
+                var resolvedPreset = (storedAccent && accentMap[storedAccent]) ? storedAccent
+                                   : (adminAccent && accentMap[adminAccent]) ? adminAccent
+                                   : null;
                 var accent;
-                if (storedAccent && accentMap[storedAccent]) {
-                    accent = accentMap[storedAccent];
+                if (resolvedPreset) {
+                    accent = accentMap[resolvedPreset];
                     doc.style.setProperty('--ghost-accent-color', accent);
                     doc.style.setProperty('--accent', accent);
                 } else {

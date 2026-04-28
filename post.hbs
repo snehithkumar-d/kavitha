@@ -20,7 +20,7 @@
 
     {{#if feature_image}}
         {{#if @custom.show_feature_image_on_post}}
-            <figure class="post-feature-image post-feature-image-{{#match @custom.post_image_style "Full-width"}}full{{else match @custom.post_image_style "Inline"}}inline{{else}}wide{{/match}}">
+            <figure class="post-feature-image">
                 <img src="{{img_url feature_image size="l"}}"
                      srcset="{{img_url feature_image size="m"}} 720w,
                              {{img_url feature_image size="l"}} 960w,
