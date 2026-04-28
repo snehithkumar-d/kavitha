@@ -137,7 +137,10 @@
    ----------------------------------------------------------------------- */
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; tab-size: 4; }
+html { -webkit-text-size-adjust: 100%; tab-size: 4; scroll-padding-top: 96px; }
+@media (max-width: 640px) {
+    html { scroll-padding-top: 72px; }
+}
 body {
     margin: 0;
     background: var(--bg);
@@ -181,6 +184,21 @@ h1, h2, h3, h4, h5, h6 {
 .post-body h2 { font-size: var(--fs-2xl); margin-top: var(--s-8); margin-bottom: var(--s-4); }
 .post-body h3 { font-size: var(--fs-xl); margin-top: var(--s-7); margin-bottom: var(--s-3); }
 .post-body h4 { font-size: var(--fs-l); margin-top: var(--s-6); margin-bottom: var(--s-3); }
+/* Anchor-scroll offset — keep TOC clicks + browser fragment navigation
+   from landing the heading underneath the sticky header. Value covers
+   header + a small breathing buffer. */
+.post-body h2,
+.post-body h3,
+.post-body h4 {
+    scroll-margin-top: 96px;
+}
+@media (max-width: 640px) {
+    .post-body h2,
+    .post-body h3,
+    .post-body h4 {
+        scroll-margin-top: 72px;
+    }
+}
 .post-body h5 { font-size: var(--fs-m); margin-top: var(--s-5); margin-bottom: var(--s-2); text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
 .post-body h6 { font-size: var(--fs-s); margin-top: var(--s-5); margin-bottom: var(--s-2); text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
 .post-body > :first-child { margin-top: 0; }
