@@ -489,4 +489,132 @@
         }
     }
 
+
+    /* ---------------------------------------------------------------------
+       Reading rail — sticky table-of-contents on the left of post pages.
+       Resting state: a vertical column of small dashes, one per heading,
+       active dash highlighted. Hover (or keyboard focus) expands the rail
+       into a panel showing the full heading labels. Click a row to jump.
+       Active heading tracked via IntersectionObserver as the reader scrolls.
+
+       Visibility: post / project-post templates only, only when ≥2 headings,
+       hidden on viewports <1280px (no room) and on print.
+       --------------------------------------------------------------------- */
+
+    (function buildReadingRail() {
+        var isPost = document.body.classList.contains('post-template') ||
+                     document.body.classList.contains('page-template-post-project');
+        if (!isPost) return;
+
+        var postBody = document.querySelector('.post-body');
+        if (!postBody) return;
+
+        var headings = Array.from(postBody.querySelectorAll('h2, h3'));
+        if (headings.length < 2) return;
+
+        var slugSeen = Object.create(null);
+        function slugify(text) {
+            var base = (text || '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .slice(0, 60) || 'section';
+            var slug = base, n = 1;
+            while (slugSeen[slug] || (document.getElementById(slug) && document.getElementById(slug) !== headings.find(function (h) { return h.id === slug; }))) {
+                slug = base + '-' + (++n);
+            }
+            slugSeen[slug] = true;
+            return slug;
+        }
+        headings.forEach(function (h) {
+            if (!h.id) h.id = slugify(h.textContent);
+            else slugSeen[h.id] = true;
+        });
+
+        var rail = document.createElement('aside');
+        rail.className = 'reading-rail';
+        rail.setAttribute('aria-label', 'On this page');
+        var list = document.createElement('ol');
+        list.className = 'reading-rail-list';
+        headings.forEach(function (h) {
+            var item = document.createElement('li');
+            item.className = 'reading-rail-item reading-rail-' + h.tagName.toLowerCase();
+            var link = document.createElement('a');
+            link.className = 'reading-rail-link';
+            link.href = '#' + h.id;
+            link.setAttribute('data-target', h.id);
+            link.innerHTML =
+                '<span class="reading-rail-dash" aria-hidden="true"></span>' +
+                '<span class="reading-rail-label"></span>';
+            link.querySelector('.reading-rail-label').textContent = h.textContent;
+            item.appendChild(link);
+            list.appendChild(item);
+        });
+        rail.appendChild(list);
+        document.body.appendChild(rail);
+
+        var prefersReducedMotion = window.matchMedia &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        rail.addEventListener('click', function (e) {
+            var link = e.target.closest('.reading-rail-link');
+            if (!link) return;
+            var id = link.getAttribute('data-target');
+            var target = document.getElementById(id);
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({
+                behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                block: 'start'
+            });
+            history.replaceState(null, '', '#' + id);
+        });
+
+        var visibleTops = new Map();
+        var activeId = null;
+
+        function setActive(id) {
+            if (id === activeId) return;
+            activeId = id;
+            rail.querySelectorAll('.reading-rail-link').forEach(function (link) {
+                if (link.getAttribute('data-target') === id) {
+                    link.setAttribute('aria-current', 'true');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
+        }
+
+        function pickActive() {
+            if (visibleTops.size) {
+                var topId = null, minTop = Infinity;
+                visibleTops.forEach(function (top, id) {
+                    if (top < minTop) { minTop = top; topId = id; }
+                });
+                if (topId) { setActive(topId); return; }
+            }
+            // Nothing intersecting — find the last heading scrolled past
+            var passed = null;
+            for (var i = 0; i < headings.length; i++) {
+                if (headings[i].getBoundingClientRect().top < 120) passed = headings[i].id;
+                else break;
+            }
+            if (passed) setActive(passed);
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    visibleTops.set(entry.target.id, entry.boundingClientRect.top);
+                } else {
+                    visibleTops.delete(entry.target.id);
+                }
+            });
+            pickActive();
+        }, { rootMargin: '-80px 0px -65% 0px', threshold: 0 });
+
+        headings.forEach(function (h) { observer.observe(h); });
+        pickActive();
+    })();
+
 })();
