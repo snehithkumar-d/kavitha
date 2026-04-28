@@ -1016,6 +1016,9 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
 }
+.post-prev-next:not(:has(a)) {
+    display: none;
+}
 .post-prev, .post-next {
     text-decoration: none;
     display: flex;
