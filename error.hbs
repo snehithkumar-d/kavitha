@@ -8,7 +8,7 @@
     </h1>
     <p class="error-body">
         {{#match statusCode "404"}}
-            That URL doesn't exist on this site. Try the homepage, the blog, or use search.
+            That URL doesn't exist on this site. Try the homepage, the writing, or use search.
         {{else}}
             Something went sideways. Try refreshing, or head back to the homepage.
         {{/match}}
@@ -16,7 +16,7 @@
 
     <nav class="error-nav">
         <a class="error-link" href="{{@site.url}}">Home</a>
-        <a class="error-link" href="/blog/">Blog</a>
+        <a class="error-link" href="/writing/">Writing</a>
         <a class="error-link" href="/projects/">Projects</a>
         <button class="error-link" type="button" data-ghost-search>Search</button>
     </nav>

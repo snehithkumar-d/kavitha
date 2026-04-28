@@ -41,20 +41,21 @@ The theme renders correctly out of the box, but a few admin-side decisions unloc
    - **Terminal handle** — appears as `~ /home/{handle}` above the homepage hero. Any short identifier (e.g. `snehith`). Leave empty to fall back to your site title.
    - **GitHub / Twitter / LinkedIn URLs** — surface in the footer.
 
-3. **Settings → Navigation** — populate the primary nav. Recommended entries (these match the routes shipped in `routes.yaml.example`):
+3. **Settings → Navigation** — populate the primary nav. Recommended entries (URLs match the routes shipped in `routes.yaml.example`):
    | Label | URL |
    |---|---|
    | `Home` | `/` |
-   | `Writing` | `/blog/` |
+   | `Writing` | `/writing/` |
    | `Projects` | `/projects/` |
    | `About` | `/about/` |
 
    The active item shows a `>` accent prefix automatically. If no nav link matches the current URL, the first nav link gets the marker as a fallback so the prompt is always visible.
 
 4. **Settings → Labs → Routes → Upload routes.yaml** — upload [`routes.yaml.example`](./routes.yaml.example) (rename to `routes.yaml` first). Without this:
-   - `/` returns 404 (default collection lives at `/blog/`)
+   - `/` returns 404 (no handler for root)
+   - `/writing/` returns 404
    - `/projects/` returns 404
-   - `/about/` works (Pages auto-resolve), but the nav link breaks if it points there
+   - Posts don't get the `/writing/{slug}/` permalink
 
 5. **Pages → New page** — create an "About" page (slug: `about`). The theme renders it via `page-about.hbs`.
 
@@ -71,9 +72,9 @@ Projects and blog posts are both Ghost posts but live in separate collections. W
 3. Save & publish.
 4. Visit `/projects/` — your post appears in the project grid. Visit `/projects/<your-slug>/` — it renders with `post-project.hbs` (sidebar metadata, project-specific layout).
 
-`#project` posts are automatically excluded from `/blog/` and `/`. They get their own RSS at `/projects/rss/`.
+`#project` posts are automatically excluded from `/writing/` and `/`. They get their own RSS at `/projects/rss/`. Regular posts live at `/writing/{slug}/`; project posts live at `/projects/{slug}/`.
 
-> **Don't create a Ghost Page named `projects`, `blog`, `tag`, or `author`** — those slugs are reserved by `routes.yaml` and the page would become orphaned.
+> **Don't create a Ghost Page named `projects`, `writing`, `tag`, or `author`** — those slugs are reserved by `routes.yaml` and the page would become orphaned.
 
 ---
 

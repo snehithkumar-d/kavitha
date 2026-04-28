@@ -26,8 +26,8 @@ collections:
     template: custom-projects
     filter: 'tag:hash-project'
     rss: true
-  /blog/:
-    permalink: /{slug}/
+  /writing/:
+    permalink: /writing/{slug}/
     template: index
     filter: 'tag:-hash-project'
 
