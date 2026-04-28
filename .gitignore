@@ -4,6 +4,12 @@ dist/
 *.log
 npm-debug.log*
 
+# Local AI / editor tooling — not part of the theme distribution.
+.claude/
+CLAUDE.md
+.cursor/
+.vscode/
+
 # v0.1.0 only: assets/built/ is checked in to skip CI build complexity.
 # Move this comment + uncomment the next line at v0.2.0 when CI builds the bundle.
 # assets/built/
