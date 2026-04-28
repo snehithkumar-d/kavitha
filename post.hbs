@@ -49,7 +49,7 @@
             <div class="post-tags">
                 {{#foreach tags}}
                     {{#unless visibility}}{{else match visibility "public"}}
-                        <a class="post-tag-chip" href="{{url}}">#{{name}}</a>
+                        <a class="post-tag-chip" href="{{url}}">{{name}}</a>
                     {{/unless}}
                 {{/foreach}}
             </div>

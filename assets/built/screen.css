@@ -292,8 +292,14 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
    ----------------------------------------------------------------------- */
 
 .site-header {
-    border-bottom: 2px solid var(--line-bold);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--line);
     margin-bottom: var(--s-7);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
 }
 .site-header-inner {
     max-width: var(--wide-w);
@@ -307,10 +313,11 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .site-brand {
     text-decoration: none;
     font-family: var(--font-serif);
-    font-weight: 700;
+    font-weight: 600;
+    font-style: italic;
     font-size: var(--fs-2xl);
     letter-spacing: -0.025em;
-    font-variation-settings: 'opsz' 144, 'SOFT' 100, 'wght' 700;
+    font-variation-settings: 'opsz' 144, 'SOFT' 80, 'wght' 600;
     line-height: 1;
     color: var(--ink);
     flex-shrink: 0;
@@ -547,7 +554,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
    ----------------------------------------------------------------------- */
 
 .section-band {
-    border-top: 2px solid var(--line-bold);
+    border-top: 1px solid var(--line);
     margin: var(--s-8) 0 var(--s-5);
     padding-top: var(--s-4);
     display: flex;
@@ -602,6 +609,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .project-card-kind::before { content: '· '; }
 .project-card-title {
     font-family: var(--font-serif);
+    font-style: italic;
     font-variation-settings: 'opsz' 60, 'wght' 500;
     font-weight: 500;
     font-size: var(--fs-xl);
@@ -664,7 +672,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     color: var(--muted);
     margin-top: var(--s-3);
     letter-spacing: 0.04em;
-    text-transform: lowercase;
+    text-transform: uppercase;
 }
 
 .post-feed {
@@ -691,7 +699,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     font-size: var(--fs-xs);
     color: var(--muted);
     letter-spacing: 0.04em;
-    text-transform: lowercase;
+    text-transform: uppercase;
     display: flex;
     gap: var(--s-2);
     align-items: center;
@@ -756,7 +764,7 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     font-size: var(--fs-xs);
     color: var(--muted);
     letter-spacing: 0.04em;
-    text-transform: lowercase;
+    text-transform: uppercase;
     display: flex;
     gap: var(--s-2);
     align-items: center;
@@ -808,14 +816,20 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .post-tag-chip {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
-    color: var(--muted);
+    color: var(--accent);
     text-decoration: none;
     padding: var(--s-1) var(--s-3);
-    background: var(--surface);
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in oklab, var(--accent) 25%, transparent);
     border-radius: var(--radius-s);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
-.post-tag-chip:hover { color: var(--accent); }
+.post-tag-chip:hover {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+}
 
 .post-prev-next {
     display: grid;
