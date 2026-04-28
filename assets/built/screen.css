@@ -1290,6 +1290,30 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .site-footer-links a:hover { color: var(--accent); }
 .site-footer-tag { color: var(--muted); }
 
+.site-footer-secondary {
+    max-width: var(--wide-w);
+    margin: 0 auto;
+    padding: var(--s-3) var(--gutter) var(--s-4);
+    border-bottom: 1px solid var(--line);
+}
+.site-footer-secondary-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-5);
+    font-family: var(--font-mono);
+    font-size: var(--fs-s);
+    color: var(--muted);
+    letter-spacing: 0;
+}
+.site-footer-secondary-list a {
+    color: var(--muted);
+    text-decoration: none;
+}
+.site-footer-secondary-list a:hover { color: var(--accent); }
+
 
 /* -------------------------------------------------------------------------
    18. ERROR PAGE

@@ -1,4 +1,15 @@
 <footer class="site-footer">
+
+    {{#if @site.secondary_navigation}}
+        <nav class="site-footer-secondary" aria-label="Secondary">
+            <ul class="site-footer-secondary-list">
+                {{#foreach @site.secondary_navigation}}
+                    <li><a href="{{this.url}}">{{label}}</a></li>
+                {{/foreach}}
+            </ul>
+        </nav>
+    {{/if}}
+
     <div class="site-footer-inner">
 
         <div class="site-footer-left">
