@@ -14,11 +14,8 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
 
-      - run: npm ci
-
-      - run: npm run build
+      # v0.1.0 ships assets/built/ checked in. Skip build step until v0.2+.
 
       - name: Validate theme with gscan
         run: npx gscan@latest .

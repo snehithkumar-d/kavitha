@@ -10,14 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v5
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - run: npm ci
-
-      - run: npm run zip
+      # v0.1.0 ships assets/built/ checked in — zip directly.
+      # v0.2+ will add `npm ci && npm run build` before this step.
+      - name: Package theme zip
+        run: |
+          mkdir -p dist
+          zip -r dist/kavitha.zip . \
+            -x 'node_modules/*' 'src/*' '.git/*' 'screenshots/*' '.github/*' 'dist/*' \
+               '*.md' 'package-lock.json' 'build.mjs' 'scripts/*' '.claude/*'
 
       - uses: softprops/action-gh-release@v2
         with:
