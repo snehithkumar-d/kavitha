@@ -3,19 +3,29 @@
 # Upload via Ghost admin → Settings → Labs → Routes → Upload routes.yaml
 #
 # This config:
-#   - Routes /projects/ as a custom collection of posts tagged #project (internal tag)
-#   - Excludes #project posts from the default /blog/ collection (no double-canonical)
-#   - Enables RSS at /projects/rss/
-#   - Lists /projects/ FIRST so {{prev_post}}/{{next_post}} navigates project→project
+#   - Routes /projects/   as a collection of posts tagged #project    (internal tag)
+#   - Routes /experience/ as a collection of posts tagged #experience (internal tag)
+#   - Excludes #project AND #experience posts from the default /writing/ collection
+#   - Enables RSS at /projects/rss/ (no RSS for /experience/ — career history isn't a feed)
+#   - Lists /projects/ first, then /experience/, so {{prev_post}}/{{next_post}} stays
+#     within each collection (project→project, role→role) instead of crossing over.
 #
-# Why two collections + an internal tag instead of Ghost Pages:
+# Why two custom collections + internal tags instead of Ghost Pages:
 #   Posts get the full editor (Lexical cards, members visibility, feature images,
-#   dates, RSS, related-tag cross-linking). Pages do not. The internal tag (#project,
-#   with hash) is hidden from public taxonomy so visitors never see a "project" tag.
+#   dates, RSS, related-tag cross-linking). Pages do not. Internal tags (#project,
+#   #experience — with hash) are hidden from public taxonomy so visitors never see
+#   them as browseable tags.
+#
+# Authoring conventions for /experience/ entries:
+#   - title           = "Role @ Company"                    (e.g. "Senior Engineer @ Stripe")
+#   - excerpt         = "Start – End · Location · Type"     (e.g. "2022 – 2024 · SF · Full-time")
+#   - canonical URL   = company website (optional — turns the entry into a link)
+#   - publish date    = role end date (or 2099-12-31 for current roles to pin to top)
+#   - tags            = stack tags (public) + "#experience" (internal)
 
 routes:
   # Map root URL to home.hbs. Without this, / returns 404 because the
-  # default collection lives at /blog/ — Ghost has no handler for /.
+  # default collection lives at /writing/ — Ghost has no handler for /.
   /: home
 
   # No /about/ remap needed — Ghost auto-resolves page-about.hbs by slug.
@@ -26,10 +36,15 @@ collections:
     template: custom-projects
     filter: 'tag:hash-project'
     rss: true
+  /experience/:
+    permalink: /experience/{slug}/
+    template: custom-experience
+    filter: 'tag:hash-experience'
+    rss: false
   /writing/:
     permalink: /writing/{slug}/
     template: index
-    filter: 'tag:-hash-project'
+    filter: 'tag:-hash-project+tag:-hash-experience'
 
 taxonomies:
   tag: /tag/{slug}/

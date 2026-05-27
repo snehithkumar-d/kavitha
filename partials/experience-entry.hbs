@@ -1,0 +1,42 @@
+{{!--
+    One entry in the /experience/ timeline rail.
+
+    Convention (authored in Ghost admin):
+      - title           = "Role @ Company"                  (e.g. "Senior Engineer @ Stripe")
+      - custom_excerpt  = "Start – End · Location · Type"   (e.g. "2022 – 2024 · SF · Full-time")
+      - canonical_url   = company website URL               (optional — turns "Company" into a link)
+      - published_at    = role end date (or far-future for current roles, so they pin to top)
+      - tags            = stack as public tags + "#experience" internal tag
+--}}
+<li class="experience-entry">
+    <div class="experience-entry-rail" aria-hidden="true">
+        <span class="experience-entry-dot"></span>
+    </div>
+
+    <div class="experience-entry-content">
+        <h3 class="experience-entry-title">
+            <a class="experience-entry-role" href="{{url}}">{{title}}</a>
+            {{#if canonical_url}}
+                <a class="experience-entry-company" href="{{canonical_url}}" rel="noopener" target="_blank" aria-label="Visit company website">
+                    <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+            {{/if}}
+        </h3>
+
+        {{#if custom_excerpt}}
+            <p class="experience-entry-meta">{{custom_excerpt}}</p>
+        {{/if}}
+
+        {{#if excerpt}}
+            <p class="experience-entry-summary">{{excerpt words="40"}}</p>
+        {{/if}}
+
+        {{#if tags}}
+            <p class="experience-entry-stack">
+                {{#foreach tags visibility="public"}}
+                    <span>{{name}}</span>
+                {{/foreach}}
+            </p>
+        {{/if}}
+    </div>
+</li>

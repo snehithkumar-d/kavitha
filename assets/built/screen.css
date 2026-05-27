@@ -2356,3 +2356,123 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
         transition: none;
     }
 }
+
+
+/* -------------------------------------------------------------------------
+   23. EXPERIENCE TIMELINE  (collection: /experience/)
+   -----------------------------------------------------------------------
+   Vertical rail with a dotted line connecting an accent dot per role. No
+   logos — company link comes from the per-post canonical_url field (an "↗"
+   arrow next to the role title when set). Mirrors the project collection
+   pattern: posts tagged #experience render here, sorted by published_at DESC.
+   ----------------------------------------------------------------------- */
+
+.experience-rail {
+    list-style: none;
+    margin: var(--s-6) 0 0;
+    padding: 0;
+    max-width: var(--content-w);
+}
+
+.experience-entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: var(--s-5);
+    padding-bottom: var(--s-7);
+}
+.experience-entry:last-child { padding-bottom: 0; }
+
+.experience-entry-rail {
+    position: relative;
+    border-left: 1px dotted var(--line-bold);
+    margin-left: 11px;
+}
+.experience-entry:last-child .experience-entry-rail {
+    border-left-color: transparent;
+}
+.experience-entry-dot {
+    position: absolute;
+    top: 6px;
+    left: -5px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--bg);
+}
+
+.experience-entry-content { min-width: 0; }
+
+.experience-entry-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-l);
+    font-weight: 600;
+    margin: 0 0 var(--s-1);
+    line-height: 1.25;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.experience-entry-role {
+    color: var(--ink);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+.experience-entry-role:hover { color: var(--accent); }
+
+.experience-entry-company {
+    display: inline-flex;
+    align-items: center;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+.experience-entry-company:hover {
+    color: var(--accent);
+    transform: translate(1px, -1px);
+}
+.experience-entry-company .arrow {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+}
+
+.experience-entry-meta {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
+.experience-entry-summary {
+    margin: var(--s-3) 0 0;
+    color: var(--ink);
+    line-height: 1.55;
+}
+
+.experience-entry-stack {
+    margin: var(--s-3) 0 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+}
+.experience-entry-stack span + span::before {
+    content: " · ";
+    opacity: 0.6;
+    margin: 0 2px;
+}
+
+@media (max-width: 640px) {
+    .experience-entry {
+        grid-template-columns: 18px 1fr;
+        gap: var(--s-4);
+    }
+    .experience-entry-rail { margin-left: 8px; }
+    .experience-entry-dot { left: -5px; }
+}
