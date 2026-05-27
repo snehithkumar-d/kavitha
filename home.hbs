@@ -29,7 +29,7 @@
         </div>
     </section>
 
-    {{#get "posts" limit="5" filter="tag:-hash-project" order="published_at desc" as |home_posts|}}
+    {{#get "posts" limit="5" filter="tag:-hash-project+tag:-hash-experience" order="published_at desc" as |home_posts|}}
         {{#if home_posts}}
             <div class="section-band">
                 <h2 class="section-band-label"><span class="band-prompt">$</span> {{@custom.blog_section_title}}</h2>
