@@ -1395,7 +1395,6 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     max-width: var(--wide-w);
     margin: 0 auto;
     padding: var(--s-3) var(--gutter) var(--s-4);
-    border-bottom: 1px solid var(--line);
 }
 .site-footer-secondary-list {
     list-style: none;
@@ -2378,22 +2377,27 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     max-width: var(--content-w);
 }
 
+/* Each entry's left rail column stretches to the full row height (default grid
+   stretch). Because the row height = content + padding-bottom on the content
+   col, the dotted rail extends from each dot straight through to the next
+   entry's dot — no gap, no choppiness. */
 .experience-entry {
     position: relative;
     display: grid;
     grid-template-columns: 24px 1fr;
     gap: var(--s-5);
-    padding-bottom: var(--s-7);
 }
-.experience-entry:last-child { padding-bottom: 0; }
 
 .experience-entry-rail {
     position: relative;
     border-left: 1px dotted var(--line-bold);
     margin-left: 11px;
 }
+/* Last entry: trim the rail to just contain the dot so the line doesn't tail
+   off into the void below the final role. */
 .experience-entry:last-child .experience-entry-rail {
-    border-left-color: transparent;
+    align-self: start;
+    height: 18px;
 }
 .experience-entry-dot {
     position: absolute;
@@ -2406,7 +2410,11 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     box-shadow: 0 0 0 3px var(--bg);
 }
 
-.experience-entry-content { min-width: 0; }
+.experience-entry-content {
+    min-width: 0;
+    padding-bottom: var(--s-7);
+}
+.experience-entry:last-child .experience-entry-content { padding-bottom: 0; }
 
 .experience-entry-title {
     font-family: var(--font-serif);
@@ -2425,35 +2433,24 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     transition: color var(--transition-fast);
 }
 .experience-entry-role:hover { color: var(--accent); }
+/* "@ Company" portion — wrapped by source.js at runtime when title contains " @ ".
+   Falls back gracefully if JS is disabled: the title just renders in one color. */
+.experience-entry-at {
+    color: var(--muted);
+    font-weight: 500;
+}
 
-.experience-entry-company {
+.experience-entry-link {
     display: inline-flex;
     align-items: center;
-    gap: 3px;
+    justify-content: center;
     color: var(--muted);
-    text-decoration: none;
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding: 2px 8px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-s);
-    transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    transition: color var(--transition-fast), transform var(--transition-fast);
     align-self: center;
+    line-height: 0;
 }
-.experience-entry-company:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-    background: var(--accent-soft);
-}
-.experience-entry-company-label { line-height: 1; }
-.experience-entry-company .arrow {
-    line-height: 1;
-    transition: transform var(--transition-fast);
-}
-.experience-entry-company:hover .arrow { transform: translate(1px, -1px); }
+.experience-entry-link:hover { color: var(--accent); transform: translateY(-1px); }
+.experience-entry-link svg { display: block; }
 
 .experience-entry-meta {
     font-family: var(--font-mono);
@@ -2462,12 +2459,6 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin: 0;
-}
-
-.experience-entry-summary {
-    margin: var(--s-3) 0 0;
-    color: var(--ink);
-    line-height: 1.55;
 }
 
 .experience-entry-stack {

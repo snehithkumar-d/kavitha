@@ -90,7 +90,7 @@ Authoring convention:
 |---|---|---|
 | Role + Company | `Title` | `Senior Software Engineer @ Stripe` |
 | Date range / location / type | `Excerpt` | `2022 – 2024 · San Francisco · Full-time` |
-| Company website (optional) | `Canonical URL` in Post Settings | `https://stripe.com` — adds a small "website ↗" chip on the rail |
+| LinkedIn URL (optional) | `Canonical URL` in Post Settings | `https://linkedin.com/company/stripe` — adds a LinkedIn icon next to the title |
 | Sort key | `Publish date` | role end date (or `2099-12-31` for current roles to pin to top) |
 | Stack | Public tags | `typescript`, `postgres`, `react` |
 | Routing | Internal tag | `#experience` (with the hash) |
@@ -100,7 +100,7 @@ Authoring convention:
 
 See [`docs/experience-template.md`](./docs/experience-template.md) for a copy-paste-ready post body, a worked example, and the field-by-field reference.
 
-> A note on `canonical_url`: Ghost normally uses it to mark a post as syndicated. Setting it to the company website means search engines may de-prioritize indexing the individual `/experience/<slug>/` page. For an experience timeline this is usually fine. If you want the role's detail page indexed, leave canonical empty and put the company link inside the post body instead.
+> A note on `canonical_url`: Ghost normally uses it to mark a post as syndicated. Setting it to a LinkedIn URL means search engines may de-prioritize indexing the individual `/experience/<slug>/` page. For an experience timeline this is usually fine. If you want the role's detail page indexed, leave canonical empty and link to LinkedIn from inside the post body instead.
 
 ---
 

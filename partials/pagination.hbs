@@ -1,4 +1,7 @@
-{{#if pagination.pages}}
+{{!-- Only render pagination if there is more than one page. {{#match}} supports
+     numeric comparison operators in Ghost's helper set; this avoids the
+     "PAGE 1 OF 1 · NEWER · OLDER" row that otherwise appears on small collections. --}}
+{{#match pagination.pages ">" 1}}
 <nav class="pagination" role="navigation" aria-label="Pagination">
     {{#if pagination.prev}}
         <a class="pagination-prev" href="{{page_url pagination.prev}}" rel="prev">← Newer</a>
@@ -14,4 +17,4 @@
         <span class="pagination-next disabled" aria-hidden="true">Older →</span>
     {{/if}}
 </nav>
-{{/if}}
+{{/match}}

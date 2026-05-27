@@ -15,7 +15,7 @@ Open Ghost admin → **Posts → New post**, then fill in:
 |---|---|---|---|
 | **Title** (top of editor) | `Role @ Company` | `Senior Software Engineer @ Stripe` | Bold serif title on the rail entry |
 | **Post Settings → Excerpt** | `Start – End · Location · Type` | `2022 – 2024 · San Francisco · Full-time` | Mono uppercase meta line under the title |
-| **Post Settings → Canonical URL** (optional) | Full company URL | `https://stripe.com` | Adds a small "website ↗" chip next to the title |
+| **Post Settings → Canonical URL** (optional) | Company LinkedIn URL (or any external link) | `https://linkedin.com/company/stripe` | Adds a small LinkedIn icon next to the title |
 | **Post Settings → Publish date** | Role end date | `2024-06-30` for past, `2099-12-31` for current | Sort key — newest first; current roles pinned to top |
 | **Post Settings → Tags** | `#experience` (internal) + stack tags (public) + employment-type tag | `#experience`, `Full-time`, `ruby`, `go`, `kafka`, `grpc` | `#experience` routes the post into `/experience/`. Public tags appear as the stack line. |
 | **Body** | Summary paragraph + bullets (template below) | see below | First paragraph = rail summary. Full body = detail page. |
@@ -73,9 +73,9 @@ Senior Software Engineer @ Stripe
 2022 – 2024 · San Francisco · Full-time
 ```
 
-**Canonical URL**:
+**Canonical URL** (LinkedIn for the role or the company):
 ```
-https://stripe.com
+https://www.linkedin.com/company/stripe/
 ```
 
 **Publish date**: `2024-06-30` (your last day at the role)
@@ -135,7 +135,7 @@ The rail re-sorts automatically.
 
 - **Reorder roles** by editing publish dates. The rail is `published_at DESC`.
 - **Hide a role temporarily** by setting it to Draft instead of Published — it disappears from the rail without deleting the content.
-- **Skip the company link** by leaving Canonical URL empty. The "website ↗" chip just won't render.
+- **Skip the LinkedIn link** by leaving Canonical URL empty. The icon just won't render.
 - **Tech stack chips** come from your public tags in the order Ghost shows them. Drag to reorder.
 - **The first paragraph is the rail summary** — write it as a standalone sentence even if more context follows. The detail page (`/experience/<slug>/`) shows the full body.
 
@@ -144,15 +144,15 @@ The rail re-sorts automatically.
 ## SEO note on `canonical_url`
 
 `canonical_url` normally tells search engines: "this content's canonical home
-is at another URL." Setting it to a company website means Google may not
-bother indexing the individual `/experience/<slug>/` page — it'll prefer to
-direct traffic to the company site instead.
+is at another URL." Setting it to a LinkedIn URL means Google may not bother
+indexing the individual `/experience/<slug>/` page — it'll prefer to direct
+traffic to LinkedIn instead.
 
 For an experience timeline this is usually fine: nobody Googles for
 "Senior Engineer @ Stripe site:yourdomain.com". If you'd rather have the
-detail page indexed for portfolio SEO, leave Canonical URL blank and put the
-company link inside the post body (`[Stripe](https://stripe.com)` on a line
-of its own works well).
+detail page indexed for portfolio SEO, leave Canonical URL blank and link to
+LinkedIn from inside the post body (`[View role on LinkedIn](https://...)`
+on a line of its own works well).
 
-The rail's "website ↗" chip only renders when Canonical URL is set, so this
+The rail's LinkedIn icon only renders when Canonical URL is set, so this
 choice is also the link-or-no-link toggle.

@@ -491,6 +491,33 @@
 
 
     /* ---------------------------------------------------------------------
+       Experience rail — split each entry's "Role @ Company" title so the
+       "@ Company" portion can be muted via CSS. Handlebars has no string
+       split helper, so we do it client-side. Falls back gracefully to a
+       monochrome title if JS is disabled.
+       --------------------------------------------------------------------- */
+
+    (function muteExperienceCompanyInTitle() {
+        var links = document.querySelectorAll('.experience-entry-role');
+        if (!links.length) return;
+        links.forEach(function (link) {
+            // Only operate on text-only links so we never clobber existing markup.
+            if (link.children.length) return;
+            var text = link.textContent;
+            var at = text.lastIndexOf(' @ ');
+            if (at < 0) return;
+            var role = text.slice(0, at);
+            var company = text.slice(at);  // includes the leading " @ "
+            var span = document.createElement('span');
+            span.className = 'experience-entry-at';
+            span.textContent = company;
+            link.textContent = role;
+            link.appendChild(span);
+        });
+    })();
+
+
+    /* ---------------------------------------------------------------------
        Reading rail — sticky table-of-contents on the left of post pages.
        Resting state: a vertical column of small dashes, one per heading,
        active dash highlighted. Hover (or keyboard focus) expands the rail
