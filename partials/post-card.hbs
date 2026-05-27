@@ -1,29 +1,23 @@
-<article class="post-card{{#if feature_image}} has-image{{/if}}">
-    {{#if feature_image}}
-        <a class="post-card-image" href="{{url}}" aria-hidden="true" tabindex="-1">
-            <img src="{{img_url feature_image size="s"}}"
-                 srcset="{{img_url feature_image size="xs"}} 160w,
-                         {{img_url feature_image size="s"}} 480w,
-                         {{img_url feature_image size="m"}} 720w"
-                 sizes="(min-width: 901px) 200px, (min-width: 641px) 33vw, 100vw"
-                 alt="{{feature_image_alt}}"
-                 loading="lazy"
-                 decoding="async"
-                 width="200" height="125" />
-        </a>
-    {{/if}}
+<article class="post-card">
+    <div class="post-card-rail" aria-hidden="true">
+        <span class="post-card-dot"></span>
+    </div>
 
-    <div class="post-card-body">
-        <div class="post-card-meta">
-            <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>
-            <span class="dot">·</span><span>{{reading_time}}</span>
-            {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}}<span class="dot">·</span><a class="post-card-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>{{/unless}}{{/if}}
-        </div>
-
+    <div class="post-card-content">
         <h3 class="post-card-title">
             <a href="{{url}}">{{title}}</a>
         </h3>
 
-        <p class="post-card-excerpt">{{excerpt words="28"}}</p>
+        <p class="post-card-meta">
+            <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>
+            {{#if reading_time}} · <span>{{reading_time}}</span>{{/if}}
+            {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}} · <a class="post-card-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>{{/unless}}{{/if}}
+        </p>
+
+        {{#if custom_excerpt}}
+            <p class="post-card-excerpt">{{custom_excerpt}}</p>
+        {{else}}
+            <p class="post-card-excerpt">{{excerpt words="24"}}</p>
+        {{/if}}
     </div>
 </article>

@@ -883,55 +883,78 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     border-bottom: 1px solid var(--line);
 }
 
+/* Writing / tag / author lists — same vertical rail layout as the experience
+   collection. Each post-card has a rail column with a dot and a content
+   column with the title, mono meta line, and excerpt. The rail border is
+   continuous because padding-bottom lives on the content (inside the grid
+   row), not on the card itself. */
 .post-feed {
-    display: grid;
-    gap: var(--s-7);
+    display: block;
+    margin-top: var(--s-6);
 }
 .post-card {
+    position: relative;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--s-3);
-    padding-bottom: var(--s-7);
-    border-bottom: 1px solid var(--line);
-}
-.post-card:last-child { border-bottom: none; }
-.post-card.has-image {
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 24px 1fr;
     gap: var(--s-5);
-    align-items: start;
 }
-.post-card-image { display: block; }
-.post-card-image img { border-radius: var(--radius-s); aspect-ratio: var(--card-image-ratio); object-fit: cover; }
+.post-card-rail {
+    position: relative;
+    border-left: 1px dotted var(--line-bold);
+    margin-left: 11px;
+}
+.post-card:last-child .post-card-rail {
+    align-self: start;
+    height: 18px;
+}
+.post-card-dot {
+    position: absolute;
+    top: 8px;
+    left: -5px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--bg);
+}
+
+.post-card-content {
+    min-width: 0;
+    padding-bottom: var(--s-7);
+}
+.post-card:last-child .post-card-content { padding-bottom: 0; }
+
+.post-card-title {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: var(--fs-l);
+    line-height: 1.25;
+    margin: 0 0 var(--s-1);
+}
+.post-card-title a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+.post-card-title a:hover { color: var(--accent); }
+
 .post-card-meta {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     color: var(--muted);
-    letter-spacing: 0.04em;
     text-transform: uppercase;
-    display: flex;
-    gap: var(--s-2);
-    align-items: center;
-    flex-wrap: wrap;
+    letter-spacing: 0.04em;
+    margin: 0;
 }
-.post-card-meta .dot { opacity: 0.5; }
 .post-card-tag { color: var(--accent); text-decoration: none; }
 .post-card-tag:hover { text-decoration: underline; }
-.post-card-title {
-    font-family: var(--font-serif);
-    font-variation-settings: 'opsz' 144, 'wght' 600;
-    font-size: var(--fs-2xl);
-    line-height: 1.15;
-    letter-spacing: -0.015em;
-    margin: 0;
-}
-.post-card-title a { text-decoration: none; }
-.post-card-title a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+
 .post-card-excerpt {
+    margin: var(--s-3) 0 0;
     font-family: var(--font-sans);
-    font-size: var(--fs-m);
+    font-size: var(--fs-s);
     color: var(--muted);
-    line-height: 1.5;
-    margin: 0;
+    line-height: 1.55;
 }
 
 
@@ -1691,9 +1714,6 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     .featured-post-title { font-size: var(--fs-3xl); }
     .project-grid { grid-template-columns: 1fr 1fr; }
     .project-post-header-grid { grid-template-columns: 1fr; gap: var(--s-5); }
-    .post-card.has-image { grid-template-columns: 1fr; }
-    .post-card.has-image .post-card-image { order: -1; }
-    .post-card.has-image .post-card-image img { aspect-ratio: 21 / 9; }
 }
 
 /* Tablet portrait / small landscape — 2-up project grid stays comfortable, post-card image shrinks */

@@ -90,6 +90,16 @@
         <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     {{/is}}
 
+    {{!-- When the operator hides the in-page Subscribe CTA via show_signup,
+         also hide Ghost Portal's floating launcher button at the bottom of
+         the viewport so the page doesn't keep prompting people to sign up.
+         The launcher iframe carries title="portal-trigger"; the modal iframe
+         is title="portal-popup" and stays functional so any signin link or
+         #/portal/ hash route still works. --}}
+    {{#unless @custom.show_signup}}
+        <style id="kavitha-portal-hide">[title="portal-trigger"] { display: none !important; }</style>
+    {{/unless}}
+
     {{ghost_head}}
 
 </head>
