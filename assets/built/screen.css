@@ -1038,6 +1038,10 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     padding-top: var(--s-5);
     border-top: 1px solid var(--line);
 }
+/* Hide the .post-tags container if no public chips render (e.g. a post tagged
+   only with internal tags like #project). Keeps the top-border hairline from
+   appearing as a phantom rule above the post body. */
+.post-tags:not(:has(.post-tag-chip)) { display: none; }
 .post-tag-chip {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
@@ -2425,18 +2429,31 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .experience-entry-company {
     display: inline-flex;
     align-items: center;
+    gap: 3px;
     color: var(--muted);
     text-decoration: none;
-    transition: color var(--transition-fast), transform var(--transition-fast);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    align-self: center;
 }
 .experience-entry-company:hover {
     color: var(--accent);
-    transform: translate(1px, -1px);
+    border-color: var(--accent);
+    background: var(--accent-soft);
 }
+.experience-entry-company-label { line-height: 1; }
 .experience-entry-company .arrow {
-    font-family: var(--font-mono);
-    font-size: 0.85em;
+    line-height: 1;
+    transition: transform var(--transition-fast);
 }
+.experience-entry-company:hover .arrow { transform: translate(1px, -1px); }
 
 .experience-entry-meta {
     font-family: var(--font-mono);

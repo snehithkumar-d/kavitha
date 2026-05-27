@@ -3,10 +3,10 @@
 > *kuh-VEE-tha* · Sanskrit (कविता) for *poetry*.
 > A publishing theme for writers and builders.
 
-A native Ghost theme designed for personal sites that want both a blog and a project portfolio. Magazine-style home, asymmetric featured-post hero, custom `/projects/` collection, full Ghost feature parity (members, comments, search, paid tiers, newsletter, magic-link auth via Portal).
+A native Ghost theme designed for personal sites that want a blog, a project portfolio, and a work-experience timeline in one place. Magazine-style home, asymmetric featured-post hero, custom `/projects/` and `/experience/` collections, full Ghost feature parity (members, comments, search, paid tiers, newsletter, magic-link auth via Portal).
 
 - **Native HBS** · Handlebars + vanilla CSS + ~80 LOC of vanilla JS. No frameworks, no JS runtime tax.
-- **Two collections in one theme** · `/blog/` for posts, `/projects/` for posts tagged `#project` (internal tag, hidden from public taxonomy).
+- **Three collections in one theme** · `/writing/` for posts, `/projects/` for posts tagged `#project` (internal), `/experience/` for posts tagged `#experience` (internal). Internal tags hidden from public taxonomy.
 - **Full Ghost parity** · Newsletter signup, native comments, native search, paid tiers, magic-link auth — all wired through Portal.
 - **Customizable from admin** · 25+ custom theme settings: color scheme, font choices, nav layout, section titles, social URLs, members CTA copy, more.
 - **Light + dark + accent** · `prefers-color-scheme` default, manual toggle, accent color from Ghost admin with admin-controlled foreground contrast.
@@ -38,8 +38,8 @@ The theme renders correctly out of the box, but a few admin-side decisions unloc
 1. **Settings → Design → Brand → Accent color** — pick any hex. The bootstrap script computes readable foreground; admin can also override via the *Accent text color* theme setting.
 
 2. **Settings → Design → Customize → Theme settings** — at minimum set:
-   - **Terminal handle** — appears as `~ /home/{handle}` above the homepage hero. Any short identifier (e.g. `snehith`). Leave empty to fall back to your site title.
-   - **GitHub / Twitter / LinkedIn URLs** — surface in the footer.
+   - **GitHub / Twitter / LinkedIn URLs** — surface as icons in the footer.
+   - **Now (status)** — short note rendered in the home hero's status sidebar. The whole sidebar hides if this is empty.
 
 3. **Settings → Navigation** — populate the primary nav. Recommended entries (URLs match the routes shipped in `routes.yaml.example`):
    | Label | URL |
@@ -47,6 +47,7 @@ The theme renders correctly out of the box, but a few admin-side decisions unloc
    | `Home` | `/` |
    | `Writing` | `/writing/` |
    | `Projects` | `/projects/` |
+   | `Experience` | `/experience/` |
    | `About` | `/about/` |
 
    The active item shows a `>` accent prefix automatically. If no nav link matches the current URL, the first nav link gets the marker as a fallback so the prompt is always visible.
@@ -55,6 +56,7 @@ The theme renders correctly out of the box, but a few admin-side decisions unloc
    - `/` returns 404 (no handler for root)
    - `/writing/` returns 404
    - `/projects/` returns 404
+   - `/experience/` returns 404
    - Posts don't get the `/writing/{slug}/` permalink
 
 5. **Pages → New page** — create an "About" page (slug: `about`). The theme renders it via `page-about.hbs`.
@@ -74,46 +76,67 @@ Projects and blog posts are both Ghost posts but live in separate collections. W
 
 `#project` posts are automatically excluded from `/writing/` and `/`. They get their own RSS at `/projects/rss/`. Regular posts live at `/writing/{slug}/`; project posts live at `/projects/{slug}/`.
 
-> **Don't create a Ghost Page named `projects`, `writing`, `tag`, or `author`** — those slugs are reserved by `routes.yaml` and the page would become orphaned.
+> **Don't create a Ghost Page named `projects`, `writing`, `experience`, `tag`, or `author`** — those slugs are reserved by `routes.yaml` and the page would become orphaned.
+
+---
+
+## Experience posts (the `/experience/` collection)
+
+Each role you've held is its own Ghost post tagged `#experience` (internal). The theme renders them as a developer-minimal vertical timeline at `/experience/`, sorted newest-first by publish date.
+
+Authoring convention:
+
+| Concept | Ghost field | Example |
+|---|---|---|
+| Role + Company | `Title` | `Senior Software Engineer @ Stripe` |
+| Date range / location / type | `Excerpt` | `2022 – 2024 · San Francisco · Full-time` |
+| Company website (optional) | `Canonical URL` in Post Settings | `https://stripe.com` — adds a small "website ↗" chip on the rail |
+| Sort key | `Publish date` | role end date (or `2099-12-31` for current roles to pin to top) |
+| Stack | Public tags | `typescript`, `postgres`, `react` |
+| Routing | Internal tag | `#experience` (with the hash) |
+| Summary + bullets | Post body | first paragraph becomes the rail summary; full body lives on the detail page |
+
+`#experience` posts are automatically excluded from `/writing/` and `/projects/`. To reorder, change the publish date. To remove a role, unpublish or delete the post.
+
+> A note on `canonical_url`: Ghost normally uses it to mark a post as syndicated. Setting it to the company website means search engines may de-prioritize indexing the individual `/experience/<slug>/` page. For an experience timeline this is usually fine. If you want the role's detail page indexed, leave canonical empty and put the company link inside the post body instead.
 
 ---
 
 ## Custom theme settings (admin → Design → Customize)
 
-19 settings, all optional with sensible defaults. Ghost caps custom settings at 20 — we use 19 to leave headroom.
+20 settings, all optional with sensible defaults. Ghost caps custom settings at 20.
 
 | Setting | Type | Default | What it does |
 |---|---|---|---|
 | Color scheme default | select | Auto | Auto follows OS; Light/Dark forces. Manual toggle in nav still wins. |
 | Body font | select | Serif | Fraunces (Serif) / Geist (Sans-serif) / Geist Mono. |
 | Show author byline | boolean | true | Author chip on post detail. |
-| Show feature image on post | boolean | true | Hero image on post detail. |
-| Post image style | select | Wide | Full-width / Wide / Inline. |
+| Show rss link | boolean | true | Show the RSS icon in the footer. Off hides it; `/rss/` still works. |
+| Accent preset | select | Teal | Default accent color (Teal or Terracotta). Visitors can override via the footer swatch. |
 | Blog section title | text | "Recent writing" | Section band on home + writing index header. |
 | Projects section title | text | "Selected projects" | Section band on home + projects index header. |
 | Members CTA title | text | "Subscribe for new posts" | Heading inside the subscribe block. |
 | Members CTA body | text | "Get new writing in your inbox. No spam, unsubscribe anytime." | Body copy inside the subscribe block. |
-| Terminal handle | text | "" | Breadcrumb on home: `~ /home/{handle}`. Empty falls back to site title. |
 | **Show hero card** | boolean | false | Wrap home hero (name + bio) in a teal accent card. Off = plain terminal text. |
+| Hero title | text | "" | Override the home page hero title. Empty falls back to site title. |
 | **Now (status)** | text | "" | Status sidebar — what you're working on now. Sidebar hides if empty. |
 | **Based (status)** | text | "" | Status sidebar — where you're based. Hides row if empty. |
-| **Writing (status)** | text | "" | Status sidebar — writing cadence. Hides row if empty. |
-| **Reading (status)** | text | "" | Status sidebar — current read. Hides row if empty. |
+| Experience section title | text | "Experience" | Heading shown on `/experience/`. |
+| **Show search** | boolean | true | Show the search button in the header. Off hides it entirely. |
+| **Show signup** | boolean | true | Show the Subscribe CTA under each post and on the homepage. |
 | Show theme credit | boolean | true | "built with kavitha" link in footer (disable to remove). |
-| GitHub URL | text | "" | Footer social link. |
-| Twitter / X URL | text | "" | Footer social link. |
-| LinkedIn URL | text | "" | Footer social link. |
-
-Trimmed to stay under Ghost's 20-cap: `accent_text_color` (now auto-only via JS luminance), `show_reading_time` (always shown), `blog_section_subtitle` / `projects_section_subtitle` (just use the title), `footer_signature` (rare). They'll come back if Ghost raises the limit or v0.2 cuts something else.
+| GitHub URL | text | "" | Footer social icon. |
+| Twitter / X URL | text | "" | Footer social icon. |
+| LinkedIn URL | text | "" | Footer social icon. |
 
 ### Home layout
 
 The home page is an asymmetric 2-column grid:
 
-- **Left (1.6fr)**: Hero — `~ /home/{handle}` breadcrumb + site title (h1) + bio. Toggle **Show hero card** wraps this in a teal accent card.
-- **Right (1fr)**: Status sidebar — Now / Based / Writing / Reading rows. Each row hides when its setting is empty. The whole sidebar hides if `Now` is empty.
+- **Left (1.6fr)**: Hero — `~ /home/{site title}` breadcrumb + site title (h1) + bio. Toggle **Show hero card** wraps this in a teal accent card.
+- **Right (1fr)**: Status sidebar — Now / Based rows. Each row hides when its setting is empty. The whole sidebar hides if `Now` is empty.
 
-Below the hero: terminal-style recent-writing list, then the 2-up project grid, then the members CTA.
+Below the hero: terminal-style recent-writing list, then the 2-up project grid, then the members CTA (if `show_signup` is on).
 
 ---
 
