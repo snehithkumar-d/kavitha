@@ -1,17 +1,13 @@
 <article class="post-card">
-    <div class="post-card-rail" aria-hidden="true">
-        <span class="post-card-dot"></span>
-    </div>
+    <time class="post-card-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>
 
-    <div class="post-card-content">
+    <div class="post-card-body">
         <h3 class="post-card-title">
             <a href="{{url}}">{{title}}</a>
         </h3>
 
         <p class="post-card-meta">
-            <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY-MM-DD"}}</time>
-            {{#if reading_time}} · <span>{{reading_time}}</span>{{/if}}
-            {{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}} · <a class="post-card-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>{{/unless}}{{/if}}
+            {{reading_time}}{{#if primary_tag}}{{#unless primary_tag.visibility}}{{else match primary_tag.visibility "public"}} · <a class="post-card-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>{{/unless}}{{/if}}
         </p>
 
         {{#if custom_excerpt}}

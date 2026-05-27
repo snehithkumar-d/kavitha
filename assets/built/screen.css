@@ -883,57 +883,45 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     border-bottom: 1px solid var(--line);
 }
 
-/* Writing / tag / author lists — same vertical rail layout as the experience
-   collection. Each post-card has a rail column with a dot and a content
-   column with the title, mono meta line, and excerpt. The rail border is
-   continuous because padding-bottom lives on the content (inside the grid
-   row), not on the card itself. */
+/* Writing / tag / author lists — same compact date-col + body-col pattern the
+   home page uses for its recent-writing band. No rail or dot; the post-card
+   reads as a flat list of dated entries, consistent with the rest of the
+   site's "terminal" voice. */
 .post-feed {
     display: block;
     margin-top: var(--s-6);
 }
 .post-card {
-    position: relative;
     display: grid;
-    grid-template-columns: 24px 1fr;
+    grid-template-columns: 110px 1fr;
     gap: var(--s-5);
+    padding: var(--s-5) 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
 }
-.post-card-rail {
-    position: relative;
-    border-left: 1px dotted var(--line-bold);
-    margin-left: 11px;
-}
-.post-card:last-child .post-card-rail {
-    align-self: start;
-    height: 18px;
-}
-.post-card-dot {
-    position: absolute;
-    top: 8px;
-    left: -5px;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 3px var(--bg);
-}
+.post-card:first-child { padding-top: var(--s-4); }
+.post-card:last-child { border-bottom: none; }
 
-.post-card-content {
-    min-width: 0;
-    padding-bottom: var(--s-7);
+.post-card-date {
+    font-family: var(--font-mono);
+    font-size: var(--fs-s);
+    color: var(--muted);
+    letter-spacing: 0;
 }
-.post-card:last-child .post-card-content { padding-bottom: 0; }
+.post-card-body { min-width: 0; }
 
 .post-card-title {
     font-family: var(--font-serif);
-    font-weight: 600;
-    font-size: var(--fs-l);
-    line-height: 1.25;
+    font-variation-settings: 'opsz' 60, 'wght' 500;
+    font-weight: 500;
+    font-size: var(--fs-xl);
+    line-height: 1.2;
+    letter-spacing: -0.005em;
     margin: 0 0 var(--s-1);
 }
 .post-card-title a {
-    color: var(--ink);
     text-decoration: none;
+    color: var(--ink);
     transition: color var(--transition-fast);
 }
 .post-card-title a:hover { color: var(--accent); }
@@ -942,19 +930,23 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     color: var(--muted);
-    text-transform: uppercase;
     letter-spacing: 0.04em;
-    margin: 0;
+    text-transform: uppercase;
+    margin: 0 0 var(--s-2);
 }
 .post-card-tag { color: var(--accent); text-decoration: none; }
 .post-card-tag:hover { text-decoration: underline; }
 
 .post-card-excerpt {
-    margin: var(--s-3) 0 0;
     font-family: var(--font-sans);
-    font-size: var(--fs-s);
+    font-size: var(--fs-m);
     color: var(--muted);
-    line-height: 1.55;
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .post-card { grid-template-columns: 1fr; gap: var(--s-1); }
 }
 
 
@@ -2503,4 +2495,55 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     }
     .experience-entry-rail { margin-left: 8px; }
     .experience-entry-dot { left: -5px; }
+}
+
+/* Role detail page (post-experience.hbs) — reuses .experience-entry-title /
+   -role / -link / -at classes so the title styling matches the rail entry. */
+.post-experience-header {
+    padding: var(--s-8) 0 var(--s-5);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: var(--s-7);
+}
+.post-experience-back {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    margin: var(--s-3) 0 var(--s-5);
+    text-transform: uppercase;
+    transition: color var(--transition-fast);
+}
+.post-experience-back:hover { color: var(--accent); }
+.post-experience-title {
+    font-size: var(--fs-3xl);
+    line-height: 1.1;
+    margin: 0 0 var(--s-3);
+    /* Override the inline-flex from experience-entry-title (which is sized
+       for the small rail title) — at fs-3xl we want a tighter wrap. */
+    align-items: baseline;
+}
+.post-experience-title .experience-entry-link svg { width: 22px; height: 22px; }
+.post-experience-meta {
+    font-family: var(--font-mono);
+    font-size: var(--fs-s);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 var(--s-3);
+}
+.post-experience-stack {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+}
+.post-experience-stack span + span::before {
+    content: " · ";
+    opacity: 0.6;
+    margin: 0 2px;
 }
