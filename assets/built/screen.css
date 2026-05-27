@@ -1376,6 +1376,15 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
 .site-footer-links { display: flex; gap: var(--s-4); align-items: center; flex-wrap: wrap; }
 .site-footer-links a { color: var(--muted); text-decoration: none; }
 .site-footer-links a:hover { color: var(--accent); }
+.site-footer-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+.site-footer-icon:hover { color: var(--accent); transform: translateY(-1px); }
+.site-footer-icon svg { display: block; }
 .site-footer-tag { color: var(--muted); }
 
 .site-footer-secondary {

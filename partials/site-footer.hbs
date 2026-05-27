@@ -17,10 +17,34 @@
         </div>
 
         <nav class="site-footer-links" aria-label="Footer">
-            {{#if @custom.github_url}}<a href="{{@custom.github_url}}" rel="me noopener" target="_blank">github</a>{{/if}}
-            {{#if @custom.twitter_url}}<a href="{{@custom.twitter_url}}" rel="me noopener" target="_blank">x / twitter</a>{{/if}}
-            {{#if @custom.linkedin_url}}<a href="{{@custom.linkedin_url}}" rel="me noopener" target="_blank">linkedin</a>{{/if}}
-            {{#if @custom.show_rss_link}}<a href="{{@site.url}}/rss/">rss</a>{{/if}}
+            {{#if @custom.github_url}}
+                <a class="site-footer-icon" href="{{@custom.github_url}}" rel="me noopener" target="_blank" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                        <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.4-5.26 5.68.41.36.78 1.05.78 2.12v3.14c0 .31.21.67.79.56 4.57-1.52 7.86-5.82 7.86-10.91C23.5 5.65 18.35.5 12 .5z"/>
+                    </svg>
+                </a>
+            {{/if}}
+            {{#if @custom.twitter_url}}
+                <a class="site-footer-icon" href="{{@custom.twitter_url}}" rel="me noopener" target="_blank" aria-label="X (Twitter)">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+                    </svg>
+                </a>
+            {{/if}}
+            {{#if @custom.linkedin_url}}
+                <a class="site-footer-icon" href="{{@custom.linkedin_url}}" rel="me noopener" target="_blank" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                        <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z"/>
+                    </svg>
+                </a>
+            {{/if}}
+            {{#if @custom.show_rss_link}}
+                <a class="site-footer-icon" href="{{@site.url}}/rss/" aria-label="RSS feed">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                        <path d="M6.18 17.82a2.18 2.18 0 1 1-4.36 0 2.18 2.18 0 0 1 4.36 0zM4 4.44A19.56 19.56 0 0 1 19.56 20h-2.83A16.73 16.73 0 0 0 4 7.27V4.44zm0 5.66A13.9 13.9 0 0 1 13.9 20h-2.83A11.07 11.07 0 0 0 4 12.93V10.1z"/>
+                    </svg>
+                </a>
+            {{/if}}
 
             <span class="site-footer-divider" aria-hidden="true">·</span>
             <div class="accent-toggle" role="group" aria-label="Accent color">

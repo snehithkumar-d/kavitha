@@ -58,13 +58,13 @@
       "show_rss_link": {
         "type": "boolean",
         "default": true,
-        "description": "Show the rss link in the footer. Off hides the link; the /rss/ feed URL still works for feed readers."
+        "description": "Show the rss link in the footer. Off hides the link; /rss/ still works for feed readers."
       },
       "accent_preset": {
         "type": "select",
         "options": ["Teal", "Terracotta"],
         "default": "Teal",
-        "description": "Default accent color (Teal #1e6b6b · Terracotta #c15f3c). Visitors can override with the swatch toggle in the header; this is the default they see first."
+        "description": "Default accent color (Teal or Terracotta). Visitors can override via the footer swatch toggle."
       },
       "blog_section_title": {
         "type": "text",
@@ -82,11 +82,6 @@
         "type": "text",
         "default": "Get new writing in your inbox. No spam, unsubscribe anytime."
       },
-      "terminal_handle": {
-        "type": "text",
-        "default": "",
-        "description": "Terminal breadcrumb on home (e.g. 'snehith' → ~ /home/snehith). Empty falls back to site title."
-      },
       "show_hero_card": {
         "type": "boolean",
         "default": false,
@@ -100,22 +95,27 @@
       "now_text": {
         "type": "text",
         "default": "",
-        "description": "Status sidebar — what you're working on now (e.g. 'Building Claveflux'). Empty to hide row."
+        "description": "Status sidebar — what you're working on now (e.g. 'Building Claveflux'). Empty hides the sidebar."
       },
       "based_text": {
         "type": "text",
         "default": "",
         "description": "Status sidebar — where you're based (e.g. 'Bay Area'). Empty to hide row."
       },
-      "writing_text": {
+      "experience_section_title": {
         "type": "text",
-        "default": "",
-        "description": "Status sidebar — writing cadence (e.g. 'Weekly-ish'). Empty to hide row."
+        "default": "Experience",
+        "description": "Heading shown on the /experience/ collection page (the work-experience timeline)."
       },
-      "reading_text": {
-        "type": "text",
-        "default": "",
-        "description": "Status sidebar — current read (e.g. 'Annie Dillard'). Empty to hide row."
+      "show_search": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show the search button in the header. Off hides it entirely."
+      },
+      "show_signup": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show the Subscribe call-to-action under each post and on the homepage. Off hides it everywhere."
       },
       "show_theme_credit": {
         "type": "boolean",
