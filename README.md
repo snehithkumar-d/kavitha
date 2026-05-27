@@ -98,6 +98,8 @@ Authoring convention:
 
 `#experience` posts are automatically excluded from `/writing/` and `/projects/`. To reorder, change the publish date. To remove a role, unpublish or delete the post.
 
+See [`docs/experience-template.md`](./docs/experience-template.md) for a copy-paste-ready post body, a worked example, and the field-by-field reference.
+
 > A note on `canonical_url`: Ghost normally uses it to mark a post as syndicated. Setting it to the company website means search engines may de-prioritize indexing the individual `/experience/<slug>/` page. For an experience timeline this is usually fine. If you want the role's detail page indexed, leave canonical empty and put the company link inside the post body instead.
 
 ---
