@@ -21,11 +21,12 @@ Open Ghost admin → **Posts → New post**, then fill in:
 | **Body** | Summary paragraph + bullets (template below) | see below | First paragraph = rail summary. Full body = detail page. |
 | **Feature image** | Leave empty | — | Not used by the experience rail. |
 
-### Three rules worth memorizing
+### Four rules worth memorizing
 
 1. **The `#` matters**. Type `#experience` with the hash, not `experience`. That makes Ghost treat it as an internal tag (hidden from public taxonomy). Without the hash, the post won't route into `/experience/`.
 2. **Pin current roles** by setting the publish date to a far-future date (e.g., `2099-12-31`). Otherwise a new past-role post you publish today will outrank your current role in the rail.
 3. **The first public tag becomes the "Type"** chip if you ever add a detail-page template. Drag `Full-time` / `Contract` / `Internship` to the top of the tag list to make it primary.
+4. **Set the Template dropdown to "Experience"** in Post Settings to get the role-detail layout (breadcrumb, back-to-all-roles link, prev/next role nav). Default is also fine — it renders via post.hbs and works correctly, just with the standard post layout (share buttons, members CTA, comments, related posts) rather than the cleaner role-focused page.
 
 ---
 
