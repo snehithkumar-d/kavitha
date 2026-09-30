@@ -102,6 +102,11 @@
 
     {{ghost_head}}
 
+    {{!-- Owner Person node (home only) so other sites can reference it by @id. --}}
+    {{#is "home"}}
+        {{> "person-jsonld"}}
+    {{/is}}
+
 </head>
 <body class="{{body_class}}">
 

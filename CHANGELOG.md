@@ -6,6 +6,9 @@ All notable changes to **kavitha** are documented here. Format follows [Keep a C
 
 ## [Unreleased]
 
+### Added
+- **Owner Person JSON-LD on the home page** (`partials/person-jsonld.hbs`, included from `default.hbs`). Ghost's built-in structured data models the publisher as an Organization and gives the author no `@id` or `sameAs`, so other sites that reference the owner by `@id` (for example `https://example.com/#owner`) had nothing to resolve to. The `@id` is `{{@site.url}}/#<first author slug>`, and `sameAs` is built from the existing GitHub / X / LinkedIn settings. No new custom setting: the theme is at Ghost's 20-setting limit.
+
 ### v0.2.0 backlog
 P2 / polish items still pending after v0.1.2:
 

@@ -1,0 +1,37 @@
+{{!-- Person structured data for the site owner. Rendered on the home page only.
+
+     Why: Ghost's own JSON-LD describes the site publisher as an Organization
+     and gives the author no @id or sameAs. Other sites (for example product
+     sites that credit "built by ...") reference the owner by a stable @id.
+     That @id only resolves if a Person node with the same @id exists on the
+     canonical home page. This partial provides it.
+
+     @id is {{@site.url}}/#<first author's slug>. On a single-author site the
+     slug is the owner's slug (for example "snehith" gives
+     https://snehithkumar.com/#snehith). No theme setting is used: the theme is
+     already at Ghost's 20-custom-setting limit.
+
+     sameAs comes from the GitHub / X / LinkedIn URLs already in theme
+     settings, so nothing personal is hardcoded. Handlebars escapes HTML
+     entities but never emits raw quotes, so the JSON stays valid. --}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "{{@site.url}}/#{{#get "authors" limit="1"}}{{#foreach authors}}{{slug}}{{/foreach}}{{else}}person{{/get}}",
+    "name": "{{@site.title}}",
+    "url": "{{@site.url}}/"{{#if @custom.github_url}},
+    "sameAs": [
+        "{{@custom.github_url}}"{{#if @custom.linkedin_url}},
+        "{{@custom.linkedin_url}}"{{/if}}{{#if @custom.twitter_url}},
+        "{{@custom.twitter_url}}"{{/if}}
+    ]{{else if @custom.linkedin_url}},
+    "sameAs": [
+        "{{@custom.linkedin_url}}"{{#if @custom.twitter_url}},
+        "{{@custom.twitter_url}}"{{/if}}
+    ]{{else if @custom.twitter_url}},
+    "sameAs": [
+        "{{@custom.twitter_url}}"
+    ]{{/if}}
+}
+</script>
