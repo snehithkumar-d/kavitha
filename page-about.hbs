@@ -39,4 +39,20 @@
 
 </article>
 
+{{!-- ProfilePage structured data. mainEntity points at the owner's Person node
+     (partials/person-jsonld.hbs), which uses the same @id: {{@site.url}}/#<first author's slug>.
+     Google uses ProfilePage to understand that this page is about one person. --}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": "{{@site.url}}/about/#profilepage",
+    "url": "{{@site.url}}/about/",
+    "name": "{{meta_title}}",
+    "dateCreated": "{{date published_at format="YYYY-MM-DDTHH:mm:ssZ"}}",
+    "dateModified": "{{date updated_at format="YYYY-MM-DDTHH:mm:ssZ"}}",
+    "mainEntity": { "@id": "{{@site.url}}/#{{primary_author.slug}}" }
+}
+</script>
+
 {{/post}}

@@ -11,6 +11,9 @@ All notable changes to **kavitha** are documented here. Format follows [Keep a C
 - **Collection page titles.** `/writing/`, `/projects/` and `/experience/` were all titled "Site title (Page 1)" because Ghost's `meta_title` does that for custom collections. Each collection template now sets its own title from its section heading (for example "Recent writing | Site title"). The 404 page gets a title too.
 - **RSS.** The footer RSS link and a new `<link rel="alternate">` in the head point at `/writing/rss/`. Ghost's own alternate link still renders with an empty href when there is no `/rss/` route; that comes from `ghost_head` and cannot be changed from a theme. `routes.yaml.example` now sets `rss: true` on `/writing/`.
 
+### Added
+- **ProfilePage JSON-LD on the About page** (`page-about.hbs`). `mainEntity` points at the owner's Person node, which uses the same `@id` as `partials/person-jsonld.hbs`.
+
 ### Changed
 - **Person JSON-LD now renders on every page**, not just the home page, and adds `alternateName` (the author's display name when it differs from the site title) and `image` (the author's profile image).
 
