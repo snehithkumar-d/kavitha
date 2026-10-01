@@ -7,6 +7,7 @@ All notable changes to **kavitha** are documented here. Format follows [Keep a C
 ## [Unreleased]
 
 ### Fixed
+- **Dead "Sign up" link in the footer.** Ghost's default secondary navigation includes a Sign up item that opens the members portal (`#/portal/`), and Ghost admin cannot delete it. The footer now skips that item, and hides the secondary nav when nothing else is in it.
 - **Collection page titles.** `/writing/`, `/projects/` and `/experience/` were all titled "Site title (Page 1)" because Ghost's `meta_title` does that for custom collections. Each collection template now sets its own title from its section heading (for example "Recent writing | Site title"). The 404 page gets a title too.
 - **RSS.** The footer RSS link and a new `<link rel="alternate">` in the head point at `/writing/rss/`. Ghost's own alternate link still renders with an empty href when there is no `/rss/` route; that comes from `ghost_head` and cannot be changed from a theme. `routes.yaml.example` now sets `rss: true` on `/writing/`.
 

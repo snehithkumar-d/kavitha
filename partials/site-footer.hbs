@@ -2,10 +2,17 @@
 
     {{#if @site.secondary_navigation}}
         <nav class="site-footer-secondary" aria-label="Secondary">
+            {{!-- Ghost's default secondary navigation includes a "Sign up" item that opens
+                 the members portal (#/portal/). When members are not used it is a dead
+                 link, and Ghost admin does not let you delete it. Skip it here. The
+                 whitespace control keeps the list truly empty when nothing is left,
+                 so CSS can hide the whole nav. --}}
             <ul class="site-footer-secondary-list">
-                {{#foreach @site.secondary_navigation}}
+                {{~#foreach @site.secondary_navigation~}}
+                    {{~#match this.url "!=" "#/portal/"~}}
                     <li><a href="{{this.url}}">{{label}}</a></li>
-                {{/foreach}}
+                    {{~/match~}}
+                {{~/foreach~}}
             </ul>
         </nav>
     {{/if}}

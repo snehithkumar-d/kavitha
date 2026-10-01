@@ -2547,3 +2547,5 @@ th { font-weight: 600; color: var(--muted); font-family: var(--font-mono); font-
     opacity: 0.6;
     margin: 0 2px;
 }
+
+.site-footer-secondary:has(.site-footer-secondary-list:empty){display:none}
