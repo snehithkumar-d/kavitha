@@ -7,7 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     {{!-- Page Meta --}}
-    <title>{{meta_title}}</title>
+    {{!-- Collection pages (/writing/, /projects/, /experience/) have no Ghost context, so
+         they take their title from a contentFor "page_title" block in their template.
+         Ghost's meta_title gives every one of them "Site title (Page 1)". --}}
+    <title>{{#is "home, post, page, tag, author, error, paged"}}{{meta_title}}{{else}}{{{block "page_title"}}}{{/is}}</title>
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -102,10 +105,12 @@
 
     {{ghost_head}}
 
-    {{!-- Owner Person node (home only) so other sites can reference it by @id. --}}
-    {{#is "home"}}
-        {{> "person-jsonld"}}
-    {{/is}}
+    {{!-- Owner Person node so other sites can reference it by @id. --}}
+    {{> "person-jsonld"}}
+
+    {{!-- Feed discovery. With /writing/ as the main collection there is no /rss/, so
+         Ghost's own alternate link (from ghost_head) comes out with an empty href. --}}
+    <link rel="alternate" type="application/rss+xml" title="{{@site.title}} writing" href="{{@site.url}}/writing/rss/">
 
 </head>
 <body class="{{body_class}}">

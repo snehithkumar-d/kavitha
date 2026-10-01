@@ -78,6 +78,8 @@
 
 {{else}}
 
+    {{#contentFor "page_title"}}{{@custom.experience_section_title}} | {{@site.title}}{{#if pagination.prev}} (Page {{pagination.page}}){{/if}}{{/contentFor}}
+
     <div class="container">
         <header class="collection-header">
             <div class="page-breadcrumb">~ /experience</div>

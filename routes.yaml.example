@@ -6,7 +6,7 @@
 #   - Routes /projects/   as a collection of posts tagged #project    (internal tag)
 #   - Routes /experience/ as a collection of posts tagged #experience (internal tag)
 #   - Excludes #project AND #experience posts from the default /writing/ collection
-#   - Enables RSS at /projects/rss/ (no RSS for /experience/ — career history isn't a feed)
+#   - Enables RSS at /writing/rss/ and /projects/rss/ (no RSS for /experience/ — career history isn't a feed)
 #   - Lists /projects/ first, then /experience/, so {{prev_post}}/{{next_post}} stays
 #     within each collection (project→project, role→role) instead of crossing over.
 #
@@ -45,6 +45,7 @@ collections:
     permalink: /writing/{slug}/
     template: index
     filter: 'tag:-hash-project+tag:-hash-experience'
+    rss: true
 
 taxonomies:
   tag: /tag/{slug}/

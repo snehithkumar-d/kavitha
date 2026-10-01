@@ -6,6 +6,13 @@ All notable changes to **kavitha** are documented here. Format follows [Keep a C
 
 ## [Unreleased]
 
+### Fixed
+- **Collection page titles.** `/writing/`, `/projects/` and `/experience/` were all titled "Site title (Page 1)" because Ghost's `meta_title` does that for custom collections. Each collection template now sets its own title from its section heading (for example "Recent writing | Site title"). The 404 page gets a title too.
+- **RSS.** The footer RSS link and a new `<link rel="alternate">` in the head point at `/writing/rss/`. Ghost's own alternate link still renders with an empty href when there is no `/rss/` route; that comes from `ghost_head` and cannot be changed from a theme. `routes.yaml.example` now sets `rss: true` on `/writing/`.
+
+### Changed
+- **Person JSON-LD now renders on every page**, not just the home page, and adds `alternateName` (the author's display name when it differs from the site title) and `image` (the author's profile image).
+
 ### Added
 - **Owner Person JSON-LD on the home page** (`partials/person-jsonld.hbs`, included from `default.hbs`). Ghost's built-in structured data models the publisher as an Organization and gives the author no `@id` or `sameAs`, so other sites that reference the owner by `@id` (for example `https://example.com/#owner`) had nothing to resolve to. The `@id` is `{{@site.url}}/#<first author slug>`, and `sameAs` is built from the existing GitHub / X / LinkedIn settings. No new custom setting: the theme is at Ghost's 20-setting limit.
 
